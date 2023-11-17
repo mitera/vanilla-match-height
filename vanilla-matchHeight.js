@@ -1,3 +1,9 @@
+/**
+ * vanilla-match-height master by @mitera
+ * Simone Miterangelis <simone@mite.it>
+ * License: MIT
+ */
+
 (function(){
     'use strict';
 
