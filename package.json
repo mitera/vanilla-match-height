@@ -1,5 +1,5 @@
 {
-  "name": "vanilla-match-height",
+  "name": "vanilla-matchHeight",
   "version": "0.0.1",
   "license": "MIT",
   "author": "Simone Miterangelis <simone@mite.it>",
@@ -7,7 +7,7 @@
   "main": "dist/vanilla.matchHeight.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mitera/vanilla-match-height.git"
+    "url": "https://github.com/mitera/vanilla-matchHeight.git"
   },
   "keywords": [
     "matchHeight",
