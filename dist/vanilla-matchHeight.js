@@ -79,6 +79,10 @@
         });
     }
 
+    /*
+    *  _parseOptions
+    *  handle plugin options
+    */
     MatchHeight.prototype._parse = function(value) {
         // parse value and convert NaN to 0
         return parseFloat(value) || 0;

@@ -79,11 +79,14 @@
         });
     }
 
+    /*
+    *  _parseOptions
+    *  handle plugin options
+    */
     MatchHeight.prototype._parse = function(value) {
         // parse value and convert NaN to 0
         return parseFloat(value) || 0;
     }
-
 
     /*
     *  _rows
@@ -121,6 +124,10 @@
         return listRows;
     }
 
+    /*
+    *  _dashToCamel
+    *  utility function for transform css property dash to camel
+    */
     MatchHeight.prototype._dashToCamel = function(input) {
         return input.toLowerCase().replace(/-(.)/g, function(match, group1) {
             return group1.toUpperCase();
@@ -128,10 +135,9 @@
     }
 
     /*
-      *  matchHeight._applyDataApi
+      *  _applyDataApi
       *  applies matchHeight to all elements with a data-match-height attribute
-      */
-
+    */
     MatchHeight.prototype._applyDataApi = function(property, settings) {
         var groups = [];
         var $this = this;
@@ -146,7 +152,7 @@
     };
 
     /*
-    *  matchHeight._apply
+    *  _apply
     *  apply matchHeight to given elements
     */
     MatchHeight.prototype._apply = function(opts) {
