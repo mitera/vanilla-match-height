@@ -1,6 +1,6 @@
 # vanilla.matchHeight.js #
-
-> *matchHeight* makes the height of all selected elements exactly equal
+## *Inspireb by:* jquery-match-height
+> *matchHeight:* makes the height of all selected elements exactly equal
 
 [Features](#features) - [Install](#install) - [Usage](#usage) - [Options](#options) - [Data API](#data-api)  
 [Advanced Usage](#advanced-usage) - [Changelog](#changelog) - [License](#license)
