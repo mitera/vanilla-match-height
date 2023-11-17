@@ -45,7 +45,7 @@ See below for a description of the available options and defaults.
 The above example will set all selected elements with the class `item` to the height of the tallest.  
 If the items are on multiple rows, the items of each row will be set to the tallest of that row (see `byRow` option).
 
-Call this on the [DOM ready](http://api.jquery.com/ready/) event (the plugin will automatically update on window load).   
+Call this on the event (the plugin will automatically update on window load).   
 See the included [test.html](https://github.com/mitera/vanilla-match-height/blob/master/test/page/test.html) for many working examples.
 
 Also see the [Data API](#data-api) below for a simple, alternative inline usage.
@@ -114,7 +114,7 @@ Will set all selected elements to the height of the first item with class `sideb
 
 This will set the `min-height` property instead of the `height` property.
 
-Where `event` a jQuery event object (e.g. `load`, `resize`, `orientationchange`) and `groups` is a reference to `$.fn.matchHeight._groups` (see below).
+Where `event` a event object (e.g. `load`, `resize`, `orientationchange`).
 
 ### Known limitations
 
@@ -128,7 +128,7 @@ To see what's new or changed in the latest version, see the [changelog](https://
 
 ### License
 
-jquery.matchHeight.js is licensed under [The MIT License (MIT)](http://opensource.org/licenses/MIT)
+vanilla.matchHeight.js is licensed under [The MIT License (MIT)](http://opensource.org/licenses/MIT)
 <br/>Copyright (c) 2023 Simone Miterangelis
 
 This license is also supplied with the release and source code.
