@@ -49,34 +49,58 @@
             remove: null
         }
 
-        if (settings != null)
-            settings = Object.merge(settings, default_settings);
-        else
-            settings = default_settings;
+        if (settings != null) {
+            this.settings = Object.merge(settings, default_settings);
+        } else {
+            this.settings = default_settings;
+        }
 
-        settings.property = this._dashToCamel(settings.property);
+        if (!this._validateProperty(this.settings.property)) {
+            this.settings.property = 'height';
+        }
 
-        this._init(settings);
+        this.settings.property = this._dashToCamel(this.settings.property);
+
+        this._init();
     }
 
     /**
      * Initialize the application
      */
-    MatchHeight.prototype._init = function(settings) {
+    MatchHeight.prototype._init = function() {
 
         var $this = this;
 
         document.addEventListener("DOMContentLoaded", function(event) {
-            $this._apply(settings);
-            $this._applyDataApi('data-match-height', settings);
-            $this._applyDataApi('data-mh', settings);
+            $this._apply();
+            if ($this._validateProperty($this.settings.attributeName)) {
+                $this._applyDataApi($this.settings.attributeName);
+            }
+            $this._applyDataApi('data-match-height');
+            $this._applyDataApi('data-mh');
         });
 
         window.addEventListener("resize", function(event) {
-            $this._apply(settings);
-            $this._applyDataApi('data-match-height', settings);
-            $this._applyDataApi('data-mh', settings);
+            $this._apply();
+            if ($this._validateProperty($this.settings.attributeName)) {
+                $this._applyDataApi($this.settings.attributeName);
+            }
+            $this._applyDataApi('data-match-height');
+            $this._applyDataApi('data-mh');
         });
+    }
+
+    /*
+    *  _validateProperty
+    *  handle plugin options
+    */
+    MatchHeight.prototype._validateProperty = function(value) {
+        // parse value and convert NaN to 0
+        return String(value)
+            .toLowerCase()
+            .match(
+                /^([a-z-]{2,})$/
+            );
     }
 
     /*
@@ -138,7 +162,7 @@
       *  _applyDataApi
       *  applies matchHeight to all elements with a data-match-height attribute
     */
-    MatchHeight.prototype._applyDataApi = function(property, settings) {
+    MatchHeight.prototype._applyDataApi = function(property) {
         var groups = [];
         var $this = this;
 
@@ -146,8 +170,8 @@
         // generate groups by their groupId set by elements using data-match-height
         $row.forEach(($el) => {
             var groupId = $el.getAttribute(property);
-            settings = Object.merge({attributeName: property, attributeValue: groupId}, settings);
-            $this._apply(settings);
+            $this.settings = Object.merge({attributeName: property, attributeValue: groupId}, $this.settings);
+            $this._apply();
         });
     };
 
@@ -155,9 +179,10 @@
     *  _apply
     *  apply matchHeight to given elements
     */
-    MatchHeight.prototype._apply = function(opts) {
+    MatchHeight.prototype._apply = function() {
 
         var $this = this;
+        var opts = $this.settings;
         var $elements = []
         if (opts.elements) {
             $elements = this.wrapEl.querySelectorAll(opts.elements);
@@ -203,11 +228,7 @@
                 // skip apply to rows with only one item
                 if (opts.byRow && $row.length <= 1) {
                     $row.forEach(($that) => {
-                        if (opts.property != 'height') {
-                            eval('$that.style.' + opts.property + ' = \'\';');
-                        } else {
-                            $that.style.height = '';
-                        }
+                        eval('$that.style.' + opts.property + ' = \'\';');
                     })
                     return;
                 }
@@ -273,38 +294,22 @@
                 verticalPadding += $this._parse($that.style.paddingTop) + $this._parse($that.style.paddingBottom);
 
                 // set the height (accounting for padding and border)
-                if (opts.property != 'height') {
-                    eval('$that.style.' + opts.property + ' = \'' + (targetHeight - verticalPadding) + 'px\'');
-                } else {
-                    $that.style.height = (targetHeight - verticalPadding) + 'px';
-                }
+                eval('$that.style.' + opts.property + ' = \'' + (targetHeight - verticalPadding) + 'px\'');
 
                 if ($that.getBoundingClientRect().height < targetHeight) {
-                    if (opts.property != 'height') {
-                        eval('$that.style.' + opts.property + ' = \'' + targetHeight + 'px\'');
-                    } else {
-                        $that.style.height = targetHeight + 'px';
-                    }
+                    eval('$that.style.' + opts.property + ' = \'' + targetHeight + 'px\'');
                 }
 
                 if (opts.remove) {
                     if (opts.remove instanceof NodeList) {
                         opts.remove.forEach(($el) => {
                             if ($that === $el) {
-                                if (opts.property != 'height') {
-                                    eval('$el.style.' + opts.property + ' = \'\';');
-                                } else {
-                                    $el.style.height = '';
-                                }
+                                eval('$el.style.' + opts.property + ' = \'\';');
                             }
                         });
                     } else {
                         if ($that === opts.remove) {
-                            if (opts.property != 'height') {
-                                eval('$that.style.' + opts.property + ' = \'\';');
-                            } else {
-                                $that.style.height = '';
-                            }
+                            eval('$that.style.' + opts.property + ' = \'\';');
                         }
                     }
                 }
