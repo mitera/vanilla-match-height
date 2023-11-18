@@ -1,10 +1,10 @@
 {
   "name": "vanilla-match-height",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "author": "Simone Miterangelis <simone@mite.it>",
   "description": "a vanilla responsive equal heights",
-  "main": "dist/vanilla.matchHeight.js",
+  "main": "dist/vanilla-match-height.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mitera/vanilla-match-height.git"

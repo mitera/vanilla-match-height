@@ -1,5 +1,5 @@
 /**
- * vanilla-match-height master by @mitera
+ * vanilla-match-height v0.0.2 by @mitera
  * Simone Miterangelis <simone@mite.it>
  * License: MIT
  */
@@ -199,14 +199,14 @@
                 var display = $that.style.display;
 
                 // temporarily force a usable display value
-                if (display !== 'inline-block' && display !== 'flex' && display !== 'inline-flex') {
-                    display = 'block';
+                if (display && (display !== 'inline-block' && display !== 'flex' && display !== 'inline-flex')) {
+                    display = 'display: block; ';
                 }
 
                 // cache the original inline style
                 $that.setAttribute('style-cache', $that.getAttribute('style') || '');
                 // reset style
-                $that.setAttribute('style', 'display: ' + display + '; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0; border-top-width: 0; border-bottom-width: 0; height: 100px; overflow: hidden;');
+                $that.setAttribute('style', display + 'padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0; border-top-width: 0; border-bottom-width: 0; height: 100px; overflow: hidden;');
             });
 
             // get the array of rows (based on element top position)
@@ -237,12 +237,11 @@
                         display = $that.style.display;
 
                     // temporarily force a usable display value
-                    if (display !== 'inline-block' && display !== 'flex' && display !== 'inline-flex') {
-                        display = 'block';
+                    if (display && (display !== 'inline-block' && display !== 'flex' && display !== 'inline-flex')) {
+                        display = 'display: block;';
+                        // ensure we get the correct actual height (and not a previously set height value)
+                        $that.setAttribute('style', display);
                     }
-
-                    // ensure we get the correct actual height (and not a previously set height value)
-                    $that.setAttribute('style', 'display:' + display + ';');
 
                     // find the max height (including padding, but not margin)
                     var isTarget = true;
