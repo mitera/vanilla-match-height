@@ -31,7 +31,7 @@
     /**
      * matchHeight
      *
-     * @param {Elements} elements
+     * @param {Element} wrapEl
      * @param {Array} settings
      * constructor
      */
@@ -120,13 +120,12 @@
     MatchHeight.prototype._rows = function(elements) {
         var $this = this;
         var tolerance = 1,
-            $elements = elements,
             lastTop = null,
             listRows = [],
             rows = [];
 
         // group elements by their top position
-        $elements.forEach(($that) => {
+        elements.forEach(($that) => {
 
             var top = $that.getBoundingClientRect().top - $this._parse($that.style.marginTop);
 
@@ -208,7 +207,7 @@
                 // cache the original inline style
                 $that.setAttribute('style-cache', $that.getAttribute('style') || '');
                 // reset style
-                $that.setAttribute('style', 'display: display; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0; border-top-width: 0; border-bottom-width: 0; height: 100px; overflow: hidden;');
+                $that.setAttribute('style', 'display: ' + display + '; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0; border-top-width: 0; border-bottom-width: 0; height: 100px; overflow: hidden;');
             });
 
             // get the array of rows (based on element top position)
@@ -317,7 +316,6 @@
 
         });
 
-        return this;
     };
 
 })();	
