@@ -74,7 +74,7 @@ Where:
 
 ### Data API
 
-Use the data attribute `data-mh="group-name"` where `group-name` is an arbitrary string to identify which elements should be considered as a group.
+Use the data attribute `data-mh="group-name"` or `data-mh="data-match-height="group-name"` where `group-name` is an arbitrary string to identify which elements should be considered as a group.
 
 	<div data-mh="my-group">My text</div>
 	<div data-mh="my-group">Some other text</div>
@@ -82,6 +82,18 @@ Use the data attribute `data-mh="group-name"` where `group-name` is an arbitrary
 	<div data-mh="my-other-group">The last bit of text</div>
 
 All elements with the same group name will be set to the same height when the page is loaded, regardless of their position in the DOM, without any extra code required.
+
+It's possible to use custom data attribute `data-same-height="group-name"`
+
+    <div data-same-height="my-group">My text</div>
+	<div data-same-height="my-group">Some other text</div>
+	<div data-same-height="my-other-group">Even more text</div>
+	<div data-same-height="my-other-group">The last bit of text</div>
+
+    const containers = document.querySelectorAll(".data-api-items");
+    containers.forEach((container) => {
+        container.matchHeight({attributeName: 'data-same-height'});
+    });
 
 Note that `byRow` will be enabled when using the data API, if you don't want this (or require other options) then use the alternative method above.
 
