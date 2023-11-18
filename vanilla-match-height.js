@@ -238,10 +238,11 @@
 
                     // temporarily force a usable display value
                     if (display && (display !== 'inline-block' && display !== 'flex' && display !== 'inline-flex')) {
-                        display = 'display: block;';
-                        // ensure we get the correct actual height (and not a previously set height value)
-                        $that.setAttribute('style', display);
+                        display = 'block';
                     }
+
+                    // ensure we get the correct actual height (and not a previously set height value)
+                    $that.setAttribute('style', 'display: ' + display + ';');
 
                     // find the max height (including padding, but not margin)
                     var isTarget = true;
