@@ -406,7 +406,29 @@
 		});
 		
 		document.getElementById("add-mh").addEventListener('click', function(event) {
-			window.dispatchEvent(new Event('resize'));
+			//window.dispatchEvent(new Event('resize'));
+
+            containers.forEach((container) => {
+                container.matchHeight({elements: '.item'})._apply();
+            });
+            containers2.forEach((container) => {
+                container.matchHeight({elements: '.item', property: 'min-height'})._apply();
+            });
+            containers3.forEach((container) => {
+                container.matchHeight({elements: '.item-0, .item-2, .item-3', target: document.getElementById("target-item-1")})._apply();
+            });
+            containers4.forEach((container) => {
+                container.matchHeight()._apply();
+            });
+            containers5.forEach((container) => {
+                container.matchHeight({elements: '.item', remove: document.getElementById("remove-item-0")})._apply();
+            });
+            containers6.forEach((container) => {
+                container.matchHeight({elements: '.item', remove: document.querySelectorAll(".remove-item")})._apply();
+            });
+            containers7.forEach((container) => {
+                container.matchHeight({attributeName: 'data-same-height'})._apply();
+            });
 		});
 		</script>
     </body>
