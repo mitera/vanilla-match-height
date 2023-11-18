@@ -74,7 +74,7 @@ Where:
 
 ### Data API
 
-Use the data attribute `data-mh="group-name"` or `data-mh="data-match-height="group-name"` where `group-name` is an arbitrary string to identify which elements should be considered as a group.
+Use the data attribute `data-mh="group-name"` or `data-match-height="group-name"` where `group-name` is an arbitrary string to identify which elements should be considered as a group.
 
 	<div data-mh="my-group">My text</div>
 	<div data-mh="my-group">Some other text</div>
