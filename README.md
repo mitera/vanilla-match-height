@@ -34,7 +34,7 @@ Download [vanilla.matchHeight.js](https://github.com/mitera/vanilla-matchHeight/
 
 	<script src="vanilla.matchHeight.js" type="text/javascript"></script>
 
-You can also install using the package managers [NPM](https://www.npmjs.com/package/vanilla-match-height).
+You can also install using the package managers [NPM](https://www.npmjs.com/package/vanilla-matchheight).
 
     npm install vanilla-match-height
 

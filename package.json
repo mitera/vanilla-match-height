@@ -1,5 +1,5 @@
 {
-  "name": "vanilla-matchHeight",
+  "name": "vanilla-matchheight",
   "version": "0.0.1",
   "license": "MIT",
   "author": "Simone Miterangelis <simone@mite.it>",
@@ -7,7 +7,7 @@
   "main": "dist/vanilla.matchHeight.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mitera/vanilla-matchHeight.git"
+    "url": "git+https://github.com/mitera/vanilla-matchHeight.git"
   },
   "keywords": [
     "matchHeight",
@@ -16,5 +16,15 @@
     "height",
     "equalize",
     "columns"
-  ]
+  ],
+  "bugs": {
+    "url": "https://github.com/mitera/vanilla-matchHeight/issues"
+  },
+  "homepage": "https://github.com/mitera/vanilla-matchHeight#readme",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
 }
