@@ -404,9 +404,9 @@
 				if (item.getAttribute('style') == '') item.removeAttribute('style');
 			});
 		});
-		
-		document.getElementById("add-mh").addEventListener('click', function(event) {
-			//window.dispatchEvent(new Event('resize'));
+
+        document.getElementById("add-mh").addEventListener('click', function(event) {
+            //window.dispatchEvent(new Event('resize'));
 
             containers.forEach((container) => {
                 container.matchHeight({elements: '.item'})._apply();
@@ -418,7 +418,8 @@
                 container.matchHeight({elements: '.item-0, .item-2, .item-3', target: document.getElementById("target-item-1")})._apply();
             });
             containers4.forEach((container) => {
-                container.matchHeight()._apply();
+                container.matchHeight()._applyDataApi('data-match-height');
+                container.matchHeight()._applyDataApi('data-mh');
             });
             containers5.forEach((container) => {
                 container.matchHeight({elements: '.item', remove: document.getElementById("remove-item-0")})._apply();
@@ -427,9 +428,9 @@
                 container.matchHeight({elements: '.item', remove: document.querySelectorAll(".remove-item")})._apply();
             });
             containers7.forEach((container) => {
-                container.matchHeight({attributeName: 'data-same-height'})._apply();
+                container.matchHeight({attributeName: 'data-same-height'})._applyDataApi('data-same-height');
             });
-		});
+        });
 		</script>
     </body>
 </html>
