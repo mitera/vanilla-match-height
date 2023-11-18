@@ -34,6 +34,8 @@ You can also install using the package managers [NPM](https://www.npmjs.com/pack
 
 ### Usage
 
+    document.body.matchHeight({elements: '.item'});
+
 	const containers = document.querySelectorAll(".items-container");
     containers.forEach((container) => {			
         container.matchHeight({elements: '.item'});
@@ -58,7 +60,8 @@ The default `options` are:
         byRow: true,
         property: 'height',
         target: null,
-        remove: null
+        remove: null,
+        attributeName: null
     }
 
 Where:
@@ -67,6 +70,7 @@ Where:
 - `property` is the CSS property name to set (e.g. `'height'` or `'min-height'`)
 - `target` is an optional element to use instead of the element with maximum height
 - `remove` is an optional element/s to excluded
+- `attributeName` is an optional for use custom attribute
 
 ### Data API
 
@@ -115,6 +119,12 @@ Will set all selected elements to the height of the first item with class `sideb
 This will set the `min-height` property instead of the `height` property.
 
 Where `event` a event object (e.g. `load`, `resize`, `orientationchange`).
+
+#### Manually apply match height
+
+	document.body.matchHeight({elements: '.item'})._apply();
+
+Use the apply function directly if you wish to avoid the automatic update functionality.
 
 ### Known limitations
 

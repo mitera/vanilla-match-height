@@ -8,7 +8,7 @@
         <title>matchHeight Browser Tests</title>
         <!-- matchHeight -->
         <link rel="stylesheet" href="./test.css">
-        <script type="text/javascript" src="../vanilla-match-height.js"></script>
+        <script type="text/javascript" src="../../vanilla-matchHeight.js"></script>
     </head>
     <body class="test-match-height test-rows test-responsive test-border-box test-margin test-padding test-border test-hidden">
         <div class="container">
@@ -344,6 +344,25 @@
                     <p>Aenean semper.</p>
                 </div>
             </div>
+
+            <div class="items-container data-api-items2">
+                <div class="item item-0" data-same-height="items-a">
+                    <h3>data-match-height="items-a"</h3>
+                    <p>Phasellus ut nibh fermentum, vulputate urna vel, semper diam. Nunc sollicitudin felis ut pellentesque fermentum. In erat mi, pulvinar sit amet tincidunt vitae, gravida id felis. Phasellus hendrerit erat sed porta imperdiet. Vivamus viverra ipsum tortor, et congue mauris porttitor ut.</p>
+                </div>
+                <div class="item item-1" data-same-height="items-a">
+                    <h3>data-match-height="items-a"</h3>
+                    <p>Phasellus ut nibh fermentum, vulputate urna vel, semper diam. Nunc sollicitudin felis ut pellentesque fermentum. In erat mi, pulvinar sit amet tincidunt vitae, gravida id felis.</p>
+                </div>
+                <div class="item item-2" data-same-height="items-b">
+                    <h3>data-mh="items-b"</h3>
+                    <p>In erat mi, pulvinar sit amet tincidunt vitae, gravida id felis.</p>
+                </div>
+                <div class="item item-3" data-same-height="items-b">
+                    <h3>data-mh="items-b"</h3>
+                    <p>Nunc sollicitudin felis ut pellentesque fermentum. In erat mi, pulvinar sit amet tincidunt vitae, gravida id felis.</p>
+                </div>
+            </div>
         </div>
         <div id='results'></div>
 		
@@ -372,6 +391,10 @@
 		containers6.forEach((container) => {			
 			container.matchHeight({elements: '.item', remove: document.querySelectorAll(".remove-item")});
 		});
+        const containers7 = document.querySelectorAll(".data-api-items2");
+        containers7.forEach((container) => {
+            container.matchHeight({attributeName: 'data-same-height'});
+        });
 		
 		document.getElementById("remove-mh").addEventListener('click', function(event) {
 			const items = document.querySelectorAll(".item");
