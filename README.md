@@ -2,8 +2,14 @@
 ## *Inspireb by:* jquery-match-height
 > *matchHeight:* makes the height of all selected elements exactly equal
 
-[Features](#features) - [Install](#install) - [Usage](#usage) - [Options](#options) - [Data API](#data-api)  
+[Demo](#demo) - [Features](#features) - [Install](#install) - [Usage](#usage) - [Options](#options) - [Data API](#data-api)  
 [Advanced Usage](#advanced-usage) - [Changelog](#changelog) - [License](#license)
+
+### Demo
+
+See the [vanilla.matchHeight.js demo](https://github.com/mitera/vanilla-matchHeight/archive/refs/heads/master.zip).
+
+[![jquery.matchHeight.js screenshot](https://github.com/mitera/vanilla-matchHeight/blob/master/vanilla-matchHeight.jpg)](https://github.com/mitera/vanilla-matchHeight/archive/refs/heads/master.zip)
 
 ### Modern browsers
 
