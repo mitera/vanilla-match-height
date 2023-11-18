@@ -7,7 +7,7 @@
   "main": "dist/vanilla.matchHeight.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mitera/vanilla-matchHeight.git"
+    "url": "git+https://github.com/mitera/vanilla-match-height.git"
   },
   "keywords": [
     "matchHeight",
@@ -18,9 +18,9 @@
     "columns"
   ],
   "bugs": {
-    "url": "https://github.com/mitera/vanilla-matchHeight/issues"
+    "url": "https://github.com/mitera/vanilla-match-height/issues"
   },
-  "homepage": "https://github.com/mitera/vanilla-matchHeight#readme",
+  "homepage": "https://github.com/mitera/vanilla-match-height#readme",
   "directories": {
     "test": "test"
   },

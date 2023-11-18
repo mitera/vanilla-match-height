@@ -7,9 +7,9 @@
 
 ### Demo
 
-See the [vanilla.matchHeight.js demo](https://github.com/mitera/vanilla-matchHeight/archive/refs/heads/master.zip).
+See the [vanilla.match-height.js demo](https://github.com/mitera/vanilla-matchHeight/archive/refs/heads/master.zip).
 
-[![jquery.matchHeight.js screenshot](https://github.com/mitera/vanilla-matchHeight/blob/master/vanilla-matchHeight.jpg)](https://github.com/mitera/vanilla-matchHeight/archive/refs/heads/master.zip)
+[![jquery.match-height.js screenshot](https://github.com/mitera/vanilla-matchHeight/blob/master/vanilla-match-height.jpg)](https://github.com/mitera/vanilla-matchHeight/archive/refs/heads/master.zip)
 
 ### Modern browsers
 
@@ -30,9 +30,9 @@ In the years since this library was originally developed there have been updates
 
 ### Install
 
-Download [vanilla.matchHeight.js](https://github.com/mitera/vanilla-matchHeight/blob/master/vanilla-matchHeight.js) and include the script in your HTML file:
+Download [vanilla.match-height.js](https://github.com/mitera/vanilla-matchHeight/blob/master/vanilla-match-height.js) and include the script in your HTML file:
 
-	<script src="vanilla.matchHeight.js" type="text/javascript"></script>
+	<script src="vanilla.match-height.js" type="text/javascript"></script>
 
 You can also install using the package managers [NPM](https://www.npmjs.com/package/vanilla-matchheight).
 
@@ -156,7 +156,7 @@ To see what's new or changed in the latest version, see the [changelog](https://
 
 ### License
 
-vanilla.matchHeight.js is licensed under [The MIT License (MIT)](http://opensource.org/licenses/MIT)
+vanilla.match-height.js is licensed under [The MIT License (MIT)](http://opensource.org/licenses/MIT)
 <br/>Copyright (c) 2023 Simone Miterangelis
 
 This license is also supplied with the release and source code.
