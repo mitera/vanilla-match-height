@@ -162,7 +162,6 @@
       *  applies matchHeight to all elements with a data-match-height attribute
     */
     MatchHeight.prototype._applyDataApi = function(property) {
-        var groups = [];
         var $this = this;
 
         var $row = this.wrapEl.querySelectorAll('[' + property + ']');
