@@ -38,6 +38,10 @@ You can also install using the package managers [NPM](https://www.npmjs.com/pack
 
     npm install vanilla-match-height
 
+modular code
+
+    import 'vanilla-match-height'
+
 ### Usage
 
     document.body.matchHeight({elements: '.item'});
@@ -140,7 +144,11 @@ Where `event` a event object (e.g. `load`, `resize`, `orientationchange`).
 
 #### Manually apply match height
 
+Manual apply, code for JavaScript framework/library (e.g. `vue`, `react` ...).
+
 	document.body.matchHeight({elements: '.item'})._apply();
+    document.body.matchHeight()._applyDataApi('data-match-height');
+    document.body.matchHeight()._applyDataApi('data-mh');
 
 Use the apply function directly if you wish to avoid the automatic update functionality.
 
