@@ -1,11 +1,18 @@
-<a name="0.0.1"></a>
+<a name="0.0.4"></a>
+# 0.0.4 (2023-11-19)
+
+### release summary
+
+- update document and test
+
+<a name="0.0.3"></a>
 # 0.0.3 (2023-11-18)
 
 ### release summary
 
 - fix _apply method
 
-<a name="0.0.1"></a>
+<a name="0.0.2"></a>
 # 0.0.2 (2023-11-18)
 
 ### release summary
