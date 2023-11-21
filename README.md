@@ -152,6 +152,12 @@ Manual apply, code for JavaScript framework/library (e.g. `vue`, `react` ...).
 
 Use the apply function directly if you wish to avoid the automatic update functionality.
 
+#### Remove match height from elements
+
+Reset inline style property
+
+    document.body.matchHeight({elements: '.item'})._remove();
+
 ### Known limitations
 
 #### CSS transitions and animations are not supported

@@ -3,6 +3,15 @@
 
 ### release summary
 
+- Added _remove method
+- Removed empty style from elements
+- Fixed javascript link on test page
+
+<a name="0.0.4"></a>
+# 0.0.4 (2023-11-19)
+
+### release summary
+
 - update document and test
 
 <a name="0.0.3"></a>

@@ -1,5 +1,5 @@
 /**
- * vanilla-match-height v0.0.4 by @mitera
+ * vanilla-match-height v0.0.5 by @mitera
  * Simone Miterangelis <simone@mite.it>
  * License: MIT
  */
@@ -174,6 +174,26 @@
     };
 
     /*
+    *  _remove
+    *  remove matchHeight to given elements
+    */
+    MatchHeight.prototype._remove = function() {
+        var $elements = []
+        var opts = this.settings;
+        if (opts.elements) {
+            $elements = this.wrapEl.querySelectorAll(opts.elements);
+        } else {
+            if (opts.attributeName && opts.attributeValue) {
+                $elements = this.wrapEl.querySelectorAll('[' + opts.attributeName + '="' + opts.attributeValue + '"]');
+            }
+        }
+        $elements.forEach((item) => {
+            eval('item.style.' + opts.property + ' = \'\';');
+            if (item.getAttribute('style') == '') item.removeAttribute('style');
+        });
+    }
+
+    /*
     *  _apply
     *  apply matchHeight to given elements
     */
@@ -216,6 +236,7 @@
             $elements.forEach(($that) => {
                 $that.setAttribute('style', $that.getAttribute('style-cache') || '');
                 $that.removeAttribute('style-cache');
+                if ($that.getAttribute('style') == '') $that.removeAttribute('style');
             });
         }
 
@@ -271,6 +292,8 @@
                     } else {
                         $that.style.display = '';
                     }
+
+                    if ($that.getAttribute('style') == '') $that.removeAttribute('style');
                 });
 
             } else {
@@ -303,11 +326,13 @@
                         opts.remove.forEach(($el) => {
                             if ($that === $el) {
                                 eval('$el.style.' + opts.property + ' = \'\';');
+                                if ($el.getAttribute('style') == '') $el.removeAttribute('style');
                             }
                         });
                     } else {
                         if ($that === opts.remove) {
                             eval('$that.style.' + opts.property + ' = \'\';');
+                            if ($that.getAttribute('style') == '') $that.removeAttribute('style');
                         }
                     }
                 }

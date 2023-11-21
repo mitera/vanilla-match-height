@@ -8,7 +8,7 @@
         <title>matchHeight Browser Tests</title>
         <!-- matchHeight -->
         <link rel="stylesheet" href="./test.css">
-        <script type="text/javascript" src="../vanilla-match-height.min.js"></script>
+        <script type="text/javascript" src="../dist/vanilla-match-height.min.js"></script>
     </head>
     <body class="test-match-height test-rows test-responsive test-border-box test-margin test-padding test-border test-hidden">
         <div class="container">
@@ -398,11 +398,16 @@
 		
 		document.getElementById("remove-mh").addEventListener('click', function(event) {
 			const items = document.querySelectorAll(".item");
-			items.forEach((item) => {			
+			items.forEach((item) => {
 				item.style.height = '';
 				item.style.minHeight = '';
 				if (item.getAttribute('style') == '') item.removeAttribute('style');
 			});
+            /*
+            containers.forEach((container) => {
+                container.matchHeight({elements: '.item'})._remove();
+            });
+             */
 		});
 
         document.getElementById("add-mh").addEventListener('click', function(event) {
