@@ -9,7 +9,7 @@
 
 See the [vanilla-match-height.js demo](https://github.com/mitera/vanilla-match-height/archive/refs/heads/master.zip).
 
-[![vanilla-match-height.js screenshot](https://github.com/mitera/vanilla-match-height/blob/master/vanilla-match-height.jpg)](https://github.com/mitera/vanilla-matchHeight/archive/refs/heads/master.zip)
+[![vanilla-match-height.js screenshot](https://github.com/mitera/vanilla-match-height/blob/master/vanilla-match-height.jpg)](https://github.com/mitera/vanilla-match-height/archive/refs/heads/master.zip)
 
 ### Modern browsers
 
@@ -30,7 +30,7 @@ In the years since this library was originally developed there have been updates
 
 ### Install
 
-Download [vanilla-match-height.js](https://github.com/mitera/vanilla-matchHeight/blob/master/vanilla-match-height.js) and include the script in your HTML file:
+Download [vanilla-match-height.js](https://github.com/mitera/vanilla-match-height/blob/master/vanilla-match-height.js) and include the script in your HTML file:
 
 	<script src="vanilla-match-height.js" type="text/javascript"></script>
 
@@ -58,7 +58,7 @@ The above example will set all selected elements with the class `item` to the he
 If the items are on multiple rows, the items of each row will be set to the tallest of that row (see `byRow` option).
 
 Call this on the event (the plugin will automatically update on window load).   
-See the included [test.html](https://github.com/mitera/vanilla-matchHeight/blob/master/test/test.html) for many working examples.
+See the included [test.html](https://github.com/mitera/vanilla-match-height/blob/master/test/test.html) for many working examples.
 
 Also see the [Data API](#data-api) below for a simple, alternative inline usage.
 
@@ -166,7 +166,7 @@ You should ensure that there are no transitions or other animations that will de
 
 ### Changelog
 
-To see what's new or changed in the latest version, see the [changelog](https://github.com/mitera/vanilla-matchHeight/blob/master/CHANGELOG.md)
+To see what's new or changed in the latest version, see the [changelog](https://github.com/mitera/vanilla-match-height/blob/master/CHANGELOG.md)
 
 ### License
 
