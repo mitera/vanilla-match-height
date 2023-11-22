@@ -9,7 +9,7 @@
 
 See the [vanilla-match-height.js demo](https://github.com/mitera/vanilla-match-height/archive/refs/heads/master.zip).
 
-[![jquery.match-height.js screenshot](https://github.com/mitera/vanilla-match-height/blob/master/vanilla-match-height.jpg)](https://github.com/mitera/vanilla-matchHeight/archive/refs/heads/master.zip)
+[![vanilla-match-height.js screenshot](https://github.com/mitera/vanilla-match-height/blob/master/vanilla-match-height.jpg)](https://github.com/mitera/vanilla-matchHeight/archive/refs/heads/master.zip)
 
 ### Modern browsers
 
