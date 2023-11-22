@@ -1,3 +1,11 @@
+<a name="0.0.7"></a>
+# 0.0.7 (2023-11-23)
+
+### release summary
+
+- 'orientationchange' window event added
+- Common lines of code rewritten into functions
+
 <a name="0.0.6"></a>
 # 0.0.6 (2023-11-22)
 
