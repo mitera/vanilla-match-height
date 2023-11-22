@@ -1,3 +1,12 @@
+<a name="0.0.6"></a>
+# 0.0.6 (2023-11-22)
+
+### release summary
+
+- Removed unused variables
+- Removed empty style from one item element
+- Fixed test html page
+
 <a name="0.0.5"></a>
 # 0.0.5 (2023-11-21)
 

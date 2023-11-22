@@ -1,5 +1,5 @@
 /**
- * vanilla-match-height v0.0.5 by @mitera
+ * vanilla-match-height v0.0.6 by @mitera
  * Simone Miterangelis <simone@mite.it>
  * License: MIT
  */
@@ -71,7 +71,7 @@
 
         var $this = this;
 
-        document.addEventListener("DOMContentLoaded", function(event) {
+        document.addEventListener("DOMContentLoaded", function() {
             $this._apply();
             if ($this._validateProperty($this.settings.attributeName)) {
                 $this._applyDataApi($this.settings.attributeName);
@@ -80,7 +80,7 @@
             $this._applyDataApi('data-mh');
         });
 
-        window.addEventListener("resize", function(event) {
+        window.addEventListener("resize", function() {
             $this._apply();
             if ($this._validateProperty($this.settings.attributeName)) {
                 $this._applyDataApi($this.settings.attributeName);
@@ -248,6 +248,7 @@
                 if (opts.byRow && $row.length <= 1) {
                     $row.forEach(($that) => {
                         eval('$that.style.' + opts.property + ' = \'\';');
+                        if ($that.getAttribute('style') == '') $that.removeAttribute('style');
                     })
                     return;
                 }
