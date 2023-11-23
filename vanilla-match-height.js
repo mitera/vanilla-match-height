@@ -189,7 +189,7 @@
             $this.settings = Object.merge({attributeName: property, attributeValue: groupId}, $this.settings);
             $this._apply();
         });
-    };
+    }
 
     /**
     *  _remove
@@ -356,7 +356,7 @@
 
         });
 
-    };
+    }
 
     /**
      *  _resetStyle
