@@ -197,6 +197,11 @@ You should ensure that there are no transitions or other animations that will de
         },
         mounted() {
             this.matchHeight._apply()
+        },
+        methods: {
+            reMatch() {
+                this.matchHeight._apply()
+            }
         }
     }
 
