@@ -75,11 +75,11 @@
      */
     MatchHeight.prototype._init = function() {
 
-        window.addEventListener("DOMContentLoaded", this.bind, true);
+        window.addEventListener("DOMContentLoaded", this.bind);
 
-        window.addEventListener("resize", this.bind, true);
+        window.addEventListener("resize", this.bind);
 
-        window.addEventListener("orientationchange", this.bind, true);
+        window.addEventListener("orientationchange", this.bind);
     }
 
     /**
@@ -87,11 +87,11 @@
      */
     MatchHeight.prototype._unbind = function() {
 
-        window.removeEventListener("DOMContentLoaded", this.bind, true);
+        window.removeEventListener("DOMContentLoaded", this.bind);
 
-        window.removeEventListener("resize", this.bind, true);
+        window.removeEventListener("resize", this.bind);
 
-        window.removeEventListener("orientationchange", this.bind, true);
+        window.removeEventListener("orientationchange", this.bind);
     }
 
     /**
