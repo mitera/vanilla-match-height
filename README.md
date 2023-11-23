@@ -182,6 +182,24 @@ Reset events
 
 You should ensure that there are no transitions or other animations that will delay the height changes of the elements you are matching, including any `transition: all` rules. Otherwise the plugin will produce unexpected results, as animations can't be accounted for.
 
+### Vue3 Example:
+
+    import 'vanilla-match-height'
+    export default {
+        name: 'Example',
+        data: function () {
+            return {
+                matchHeight: document.body.matchHeight({elements: '.item p'})
+            }
+        },
+        beforeUnmount() {
+            this.matchHeight._unbind();
+        },
+        mounted() {
+            this.matchHeight._apply()
+        }
+    }
+
 ### Not duplicate instance!
 
 I suggest to assign element to a variable for not create multiple instances and events
@@ -194,7 +212,7 @@ I suggest to assign element to a variable for not create multiple instances and 
     //Wrong solution
     document.body.matchHeight({elements: '.item'});
     ... json update
-    document.body.matchHeight({elements: '.item'});
+    document.body.matchHeight({elements: '.item'})._apply();
 
 ### Changelog
 
