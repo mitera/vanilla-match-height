@@ -1,5 +1,13 @@
+<a name="1.0.0"></a>
+# 1.0.0 (2023-11-23)
+
+### release summary
+
+- Added _unbind method
+- update document and test
+
 <a name="0.0.7"></a>
-# 0.0.7 (2023-11-23)
+# 0.0.7 (2023-11-22)
 
 ### release summary
 

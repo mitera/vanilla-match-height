@@ -1,5 +1,5 @@
 /**
- * vanilla-match-height v0.0.7 by @mitera
+ * vanilla-match-height v1.0.0 by @mitera
  * Simone Miterangelis <simone@mite.it>
  * License: MIT
  */
@@ -46,7 +46,8 @@
             attributeName: null,
             attributeValue: null,
             property: 'height',
-            remove: null
+            remove: null,
+            events: true
         }
 
         if (settings != null) {
@@ -61,7 +62,12 @@
 
         this.settings.property = this._dashToCamel(this.settings.property);
 
-        this._init();
+        if (this.settings.events) {
+            var $this = this;
+            var events = function(){ $this._events($this); };
+            this.bind = events;
+            this._init();
+        }
     }
 
     /**
@@ -69,27 +75,30 @@
      */
     MatchHeight.prototype._init = function() {
 
-        var $this = this;
+        window.addEventListener("DOMContentLoaded", this.bind, true);
 
-        document.addEventListener("DOMContentLoaded", function() {
-            $this._events();
-        });
+        window.addEventListener("resize", this.bind, true);
 
-        window.addEventListener("resize", function() {
-            $this._events();
-        });
-
-        window.addEventListener("orientationchange", function() {
-            $this._events();
-        });
+        window.addEventListener("orientationchange", this.bind, true);
     }
 
     /**
-     * Initialize the common events
+     * Unbind events
      */
-    MatchHeight.prototype._events = function() {
+    MatchHeight.prototype._unbind = function() {
 
-        var $this = this;
+        window.removeEventListener("DOMContentLoaded", this.bind, true);
+
+        window.removeEventListener("resize", this.bind, true);
+
+        window.removeEventListener("orientationchange", this.bind, true);
+    }
+
+    /**
+     * _events
+     * @param {Element} $this
+     */
+    MatchHeight.prototype._events = function($this) {
 
         $this._apply();
         if ($this._validateProperty($this.settings.attributeName)) {
@@ -99,7 +108,7 @@
         $this._applyDataApi('data-mh');
     }
 
-    /*
+    /**
     *  _validateProperty
     *  handle plugin options
     */
@@ -112,7 +121,7 @@
             );
     }
 
-    /*
+    /**
     *  _parseOptions
     *  handle plugin options
     */
@@ -121,7 +130,7 @@
         return parseFloat(value) || 0;
     }
 
-    /*
+    /**
     *  _rows
     *  utility function returns array of selections representing each row
     *  (as displayed after float wrapping applied by browser)
@@ -156,7 +165,7 @@
         return listRows;
     }
 
-    /*
+    /**
     *  _dashToCamel
     *  utility function for transform css property dash to camel
     */
@@ -166,9 +175,9 @@
         });
     }
 
-    /*
-      *  _applyDataApi
-      *  applies matchHeight to all elements with a data-match-height attribute
+    /**
+    *  _applyDataApi
+    *  applies matchHeight to all elements with a data-match-height attribute
     */
     MatchHeight.prototype._applyDataApi = function(property) {
         var $this = this;
@@ -182,7 +191,7 @@
         });
     };
 
-    /*
+    /**
     *  _remove
     *  remove matchHeight to given elements
     */
@@ -202,7 +211,7 @@
         });
     }
 
-    /*
+    /**
     *  _apply
     *  apply matchHeight to given elements
     */
@@ -350,10 +359,10 @@
     };
 
     /**
-    *  _resetStyle
-    * @param {Element} $that
-    * @param {String} property
-    */
+     *  _resetStyle
+     * @param {Element} $that
+     * @param {String} property
+     */
     MatchHeight.prototype._resetStyle = function($that, property) {
         if (this._validateProperty(property)) {
             eval('$that.style.' + property + ' = \'\';');

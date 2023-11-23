@@ -15,6 +15,10 @@ See the [vanilla-match-height.js demo](https://github.com/mitera/vanilla-match-h
 
 In the years since this library was originally developed there have been updates to CSS that can now achieve equal heights in many situations. If you only need to support modern browsers then consider using [CSS Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) and [CSS Grid](https://css-tricks.com/snippets/css/complete-guide-grid/) instead.
 
+### Best practice
+
+Use this library to match height of internal elements, like title or text of teasers 
+
 ### Features
 
 - match the heights for groups of elements automatically
@@ -71,7 +75,8 @@ The default `options` are:
         property: 'height',
         target: null,
         remove: null,
-        attributeName: null
+        attributeName: null,
+        events: true
     }
 
 Where:
@@ -81,6 +86,7 @@ Where:
 - `target` is an optional element to use instead of the element with maximum height
 - `remove` is an optional element/s to excluded
 - `attributeName` is an optional for use custom attribute
+- `events` is an optional for enable default events
 
 ### Data API
 
@@ -140,15 +146,17 @@ Will set all selected elements to the height of the first item with class `sideb
 
 This will set the `min-height` property instead of the `height` property.
 
-Where `event` a event object (e.g. `load`, `resize`, `orientationchange`).
+Where `event` a event object (`DOMContentLoaded`, `resize`, `orientationchange`).
 
 #### Manually apply match height
 
 Manual apply, code for JavaScript framework/library (e.g. `vue`, `react` ...).
 
-	document.body.matchHeight({elements: '.item'})._apply();
-    document.body.matchHeight()._applyDataApi('data-match-height');
-    document.body.matchHeight()._applyDataApi('data-mh');
+    var el = document.body.matchHeight({elements: '.item'});
+    ...
+	el._apply();
+    el._applyDataApi('data-match-height');
+    el._applyDataApi('data-mh');
 
 Use the apply function directly if you wish to avoid the automatic update functionality.
 
@@ -156,13 +164,37 @@ Use the apply function directly if you wish to avoid the automatic update functi
 
 Reset inline style property
 
-    document.body.matchHeight({elements: '.item'})._remove();
+    var el = document.body.matchHeight({elements: '.item'});
+    ...
+    el._remove();
+
+#### Remove events from match height elements
+
+Reset events
+
+    var el = document.body.matchHeight({elements: '.item'});
+    ...
+    el._unbind();
 
 ### Known limitations
 
 #### CSS transitions and animations are not supported
 
 You should ensure that there are no transitions or other animations that will delay the height changes of the elements you are matching, including any `transition: all` rules. Otherwise the plugin will produce unexpected results, as animations can't be accounted for.
+
+### Not duplicate instance!
+
+I suggest to assign element to a variable for not create multiple instances and events
+
+    //Right solution
+    var el = document.body.matchHeight({elements: '.item'});
+    ... json update
+    el._apply();
+
+    //Wrong solution
+    document.body.matchHeight({elements: '.item'});
+    ... json update
+    document.body.matchHeight({elements: '.item'});
 
 ### Changelog
 

@@ -16,6 +16,8 @@
 			<div class="controls">
                 <input class="btn-remove" type="submit" value="remove matchHeight" id="remove-mh">
 				<input class="btn-remove" type="submit" value="add matchHeight" id="add-mh">
+                <input class="btn-remove" type="submit" value="unbind matchHeight" id="unbind-mh">
+                <input class="btn-remove" type="submit" value="init matchHeight" id="init-mh">
             </div>
             <div class="items-container simple-items">
                 <div class="item item-0">
@@ -367,75 +369,77 @@
         <div id='results'></div>
 		
 		<script type="text/javascript">
+        var elements = [];
 		const containers = document.querySelectorAll(".items-container");
-		containers.forEach((container) => {			
-			container.matchHeight({elements: '.item'});
+		containers.forEach((container) => {
+            var el = container.matchHeight({elements: '.item'});
+            elements.push(el);
 		});
 		const containers2 = document.querySelectorAll(".property-items");
-		containers2.forEach((container) => {			
-			container.matchHeight({elements: '.item', property: 'min-height'});
+		containers2.forEach((container) => {
+            var el = container.matchHeight({elements: '.item', property: 'min-height'});
+            elements.push(el);
 		});
 		const containers3 = document.querySelectorAll(".target-items");
-		containers3.forEach((container) => {			
-			container.matchHeight({elements: '.item-0, .item-2, .item-3', target: document.getElementById("target-item-1")});
+		containers3.forEach((container) => {
+            var el = container.matchHeight({elements: '.item-0, .item-2, .item-3', target: document.getElementById("target-item-1")});
+            elements.push(el);
 		});
 		const containers4 = document.querySelectorAll(".data-api-items");
-		containers4.forEach((container) => {			
-			container.matchHeight();
+		containers4.forEach((container) => {
+            var el = container.matchHeight();
+            elements.push(el);
 		});
 		const containers5 = document.querySelectorAll(".remove-items");
-		containers5.forEach((container) => {			
-			container.matchHeight({elements: '.item', remove: document.getElementById("remove-item-0")});
+		containers5.forEach((container) => {
+            var el = container.matchHeight({elements: '.item', remove: document.getElementById("remove-item-0")});
+            elements.push(el);
 		});
 		const containers6 = document.querySelectorAll(".remove-items2");
-		containers6.forEach((container) => {			
-			container.matchHeight({elements: '.item', remove: document.querySelectorAll(".remove-item")});
+		containers6.forEach((container) => {
+            var el = container.matchHeight({elements: '.item', remove: document.querySelectorAll(".remove-item")});
+            elements.push(el);
 		});
         const containers7 = document.querySelectorAll(".data-api-items2");
         containers7.forEach((container) => {
-            container.matchHeight({attributeName: 'data-same-height'});
+            var el = container.matchHeight({attributeName: 'data-same-height'});
+            elements.push(el);
         });
 		
 		document.getElementById("remove-mh").addEventListener('click', function(event) {
-			const items = document.querySelectorAll(".item");
-			items.forEach((item) => {
-				item.style.height = '';
-				item.style.minHeight = '';
-				if (item.getAttribute('style') == '') item.removeAttribute('style');
-			});
-            /*
-            containers.forEach((container) => {
-                container.matchHeight({elements: '.item'})._remove();
+            elements.forEach((el) => {
+                el._remove();
             });
-             */
 		});
 
         document.getElementById("add-mh").addEventListener('click', function(event) {
-            //window.dispatchEvent(new Event('resize'));
-
-            containers.forEach((container) => {
-                container.matchHeight({elements: '.item'})._apply();
-            });
-            containers2.forEach((container) => {
-                container.matchHeight({elements: '.item', property: 'min-height'})._apply();
-            });
-            containers3.forEach((container) => {
-                container.matchHeight({elements: '.item-0, .item-2, .item-3', target: document.getElementById("target-item-1")})._apply();
-            });
-            containers4.forEach((container) => {
-                container.matchHeight()._applyDataApi('data-match-height');
-                container.matchHeight()._applyDataApi('data-mh');
-            });
-            containers5.forEach((container) => {
-                container.matchHeight({elements: '.item', remove: document.getElementById("remove-item-0")})._apply();
-            });
-            containers6.forEach((container) => {
-                container.matchHeight({elements: '.item', remove: document.querySelectorAll(".remove-item")})._apply();
-            });
-            containers7.forEach((container) => {
-                container.matchHeight()._applyDataApi('data-same-height');
+            elements.forEach((el) => {
+                el._apply();
+                //appply only for rights element, this'is only a test
+                el._applyDataApi('data-match-height');
+                el._applyDataApi('data-mh');
+                el._applyDataApi('data-same-height');
             });
         });
+
+        document.getElementById("unbind-mh").addEventListener('click', function(event) {
+            elements.forEach((el) => {
+                el._unbind();
+            });
+        });
+
+        document.getElementById("init-mh").addEventListener('click', function(event) {
+            elements.forEach((el) => {
+                el._init();
+
+                el._apply();
+                //appply only for rights element, this'is only a test
+                el._applyDataApi('data-match-height');
+                el._applyDataApi('data-mh');
+                el._applyDataApi('data-same-height');
+            });
+        });
+
 		</script>
     </body>
 </html>
