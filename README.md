@@ -158,8 +158,6 @@ Manual apply, code for JavaScript framework/library (e.g. `vue`, `react` ...).
     el._applyDataApi('data-match-height');
     el._applyDataApi('data-mh');
 
-Use the apply function directly if you wish to avoid the automatic update functionality.
-
 #### Remove match height from elements
 
 Reset inline style property
@@ -170,7 +168,7 @@ Reset inline style property
 
 #### Remove events from match height elements
 
-Reset events
+Remove events
 
     var el = document.body.matchHeight({elements: '.item'});
     ...
@@ -209,17 +207,13 @@ You should ensure that there are no transitions or other animations that will de
 
     import 'vanilla-match-height';
     class MyComponent extends Component {
-
         matchHeight = document.body.matchHeight({elements: '.item p'});
-        
         componentDidMount() {
             this.matchHeight._apply();
         }
-        
         componentWillUnmount() {
             this.matchHeight._unbind();
         }
-        
         render() {
             return (
                 ...
@@ -229,7 +223,7 @@ You should ensure that there are no transitions or other animations that will de
 
 ### Not duplicate instance!
 
-I suggest to assign element to a variable for not create multiple instances and events
+I suggest to assign element to a variable for not create multiple events instances
 
     //Right solution
     var el = document.body.matchHeight({elements: '.item'});

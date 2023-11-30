@@ -1,5 +1,5 @@
 /**
- * vanilla-match-height v1.0.0 by @mitera
+ * vanilla-match-height v1.0.1 by @mitera
  * Simone Miterangelis <simone@mite.it>
  * License: MIT
  */
@@ -108,9 +108,9 @@
     }
 
     /**
-    *  _validateProperty
-    *  handle plugin options
-    */
+     *  _validateProperty
+     *  handle plugin options
+     */
     MatchHeight.prototype._validateProperty = function(value) {
         // parse value and convert NaN to 0
         return String(value)
@@ -121,19 +121,19 @@
     }
 
     /**
-    *  _parseOptions
-    *  handle plugin options
-    */
+     *  _parseOptions
+     *  handle plugin options
+     */
     MatchHeight.prototype._parse = function(value) {
         // parse value and convert NaN to 0
         return parseFloat(value) || 0;
     }
 
     /**
-    *  _rows
-    *  utility function returns array of selections representing each row
-    *  (as displayed after float wrapping applied by browser)
-    */
+     *  _rows
+     *  utility function returns array of selections representing each row
+     *  (as displayed after float wrapping applied by browser)
+     */
     MatchHeight.prototype._rows = function(elements) {
         var $this = this;
         var tolerance = 1,
@@ -165,9 +165,9 @@
     }
 
     /**
-    *  _dashToCamel
-    *  utility function for transform css property dash to camel
-    */
+     *  _dashToCamel
+     *  utility function for transform css property dash to camel
+     */
     MatchHeight.prototype._dashToCamel = function(input) {
         return input.toLowerCase().replace(/-(.)/g, function(match, group1) {
             return group1.toUpperCase();
@@ -175,9 +175,9 @@
     }
 
     /**
-    *  _applyDataApi
-    *  applies matchHeight to all elements with a data-match-height attribute
-    */
+     *  _applyDataApi
+     *  applies matchHeight to all elements with a data-match-height attribute
+     */
     MatchHeight.prototype._applyDataApi = function(property) {
         var $this = this;
 
@@ -191,9 +191,9 @@
     }
 
     /**
-    *  _remove
-    *  remove matchHeight to given elements
-    */
+     *  _remove
+     *  remove matchHeight to given elements
+     */
     MatchHeight.prototype._remove = function() {
         var $elements = []
         var opts = this.settings;
@@ -211,9 +211,9 @@
     }
 
     /**
-    *  _apply
-    *  apply matchHeight to given elements
-    */
+     *  _apply
+     *  apply matchHeight to given elements
+     */
     MatchHeight.prototype._apply = function() {
 
         var $this = this;

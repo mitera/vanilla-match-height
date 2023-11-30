@@ -1,10 +1,18 @@
+<a name="1.0.1"></a>
+# 1.0.1 (2023-11-30)
+
+### release summary
+
+- Code optimize
+- Update document
+
 <a name="1.0.0"></a>
 # 1.0.0 (2023-11-23)
 
 ### release summary
 
 - Added _unbind method
-- update document and test
+- Update document and test
 
 <a name="0.0.7"></a>
 # 0.0.7 (2023-11-22)
