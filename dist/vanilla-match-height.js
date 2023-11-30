@@ -64,8 +64,7 @@
 
         if (this.settings.events) {
             var $this = this;
-            var events = function(){ $this._events($this); };
-            this.bind = events;
+            this.bind = function(){ $this._events($this); };
             this._init();
         }
     }
@@ -96,7 +95,7 @@
 
     /**
      * _events
-     * @param {Element} $this
+     * @param {MatchHeight} $this
      */
     MatchHeight.prototype._events = function($this) {
 
@@ -109,9 +108,9 @@
     }
 
     /**
-     *  _validateProperty
-     *  handle plugin options
-     */
+    *  _validateProperty
+    *  handle plugin options
+    */
     MatchHeight.prototype._validateProperty = function(value) {
         // parse value and convert NaN to 0
         return String(value)
@@ -122,19 +121,19 @@
     }
 
     /**
-     *  _parseOptions
-     *  handle plugin options
-     */
+    *  _parseOptions
+    *  handle plugin options
+    */
     MatchHeight.prototype._parse = function(value) {
         // parse value and convert NaN to 0
         return parseFloat(value) || 0;
     }
 
     /**
-     *  _rows
-     *  utility function returns array of selections representing each row
-     *  (as displayed after float wrapping applied by browser)
-     */
+    *  _rows
+    *  utility function returns array of selections representing each row
+    *  (as displayed after float wrapping applied by browser)
+    */
     MatchHeight.prototype._rows = function(elements) {
         var $this = this;
         var tolerance = 1,
@@ -166,9 +165,9 @@
     }
 
     /**
-     *  _dashToCamel
-     *  utility function for transform css property dash to camel
-     */
+    *  _dashToCamel
+    *  utility function for transform css property dash to camel
+    */
     MatchHeight.prototype._dashToCamel = function(input) {
         return input.toLowerCase().replace(/-(.)/g, function(match, group1) {
             return group1.toUpperCase();
@@ -176,9 +175,9 @@
     }
 
     /**
-     *  _applyDataApi
-     *  applies matchHeight to all elements with a data-match-height attribute
-     */
+    *  _applyDataApi
+    *  applies matchHeight to all elements with a data-match-height attribute
+    */
     MatchHeight.prototype._applyDataApi = function(property) {
         var $this = this;
 
@@ -192,9 +191,9 @@
     }
 
     /**
-     *  _remove
-     *  remove matchHeight to given elements
-     */
+    *  _remove
+    *  remove matchHeight to given elements
+    */
     MatchHeight.prototype._remove = function() {
         var $elements = []
         var opts = this.settings;
@@ -207,14 +206,14 @@
         }
         $elements.forEach((item) => {
             eval('item.style.' + opts.property + ' = \'\';');
-            if (item.getAttribute('style') == '') item.removeAttribute('style');
+            if (item.getAttribute('style') === '') item.removeAttribute('style');
         });
     }
 
     /**
-     *  _apply
-     *  apply matchHeight to given elements
-     */
+    *  _apply
+    *  apply matchHeight to given elements
+    */
     MatchHeight.prototype._apply = function() {
 
         var $this = this;
@@ -254,7 +253,7 @@
             $elements.forEach(($that) => {
                 $that.setAttribute('style', $that.getAttribute('style-cache') || '');
                 $that.removeAttribute('style-cache');
-                if ($that.getAttribute('style') == '') $that.removeAttribute('style');
+                if ($that.getAttribute('style') === '') $that.removeAttribute('style');
             });
         }
 
@@ -311,7 +310,7 @@
                         $that.style.display = '';
                     }
 
-                    if ($that.getAttribute('style') == '') $that.removeAttribute('style');
+                    if ($that.getAttribute('style') === '') $that.removeAttribute('style');
                 });
 
             } else {
@@ -366,7 +365,7 @@
     MatchHeight.prototype._resetStyle = function($that, property) {
         if (this._validateProperty(property)) {
             eval('$that.style.' + property + ' = \'\';');
-            if ($that.getAttribute('style') == '') $that.removeAttribute('style');
+            if ($that.getAttribute('style') === '') $that.removeAttribute('style');
         }
     }
 

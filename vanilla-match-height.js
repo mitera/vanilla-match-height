@@ -64,8 +64,7 @@
 
         if (this.settings.events) {
             var $this = this;
-            var events = function(){ $this._events($this); };
-            this.bind = events;
+            this.bind = function(){ $this._events($this); };
             this._init();
         }
     }
@@ -96,7 +95,7 @@
 
     /**
      * _events
-     * @param {Element} $this
+     * @param {MatchHeight} $this
      */
     MatchHeight.prototype._events = function($this) {
 
@@ -207,7 +206,7 @@
         }
         $elements.forEach((item) => {
             eval('item.style.' + opts.property + ' = \'\';');
-            if (item.getAttribute('style') == '') item.removeAttribute('style');
+            if (item.getAttribute('style') === '') item.removeAttribute('style');
         });
     }
 
@@ -254,7 +253,7 @@
             $elements.forEach(($that) => {
                 $that.setAttribute('style', $that.getAttribute('style-cache') || '');
                 $that.removeAttribute('style-cache');
-                if ($that.getAttribute('style') == '') $that.removeAttribute('style');
+                if ($that.getAttribute('style') === '') $that.removeAttribute('style');
             });
         }
 
@@ -311,7 +310,7 @@
                         $that.style.display = '';
                     }
 
-                    if ($that.getAttribute('style') == '') $that.removeAttribute('style');
+                    if ($that.getAttribute('style') === '') $that.removeAttribute('style');
                 });
 
             } else {
@@ -366,7 +365,7 @@
     MatchHeight.prototype._resetStyle = function($that, property) {
         if (this._validateProperty(property)) {
             eval('$that.style.' + property + ' = \'\';');
-            if ($that.getAttribute('style') == '') $that.removeAttribute('style');
+            if ($that.getAttribute('style') === '') $that.removeAttribute('style');
         }
     }
 
