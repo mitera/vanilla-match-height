@@ -95,6 +95,7 @@
 
     /**
      * _events
+     * Initialize the common events
      * @param {MatchHeight} $this
      */
     MatchHeight.prototype._events = function($this) {
@@ -108,8 +109,9 @@
     }
 
     /**
-     *  _validateProperty
-     *  handle plugin options
+     * _validateProperty
+     * handle plugin options
+     * @param {String} value
      */
     MatchHeight.prototype._validateProperty = function(value) {
         // parse value and convert NaN to 0
@@ -121,8 +123,9 @@
     }
 
     /**
-     *  _parseOptions
-     *  handle plugin options
+     * _parse
+     * handle plugin options
+     * @param {String} value
      */
     MatchHeight.prototype._parse = function(value) {
         // parse value and convert NaN to 0
@@ -130,9 +133,10 @@
     }
 
     /**
-     *  _rows
-     *  utility function returns array of selections representing each row
-     *  (as displayed after float wrapping applied by browser)
+     * _rows
+     * utility function returns array of selections representing each row
+     * (as displayed after float wrapping applied by browser)
+     * @param {Array} elements
      */
     MatchHeight.prototype._rows = function(elements) {
         var $this = this;
@@ -165,8 +169,9 @@
     }
 
     /**
-     *  _dashToCamel
-     *  utility function for transform css property dash to camel
+     * _dashToCamel
+     * utility function for transform css property dash to camel
+     * @param {String} input
      */
     MatchHeight.prototype._dashToCamel = function(input) {
         return input.toLowerCase().replace(/-(.)/g, function(match, group1) {
@@ -175,8 +180,9 @@
     }
 
     /**
-     *  _applyDataApi
-     *  applies matchHeight to all elements with a data-match-height attribute
+     * _applyDataApi
+     * applies matchHeight to all elements with a data-match-height attribute
+     * @param {String} property
      */
     MatchHeight.prototype._applyDataApi = function(property) {
         var $this = this;
