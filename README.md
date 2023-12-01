@@ -71,6 +71,7 @@ Also see the [Data API](#data-api) below for a simple, alternative inline usage.
 The default `options` are:
 
     {
+        elements: '',
         byRow: true,
         property: 'height',
         target: null,
@@ -81,6 +82,7 @@ The default `options` are:
 
 Where:
 
+- `elements` is an optional string containing one or more selectors to match against. This string must be a valid CSS selector string
 - `byRow` is `true` or `false` to enable row detection
 - `property` is the CSS property name to set (e.g. `'height'` or `'min-height'`)
 - `target` is an optional element to use instead of the element with maximum height
