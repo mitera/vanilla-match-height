@@ -1,5 +1,5 @@
 /**
- * vanilla-match-height v1.0.1 by @mitera
+ * vanilla-match-height v1.0.2 by @mitera
  * Simone Miterangelis <simone@mite.it>
  * License: MIT
  */
