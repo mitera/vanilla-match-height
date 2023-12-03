@@ -414,11 +414,14 @@
 
         document.getElementById("add-mh").addEventListener('click', function(event) {
             elements.forEach((el) => {
+                el._applyAll();
+                /*
                 el._apply();
                 //appply only for rights element, this'is only a test
                 el._applyDataApi('data-match-height');
                 el._applyDataApi('data-mh');
                 el._applyDataApi('data-same-height');
+                 */
             });
         });
 
@@ -432,11 +435,14 @@
             elements.forEach((el) => {
                 el._init();
 
+                el._applyAll();
+                /*
                 el._apply();
                 //appply only for rights element, this'is only a test
                 el._applyDataApi('data-match-height');
                 el._applyDataApi('data-mh');
                 el._applyDataApi('data-same-height');
+                 */
             });
         });
 

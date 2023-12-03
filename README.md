@@ -159,6 +159,7 @@ Manual apply, code for JavaScript framework/library (e.g. `vue`, `react` ...).
 	el._apply();
     el._applyDataApi('data-match-height');
     el._applyDataApi('data-mh');
+    el._applyAll();
 
 #### Remove match height from elements
 

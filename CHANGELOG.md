@@ -1,3 +1,11 @@
+<a name="1.0.3"></a>
+# 1.0.3 (2023-11-23)
+
+### release summary
+
+- Added _applyAll method
+- Update document and test
+
 <a name="1.0.2"></a>
 # 1.0.2 (2023-12-03)
 

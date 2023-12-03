@@ -1,5 +1,5 @@
 /**
- * vanilla-match-height v1.0.2 by @mitera
+ * vanilla-match-height v1.0.3 by @mitera
  * Simone Miterangelis <simone@mite.it>
  * License: MIT
  */
@@ -64,7 +64,7 @@
 
         if (this.settings.events) {
             var $this = this;
-            this.bind = function(){ $this._events($this); };
+            this.bind = function(){ $this._applyAll($this); };
             this._init();
         }
     }
@@ -94,11 +94,15 @@
     }
 
     /**
-     * _events
+     * _applyAll
      * Initialize the common events
      * @param {MatchHeight} $this
      */
-    MatchHeight.prototype._events = function($this) {
+    MatchHeight.prototype._applyAll = function($this) {
+
+        if ($this == null) {
+            $this = this;
+        }
 
         $this._apply();
         if ($this._validateProperty($this.settings.attributeName)) {
