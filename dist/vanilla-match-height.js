@@ -155,10 +155,8 @@
                 listRows.push(rows);
                 rows = [];
                 lastTop = null;
-                rows.push($that);
-            } else {
-                rows.push($that);
             }
+            rows.push($that);
 
             // keep track of the last row top
             lastTop = top;
