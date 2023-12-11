@@ -1,5 +1,5 @@
 /**
- * vanilla-match-height v1.0.4 by @mitera
+ * vanilla-match-height v1.0.5 by @mitera
  * Simone Miterangelis <simone@mite.it>
  * License: MIT
  */
@@ -65,17 +65,15 @@
         if (this.settings.events) {
             var $this = this;
             this.bind = function(){ $this._applyAll($this); };
+            window.addEventListener("DOMContentLoaded", this.bind, { once: true });
             this._init(true);
         }
     }
 
     /**
      * Initialize the application
-     @param {boolean} DOMContentLoaded
      */
-    MatchHeight.prototype._init = function(DOMContentLoaded) {
-
-        if (DOMContentLoaded) window.addEventListener("DOMContentLoaded", this.bind, { once: true });
+    MatchHeight.prototype._init = function() {
 
         window.addEventListener("resize", this.bind);
 
