@@ -1,3 +1,11 @@
+<a name="1.0.6"></a>
+# 1.0.6 (2023-12-11)
+
+### release summary
+
+- Code optimize
+- Update document
+
 <a name="1.0.5"></a>
 # 1.0.5 (2023-12-11)
 
