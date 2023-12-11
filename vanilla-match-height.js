@@ -117,7 +117,6 @@
      * @param {String} value
      */
     MatchHeight.prototype._validateProperty = function(value) {
-        // parse value and convert NaN to 0
         return String(value)
             .toLowerCase()
             .match(
