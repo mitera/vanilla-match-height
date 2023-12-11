@@ -1,5 +1,5 @@
 /**
- * vanilla-match-height v1.0.3 by @mitera
+ * vanilla-match-height v1.0.4 by @mitera
  * Simone Miterangelis <simone@mite.it>
  * License: MIT
  */
@@ -65,16 +65,17 @@
         if (this.settings.events) {
             var $this = this;
             this.bind = function(){ $this._applyAll($this); };
-            this._init();
+            this._init(true);
         }
     }
 
     /**
      * Initialize the application
+     @param {boolean} DOMContentLoaded
      */
-    MatchHeight.prototype._init = function() {
+    MatchHeight.prototype._init = function(DOMContentLoaded) {
 
-        window.addEventListener("DOMContentLoaded", this.bind);
+        if (DOMContentLoaded) window.addEventListener("DOMContentLoaded", this.bind, { once: true });
 
         window.addEventListener("resize", this.bind);
 
@@ -85,8 +86,6 @@
      * Unbind events
      */
     MatchHeight.prototype._unbind = function() {
-
-        window.removeEventListener("DOMContentLoaded", this.bind);
 
         window.removeEventListener("resize", this.bind);
 
@@ -152,7 +151,7 @@
         // group elements by their top position
         elements.forEach(($that) => {
 
-            var top = $that.getBoundingClientRect().top - $this._parse($that.style.marginTop);
+            var top = $that.getBoundingClientRect().top - $this._parse(window.getComputedStyle($that).getPropertyValue('margin-top'));
 
             // if the row top is the same, add to the row group
             if (lastTop != null && Math.floor(Math.abs(lastTop - top)) >= tolerance) {
@@ -243,7 +242,7 @@
 
             // must first force an arbitrary equal height so floating elements break evenly
             $elements.forEach(($that) => {
-                var display = $that.style.display;
+                var display = window.getComputedStyle($that).getPropertyValue('display');
 
                 // temporarily force a usable display value
                 if (display && (display !== 'inline-block' && display !== 'flex' && display !== 'inline-flex')) {
@@ -282,7 +281,7 @@
                 // iterate the row and find the max height
                 $row.forEach(($that) => {
                     var style = $that.getAttribute('style') || '',
-                        display = $that.style.display;
+                        display = window.getComputedStyle($that).getPropertyValue('display');
 
                     // temporarily force a usable display value
                     if (display && (display !== 'inline-block' && display !== 'flex' && display !== 'inline-flex')) {
@@ -338,8 +337,10 @@
                 }
 
                 // handle padding and border correctly (required when not using border-box)
-                verticalPadding += $this._parse($that.style.borderTopWidth) + $this._parse($that.style.borderBottomWidth);
-                verticalPadding += $this._parse($that.style.paddingTop) + $this._parse($that.style.paddingBottom);
+                verticalPadding = $this._parse(window.getComputedStyle($that).getPropertyValue('padding-top')) +
+                    $this._parse(window.getComputedStyle($that).getPropertyValue('padding-bottom')) +
+                    $this._parse(window.getComputedStyle($that).getPropertyValue('border-top-width')) +
+                    $this._parse(window.getComputedStyle($that).getPropertyValue('border-bottom-width'));
 
                 // set the height (accounting for padding and border)
                 eval('$that.style.' + opts.property + ' = \'' + (targetHeight - verticalPadding) + 'px\'');

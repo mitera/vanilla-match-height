@@ -1,3 +1,12 @@
+<a name="1.0.4"></a>
+# 1.0.4 (2023-12-03)
+
+### release summary
+
+- Read computed style of elements
+- DOMContentLoaded with once option true 
+- Update document and test
+
 <a name="1.0.3"></a>
 # 1.0.3 (2023-12-03)
 
