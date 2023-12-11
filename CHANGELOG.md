@@ -3,7 +3,7 @@
 
 ### release summary
 
-- Code optimize
+- Code optimize, security update
 - Update document
 
 <a name="1.0.5"></a>
