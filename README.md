@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-JavaScript-%230074c1.svg)](http://www.typescriptlang.org/)
 [![Socket Badge](https://socket.dev/api/badge/npm/package/vanilla-match-height)](https://socket.dev/npm/package/vanilla-match-height)
-[![npm](https://img.shields.io/npm/v/vanilla-match-height.svg?logo=npm&logoColor=fff&label=npm)](https://www.npmjs.com/package/multiple-select-vanilla)
+[![npm](https://img.shields.io/npm/v/vanilla-match-height.svg?logo=npm&logoColor=fff&label=npm)](https://www.npmjs.com/package/vanilla-match-height)
 
 ## *Inspired by:* jquery-match-height
 
