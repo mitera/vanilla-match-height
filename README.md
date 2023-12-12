@@ -14,7 +14,7 @@
 
 ### Demo
 
-See the [vanilla-match-height.js demo](https://github.com/mitera/vanilla-match-height/archive/refs/heads/master.zip).
+See the [vanilla-match-height.js demo](https://codepen.io/mitera/pen/mdvaKBN).
 
 [![vanilla-match-height.js screenshot](https://github.com/mitera/vanilla-match-height/blob/master/vanilla-match-height.jpg)](https://github.com/mitera/vanilla-match-height/archive/refs/heads/master.zip)
 
@@ -40,6 +40,10 @@ Use this library to match height of internal elements, like title or text of tea
 - tested in Edge, Chrome, Firefox
 
 ### Install
+
+CDN via jsDelivr
+
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-match-height@latest/dist/vanilla-match-height.min.js" type="text/javascript"></script>
 
 Download [vanilla-match-height.js](https://github.com/mitera/vanilla-match-height/blob/master/vanilla-match-height.js) and include the script in your HTML file:
 

@@ -1,5 +1,5 @@
 /**
- * vanilla-match-height v1.0.6 by @mitera
+ * vanilla-match-height v1.1.0 by @mitera
  * Simone Miterangelis <simone@mite.it>
  * License: MIT
  */
@@ -64,7 +64,7 @@
             var $this = this;
             this.bind = function(){ $this._applyAll($this); };
             window.addEventListener("DOMContentLoaded", this.bind, { once: true });
-            this._init(true);
+            this._init();
         }
     }
 
@@ -357,7 +357,7 @@
      */
     MatchHeight.prototype._resetStyle = function($that, property) {
         if (this._validateProperty(property)) {
-            $that.style.setProperty(property,  '');
+            $that.style.setProperty(property, '');
             if ($that.getAttribute('style') === '') $that.removeAttribute('style');
         }
     }
