@@ -1,3 +1,11 @@
+<a name="1.1.1"></a>
+# 1.1.1 (2023-12-13)
+
+### release summary
+
+- Added _throttle method
+- Update document
+
 <a name="1.1.0"></a>
 # 1.1.0 (2023-12-12)
 

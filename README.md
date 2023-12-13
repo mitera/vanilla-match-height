@@ -88,7 +88,8 @@ The default `options` are:
         target: null,
         remove: null,
         attributeName: null,
-        events: true
+        events: true,
+        throttle: 80
     }
 
 Where:
@@ -99,7 +100,8 @@ Where:
 - `target` is an optional element to use instead of the element with maximum height
 - `remove` is an optional element/s to excluded
 - `attributeName` is an optional for use custom attribute
-- `events` is an optional for enable default events
+- `events` is an optional for enable default events, default is `true`
+- `throttle` milliseconds to executed resize event, default is `80`
 
 ### Data API
 
@@ -160,6 +162,12 @@ Will set all selected elements to the height of the first item with class `sideb
 This will set the `min-height` property instead of the `height` property.
 
 Where `event` a event object (`DOMContentLoaded`, `resize`, `orientationchange`).
+
+#### Throttling resize updates
+
+By default, the `events` is throttled to execute at a maximum rate of once every `80ms`.
+Decreasing the `throttle` option will update your layout quicker, appearing smoother during resize, at the expense of performance.
+If you experience lagging or freezing during resize, you should increase the `throttle` option.
 
 #### Manually apply match height
 

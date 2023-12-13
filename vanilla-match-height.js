@@ -1,5 +1,5 @@
 /**
- * vanilla-match-height v1.1.0 by @mitera
+ * vanilla-match-height v1.1.1 by @mitera
  * Simone Miterangelis <simone@mite.it>
  * License: MIT
  */
@@ -47,7 +47,8 @@
             attributeValue: null,
             property: 'height',
             remove: null,
-            events: true
+            events: true,
+            throttle: 80
         }
 
         if (settings != null) {
@@ -64,6 +65,7 @@
             var $this = this;
             this.bind = function(){ $this._applyAll($this); };
             window.addEventListener("DOMContentLoaded", this.bind, { once: true });
+            if (this.settings.throttle > 0) this.bind = this._throttle(this.bind, this.settings.throttle);
             this._init();
         }
     }
@@ -86,6 +88,30 @@
         window.removeEventListener("resize", this.bind);
 
         window.removeEventListener("orientationchange", this.bind);
+    }
+
+    /**
+     * _throttle
+     * Throttle updates
+     * @param {function} fn
+     * @param {int} threshold
+     */
+    MatchHeight.prototype._throttle = function(fn, threshold) {
+        let last, deferTimer;
+        return function () {
+            const now = Date.now();
+            if (last && now < last + threshold) {
+                clearTimeout(deferTimer);
+                deferTimer = setTimeout(function () {
+                    last = now;
+                    fn();
+                }, threshold);
+            }
+            else {
+                last = now;
+                fn();
+            }
+        };
     }
 
     /**
