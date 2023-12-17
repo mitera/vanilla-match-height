@@ -1,3 +1,11 @@
+<a name="1.2.0"></a>
+# 1.2.0 (2023-12-17)
+
+### release summary
+
+- Refactor to TypeScript
+- Update document
+
 <a name="1.1.2"></a>
 # 1.1.2 (2023-12-17)
 
