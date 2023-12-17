@@ -107,7 +107,6 @@
      * @param {MatchHeight} $this
      */
     MatchHeight.prototype._applyAll = function ($this) {
-        var scrollTop = document.body.scrollTop;
         if ($this == null) {
             $this = this;
         }
@@ -117,7 +116,6 @@
         }
         $this._applyDataApi('data-match-height');
         $this._applyDataApi('data-mh');
-        document.body.scrollTop = scrollTop;
     };
     /**
      * _validateProperty
