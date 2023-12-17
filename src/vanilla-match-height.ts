@@ -5,7 +5,7 @@
  */
 
 interface HTMLElement {
-    matchHeight(arg0: Settings): MatchHeight;
+    matchHeight(settings: Settings): MatchHeight;
 }
 
 interface MatchHeight {
