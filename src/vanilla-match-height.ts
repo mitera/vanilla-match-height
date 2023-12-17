@@ -27,13 +27,13 @@ interface MatchHeight {
 }
 
 interface Settings {
-    elements?: string,
+    elements?: string | null,
     byRow: boolean,
-    target?: HTMLElement,
-    attributeName?: string,
-    attributeValue?: string,
-    property?: string,
-    remove?: HTMLElement,
+    target?: HTMLElement | null,
+    attributeName?: string | null,
+    attributeValue?: string | null,
+    property?: string | null,
+    remove?: HTMLElement | null,
     events: boolean,
     throttle: number
 }
@@ -57,13 +57,13 @@ interface Settings {
 
         // Default settings
         let default_settings: Settings = {
-            elements: undefined,
+            elements: null,
             byRow: true,
-            target: undefined,
-            attributeName: undefined,
-            attributeValue: undefined,
+            target: null,
+            attributeName: null,
+            attributeValue: null,
             property: 'height',
-            remove: undefined,
+            remove: null,
             events: true,
             throttle: 80
         }
@@ -154,6 +154,8 @@ interface Settings {
      */
     MatchHeight.prototype._applyAll = function($this: MatchHeight) {
 
+        var scrollTop: number = document.body.scrollTop;
+
         if ($this == null) {
             $this = this;
         }
@@ -164,6 +166,8 @@ interface Settings {
         }
         $this._applyDataApi('data-match-height');
         $this._applyDataApi('data-mh');
+
+        document.body.scrollTop = scrollTop;
     }
 
     /**

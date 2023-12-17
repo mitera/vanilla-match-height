@@ -24,13 +24,13 @@ interface MatchHeight {
     _resetStyle($that: HTMLElement, property: string): void;
 }
 interface Settings {
-    elements?: string;
+    elements?: string | null;
     byRow: boolean;
-    target?: HTMLElement;
-    attributeName?: string;
-    attributeValue?: string;
-    property?: string;
-    remove?: HTMLElement;
+    target?: HTMLElement | null;
+    attributeName?: string | null;
+    attributeValue?: string | null;
+    property?: string | null;
+    remove?: HTMLElement | null;
     events: boolean;
     throttle: number;
 }

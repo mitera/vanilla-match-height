@@ -21,13 +21,13 @@
         this.wrapEl = wrapEl;
         // Default settings
         let default_settings = {
-            elements: undefined,
+            elements: null,
             byRow: true,
-            target: undefined,
-            attributeName: undefined,
-            attributeValue: undefined,
+            target: null,
+            attributeName: null,
+            attributeValue: null,
             property: 'height',
-            remove: undefined,
+            remove: null,
             events: true,
             throttle: 80
         };
@@ -107,6 +107,7 @@
      * @param {MatchHeight} $this
      */
     MatchHeight.prototype._applyAll = function ($this) {
+        var scrollTop = document.body.scrollTop;
         if ($this == null) {
             $this = this;
         }
@@ -116,6 +117,7 @@
         }
         $this._applyDataApi('data-match-height');
         $this._applyDataApi('data-mh');
+        document.body.scrollTop = scrollTop;
     };
     /**
      * _validateProperty

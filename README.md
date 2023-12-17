@@ -85,12 +85,12 @@ Also see the [Data API](#data-api) below for a simple, alternative inline usage.
 The default `options` are:
 
     {
-        elements: undefined,
+        elements: null,
         byRow: true,
         property: 'height',
-        target: undefined,
-        remove: undefined,
-        attributeName: undefined,
+        target: null,
+        remove: null,
+        attributeName: null,
         events: true,
         throttle: 80
     }
