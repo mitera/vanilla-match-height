@@ -154,8 +154,6 @@ interface Settings {
      */
     MatchHeight.prototype._applyAll = function($this: MatchHeight) {
 
-        var scrollTop: number = document.body.scrollTop;
-
         if ($this == null) {
             $this = this;
         }
@@ -166,8 +164,6 @@ interface Settings {
         }
         $this._applyDataApi('data-match-height');
         $this._applyDataApi('data-mh');
-
-        document.body.scrollTop = scrollTop;
     }
 
     /**
