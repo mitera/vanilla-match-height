@@ -66,14 +66,13 @@
     /**
      * Merge two objects
      *
-     * @param {Object} o1 Object 1
-     * @param {Object} o2 Object 2
-     * @return {Object}
+     * @param {Settings} o1 Object 1
+     * @param {Settings} o2 Object 2
+     * @return {Settings}
      */
     MatchHeight.prototype._merge = function (o1, o2) {
         if (o1 != null) {
             for (var i in o1) {
-                // @ts-ignore
                 o2[i] = o1[i];
             }
         }

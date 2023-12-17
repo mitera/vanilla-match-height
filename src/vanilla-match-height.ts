@@ -12,7 +12,7 @@ interface MatchHeight {
     wrapEl: HTMLElement,
     settings: Settings;
     _bind(): void;
-    _merge(o1: any, o2: any): any;
+    _merge(o1: Settings, o2: Settings): Settings;
     _init(): void;
     _unbind(): void;
     _throttle(fn: Function, threshold: number): () => void;
@@ -110,14 +110,13 @@ interface Settings {
     /**
      * Merge two objects
      *
-     * @param {Object} o1 Object 1
-     * @param {Object} o2 Object 2
-     * @return {Object}
+     * @param {Settings} o1 Object 1
+     * @param {Settings} o2 Object 2
+     * @return {Settings}
      */
     MatchHeight.prototype._merge = function(o1: any, o2: any) {
         if (o1 != null) {
             for (var i in o1) {
-                // @ts-ignore
                 o2[i] = o1[i];
             }
         }
