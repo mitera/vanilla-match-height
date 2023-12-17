@@ -1,71 +1,88 @@
 /**
- * vanilla-match-height v1.1.1 by @mitera
+ * vanilla-match-height v1.1.2 by @mitera
  * Simone Miterangelis <simone@mite.it>
  * License: MIT
  */
 
+interface HTMLElement {
+    matchHeight(arg0: Settings): MatchHeight;
+}
+
+interface MatchHeight {
+    wrapEl: HTMLElement,
+    settings: Settings;
+    _bind(): void;
+    _merge(o1: any, o2: any): any;
+    _init(): void;
+    _unbind(): void;
+    _throttle(fn: Function, threshold: number): () => void;
+    _applyAll($this: MatchHeight): void;
+    _validateProperty(value: string): RegExpMatchArray | null;
+    _parse(value: string): number;
+    _rows(elements: [HTMLElement]): HTMLElement[][];
+    _applyDataApi(property: string): void;
+    _remove(): void;
+    _apply(): void;
+    _resetStyle($that: HTMLElement, property: string): void;
+}
+
+interface Settings {
+    elements?: string,
+    byRow: boolean,
+    target?: HTMLElement,
+    attributeName?: string,
+    attributeValue?: string,
+    property?: string,
+    remove?: HTMLElement,
+    events: boolean,
+    throttle: number
+}
+
 (function(){
-    'use strict';
-
     // Extend the element method
-    Element.prototype.matchHeight = function(settings) {
+    HTMLElement.prototype.matchHeight = function(settings: Settings) {
+        // @ts-ignore
         return new MatchHeight(this, settings);
-    }
-
-    /**
-     * Merge two objects
-     *
-     * @param {Object} o1 Object 1
-     * @param {Object} o2 Object 2
-     * @return {Object}
-     */
-    if (typeof Object.merge != 'function') {
-        Object.merge = function(o1, o2) {
-            for (var i in o1) {
-                o2[i] = o1[i];
-            }
-            return o2;
-        }
     }
 
     /**
      * matchHeight
      *
-     * @param {Element} wrapEl
-     * @param {Array} settings
+     * @param {HTMLElement} wrapEl
+     * @param {Settings} settings
      * constructor
      */
-    function MatchHeight(wrapEl, settings) {
+    function MatchHeight(this: MatchHeight, wrapEl: HTMLElement, settings: Settings) {
         this.wrapEl = wrapEl;
 
         // Default settings
-        let default_settings = {
-            elements: '',
+        let default_settings: Settings = {
+            elements: undefined,
             byRow: true,
-            target: null,
-            attributeName: null,
-            attributeValue: null,
+            target: undefined,
+            attributeName: undefined,
+            attributeValue: undefined,
             property: 'height',
-            remove: null,
+            remove: undefined,
             events: true,
             throttle: 80
         }
 
         if (settings != null) {
-            this.settings = Object.merge(settings, default_settings);
+            this.settings = this._merge(settings, default_settings);
         } else {
             this.settings = default_settings;
         }
 
-        if (!this._validateProperty(this.settings.property)) {
+        if (!this._validateProperty(<string>this.settings.property)) {
             this.settings.property = 'height';
         }
 
         if (this.settings.events) {
             var $this = this;
-            this.bind = function(){ $this._applyAll($this); };
-            window.addEventListener("DOMContentLoaded", this.bind, { once: true });
-            if (this.settings.throttle > 0) this.bind = this._throttle(this.bind, this.settings.throttle);
+            this._bind = function(){ $this._applyAll($this); };
+            window.addEventListener("DOMContentLoaded", this._bind, { once: true });
+            if (this.settings.throttle > 0) this._bind = this._throttle(this._bind, this.settings.throttle);
             this._init();
         }
     }
@@ -75,9 +92,9 @@
      */
     MatchHeight.prototype._init = function() {
 
-        window.addEventListener("resize", this.bind);
+        window.addEventListener("resize", this._bind);
 
-        window.addEventListener("orientationchange", this.bind);
+        window.addEventListener("orientationchange", this._bind);
     }
 
     /**
@@ -85,9 +102,26 @@
      */
     MatchHeight.prototype._unbind = function() {
 
-        window.removeEventListener("resize", this.bind);
+        window.removeEventListener("resize", this._bind);
 
-        window.removeEventListener("orientationchange", this.bind);
+        window.removeEventListener("orientationchange", this._bind);
+    }
+
+    /**
+     * Merge two objects
+     *
+     * @param {Object} o1 Object 1
+     * @param {Object} o2 Object 2
+     * @return {Object}
+     */
+    MatchHeight.prototype._merge = function(o1: any, o2: any) {
+        if (o1 != null) {
+            for (var i in o1) {
+                // @ts-ignore
+                o2[i] = o1[i];
+            }
+        }
+        return o2;
     }
 
     /**
@@ -96,8 +130,8 @@
      * @param {function} fn
      * @param {int} threshold
      */
-    MatchHeight.prototype._throttle = function(fn, threshold) {
-        let last, deferTimer;
+    MatchHeight.prototype._throttle = function(fn: Function, threshold: number) {
+        let last: number, deferTimer: number;
         return function () {
             const now = Date.now();
             if (last && now < last + threshold) {
@@ -119,15 +153,15 @@
      * Initialize the common events
      * @param {MatchHeight} $this
      */
-    MatchHeight.prototype._applyAll = function($this) {
+    MatchHeight.prototype._applyAll = function($this: MatchHeight) {
 
         if ($this == null) {
             $this = this;
         }
 
         $this._apply();
-        if ($this._validateProperty($this.settings.attributeName)) {
-            $this._applyDataApi($this.settings.attributeName);
+        if ($this.settings.attributeName && $this._validateProperty(<string>$this.settings.attributeName)) {
+            $this._applyDataApi(<string>$this.settings.attributeName);
         }
         $this._applyDataApi('data-match-height');
         $this._applyDataApi('data-mh');
@@ -138,7 +172,7 @@
      * handle plugin options
      * @param {String} value
      */
-    MatchHeight.prototype._validateProperty = function(value) {
+    MatchHeight.prototype._validateProperty = function(value: string) {
         return String(value)
             .toLowerCase()
             .match(
@@ -151,7 +185,7 @@
      * handle plugin options
      * @param {String} value
      */
-    MatchHeight.prototype._parse = function(value) {
+    MatchHeight.prototype._parse = function(value: string) {
         // parse value and convert NaN to 0
         return parseFloat(value) || 0;
     }
@@ -162,12 +196,12 @@
      * (as displayed after float wrapping applied by browser)
      * @param {Array} elements
      */
-    MatchHeight.prototype._rows = function(elements) {
+    MatchHeight.prototype._rows = function(elements: [HTMLElement]) {
         var $this = this;
-        var tolerance = 1,
-            lastTop = null,
-            listRows = [],
-            rows = [];
+        var tolerance: number = 1,
+            lastTop: number = -1,
+            listRows: HTMLElement[][] = [],
+            rows: HTMLElement[] = [];
 
         // group elements by their top position
         elements.forEach(($that) => {
@@ -175,10 +209,10 @@
             var top = $that.getBoundingClientRect().top - $this._parse(window.getComputedStyle($that).getPropertyValue('margin-top'));
 
             // if the row top is the same, add to the row group
-            if (lastTop != null && Math.floor(Math.abs(lastTop - top)) >= tolerance) {
+            if (lastTop != -1 && Math.floor(Math.abs(lastTop - top)) >= tolerance) {
                 listRows.push(rows);
                 rows = [];
-                lastTop = null;
+                lastTop = -1;
             }
             rows.push($that);
 
@@ -195,14 +229,14 @@
      * applies matchHeight to all elements with a data-match-height attribute
      * @param {String} property
      */
-    MatchHeight.prototype._applyDataApi = function(property) {
+    MatchHeight.prototype._applyDataApi = function(property: string) {
         var $this = this;
 
-        var $row = this.wrapEl.querySelectorAll('[' + property + ']');
+        var $row: HTMLElement[] = this.wrapEl.querySelectorAll('[' + property + ']');
         // generate groups by their groupId set by elements using data-match-height
         $row.forEach(($el) => {
             var groupId = $el.getAttribute(property);
-            $this.settings = Object.merge({attributeName: property, attributeValue: groupId}, $this.settings);
+            $this.settings = $this._merge({attributeName: property, attributeValue: groupId}, $this.settings);
             $this._apply();
         });
     }
@@ -212,7 +246,7 @@
      *  remove matchHeight to given elements
      */
     MatchHeight.prototype._remove = function() {
-        var $elements = []
+        var $elements: HTMLElement[] = []
         var opts = this.settings;
         if (opts.elements) {
             $elements = this.wrapEl.querySelectorAll(opts.elements);
@@ -235,15 +269,15 @@
 
         var $this = this;
         var opts = $this.settings;
-        var $elements = []
-        if (opts.elements) {
+        var $elements: HTMLElement[] = []
+        if (opts.elements && opts.elements.trim() != '') {
             $elements = this.wrapEl.querySelectorAll(opts.elements);
         } else {
-            if (opts.attributeName && opts.attributeValue) {
+            if (opts.attributeName && $this._validateProperty(opts.attributeName) && opts.attributeValue && opts.attributeValue.trim() != '') {
                 $elements = this.wrapEl.querySelectorAll('[' + opts.attributeName + '="' + opts.attributeValue + '"]');
             }
         }
-        var rows = [$elements];
+        var rows: HTMLElement[][] = [$elements];
 
         // get rows if using byRow, otherwise assume one row
         if (opts.byRow && !opts.target) {
@@ -303,7 +337,7 @@
                     var isTarget = true;
                     if (opts.remove) {
                         if (opts.remove instanceof NodeList) {
-                            opts.remove.forEach(($el) => {
+                            opts.remove.forEach(($el: HTMLElement) => {
                                 if ($that === $el) {
                                     isTarget = false;
                                 }
@@ -359,7 +393,7 @@
 
                 if (opts.remove) {
                     if (opts.remove instanceof NodeList) {
-                        opts.remove.forEach(($el) => {
+                        opts.remove.forEach(($el: HTMLElement) => {
                             if ($that === $el) {
                                 $this._resetStyle($el, opts.property);
                             }
@@ -378,10 +412,10 @@
 
     /**
      *  _resetStyle
-     * @param {Element} $that
+     * @param {HTMLElement} $that
      * @param {String} property
      */
-    MatchHeight.prototype._resetStyle = function($that, property) {
+    MatchHeight.prototype._resetStyle = function($that: HTMLElement, property: string) {
         if (this._validateProperty(property)) {
             $that.style.setProperty(property, '');
             if ($that.getAttribute('style') === '') $that.removeAttribute('style');
