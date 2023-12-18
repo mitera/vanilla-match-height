@@ -68,11 +68,7 @@ interface Settings {
             throttle: 80
         }
 
-        if (settings != null) {
-            this.settings = this._merge(settings, default_settings);
-        } else {
-            this.settings = default_settings;
-        }
+        this.settings = {...default_settings, ...settings} as Settings;
 
         if (!this._validateProperty(<string>this.settings.property)) {
             this.settings.property = 'height';
@@ -81,7 +77,15 @@ interface Settings {
         if (this.settings.events) {
             var $this = this;
             this._bind = function(){ $this._applyAll($this); };
-            window.addEventListener("DOMContentLoaded", this._bind, { once: true });
+
+            if ( document.readyState === 'loading' ) {
+                document.addEventListener( 'DOMContentLoaded', this._bind, { once: true } );
+            } if ( document.readyState === 'interactive' ) {
+                document.addEventListener( 'load', this._bind, { once: true } );
+            } else {
+                this._bind();
+            }
+
             if (this.settings.throttle > 0) this._bind = this._throttle(this._bind, this.settings.throttle);
             this._init();
         }
