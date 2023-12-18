@@ -3,7 +3,7 @@
 
 ### release summary
 
-- Event update
+- Event DOMContentLoaded update
 - Code refactor
 
 <a name="1.2.0"></a>
