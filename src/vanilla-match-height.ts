@@ -78,12 +78,10 @@ interface Settings {
             var $this = this;
             this._bind = function(){ $this._applyAll($this); };
 
-            if ( document.readyState === 'loading' ) {
-                document.addEventListener( 'DOMContentLoaded', this._bind, { once: true } );
-            } if ( document.readyState === 'interactive' ) {
-                document.addEventListener( 'load', this._bind, { once: true } );
-            } else {
+            if (document.readyState !== 'loading') {
                 this._bind();
+            } else {
+                document.addEventListener( 'DOMContentLoaded', this._bind, { once: true } );
             }
 
             if (this.settings.throttle > 0) this._bind = this._throttle(this._bind, this.settings.throttle);

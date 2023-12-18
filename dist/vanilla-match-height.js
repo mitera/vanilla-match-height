@@ -38,14 +38,13 @@
         if (this.settings.events) {
             var $this = this;
             this._bind = function () { $this._applyAll($this); };
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', this._bind, { once: true });
-            }
-            if (document.readyState === 'interactive') {
-                document.addEventListener('load', this._bind, { once: true });
+            if (document.readyState !== 'loading') {
+                this._bind();
+                console.log("a");
             }
             else {
-                this._bind();
+                document.addEventListener('DOMContentLoaded', this._bind, { once: true });
+                console.log("b");
             }
             if (this.settings.throttle > 0)
                 this._bind = this._throttle(this._bind, this.settings.throttle);
