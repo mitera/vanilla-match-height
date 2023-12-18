@@ -1,3 +1,11 @@
+<a name="1.2.1"></a>
+# 1.2.1 (2023-12-18)
+
+### release summary
+
+- Event update
+- Code refactor
+
 <a name="1.2.0"></a>
 # 1.2.0 (2023-12-17)
 
