@@ -168,7 +168,7 @@
      */
     MatchHeight.prototype._applyDataApi = function (property) {
         var $this = this;
-        var $row = this.wrapEl.querySelectorAll('[' + property + ']');
+        var $row = Array.from(this.wrapEl.querySelectorAll('[' + property + ']'));
         // generate groups by their groupId set by elements using data-match-height
         $row.forEach(($el) => {
             var groupId = $el.getAttribute(property);
@@ -184,11 +184,11 @@
         var $elements = [];
         var opts = this.settings;
         if (opts.elements) {
-            $elements = this.wrapEl.querySelectorAll(opts.elements);
+            $elements = Array.from(this.wrapEl.querySelectorAll(opts.elements));
         }
         else {
             if (opts.attributeName && opts.attributeValue) {
-                $elements = this.wrapEl.querySelectorAll('[' + opts.attributeName + '="' + opts.attributeValue + '"]');
+                $elements = Array.from(this.wrapEl.querySelectorAll('[' + opts.attributeName + '="' + opts.attributeValue + '"]'));
             }
         }
         $elements.forEach((item) => {
@@ -206,11 +206,11 @@
         var opts = $this.settings;
         var $elements = [];
         if (opts.elements && opts.elements.trim() != '') {
-            $elements = this.wrapEl.querySelectorAll(opts.elements);
+            $elements = Array.from(this.wrapEl.querySelectorAll(opts.elements));
         }
         else {
             if (opts.attributeName && $this._validateProperty(opts.attributeName) && opts.attributeValue && opts.attributeValue.trim() != '') {
-                $elements = this.wrapEl.querySelectorAll('[' + opts.attributeName + '="' + opts.attributeValue + '"]');
+                $elements = Array.from(this.wrapEl.querySelectorAll('[' + opts.attributeName + '="' + opts.attributeValue + '"]'));
             }
         }
         var rows = [$elements];

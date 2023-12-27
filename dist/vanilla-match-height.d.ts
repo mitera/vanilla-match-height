@@ -15,7 +15,7 @@ interface MatchHeight {
     _unbind(): void;
     _throttle(fn: Function, threshold: number): () => void;
     _applyAll($this: MatchHeight): void;
-    _validateProperty(value: string): RegExpMatchArray | null;
+    _validateProperty(value?: string | null): RegExpMatchArray | null;
     _parse(value: string): number;
     _rows(elements: [HTMLElement]): HTMLElement[][];
     _applyDataApi(property: string): void;

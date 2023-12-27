@@ -9,7 +9,7 @@ interface HTMLElement {
 }
 
 interface MatchHeight {
-    wrapEl: HTMLElement,
+    wrapEl: HTMLElement;
     settings: Settings;
     _bind(): void;
     _merge(o1: Settings, o2: Settings): Settings;
@@ -17,7 +17,7 @@ interface MatchHeight {
     _unbind(): void;
     _throttle(fn: Function, threshold: number): () => void;
     _applyAll($this: MatchHeight): void;
-    _validateProperty(value: string): RegExpMatchArray | null;
+    _validateProperty(value?: string | null): RegExpMatchArray | null;
     _parse(value: string): number;
     _rows(elements: [HTMLElement]): HTMLElement[][];
     _applyDataApi(property: string): void;
@@ -27,15 +27,15 @@ interface MatchHeight {
 }
 
 interface Settings {
-    elements?: string | null,
-    byRow: boolean,
-    target?: HTMLElement | null,
-    attributeName?: string | null,
-    attributeValue?: string | null,
-    property?: string | null,
-    remove?: HTMLElement | null,
-    events: boolean,
-    throttle: number
+    elements?: string | null;
+    byRow: boolean;
+    target?: HTMLElement | null;
+    attributeName?: string | null;
+    attributeValue?: string | null;
+    property?: string | null;
+    remove?: HTMLElement | null;
+    events: boolean;
+    throttle: number;
 }
 
 (function(){
@@ -70,7 +70,7 @@ interface Settings {
 
         this.settings = {...default_settings, ...settings} as Settings;
 
-        if (!this._validateProperty(<string>this.settings.property)) {
+        if (!this._validateProperty(this.settings.property)) {
             this.settings.property = 'height';
         }
 
@@ -161,8 +161,8 @@ interface Settings {
         }
 
         $this._apply();
-        if ($this.settings.attributeName && $this._validateProperty(<string>$this.settings.attributeName)) {
-            $this._applyDataApi(<string>$this.settings.attributeName);
+        if ($this.settings.attributeName && $this._validateProperty($this.settings.attributeName)) {
+            $this._applyDataApi($this.settings.attributeName);
         }
         $this._applyDataApi('data-match-height');
         $this._applyDataApi('data-mh');
@@ -233,7 +233,7 @@ interface Settings {
     MatchHeight.prototype._applyDataApi = function(property: string) {
         var $this = this;
 
-        var $row: HTMLElement[] = this.wrapEl.querySelectorAll('[' + property + ']');
+        var $row: HTMLElement[] = Array.from(this.wrapEl.querySelectorAll('[' + property + ']'));
         // generate groups by their groupId set by elements using data-match-height
         $row.forEach(($el) => {
             var groupId = $el.getAttribute(property);
@@ -250,10 +250,10 @@ interface Settings {
         var $elements: HTMLElement[] = []
         var opts = this.settings;
         if (opts.elements) {
-            $elements = this.wrapEl.querySelectorAll(opts.elements);
+            $elements = Array.from(this.wrapEl.querySelectorAll(opts.elements));
         } else {
             if (opts.attributeName && opts.attributeValue) {
-                $elements = this.wrapEl.querySelectorAll('[' + opts.attributeName + '="' + opts.attributeValue + '"]');
+                $elements = Array.from(this.wrapEl.querySelectorAll('[' + opts.attributeName + '="' + opts.attributeValue + '"]'));
             }
         }
         $elements.forEach((item) => {
@@ -272,10 +272,10 @@ interface Settings {
         var opts = $this.settings;
         var $elements: HTMLElement[] = []
         if (opts.elements && opts.elements.trim() != '') {
-            $elements = this.wrapEl.querySelectorAll(opts.elements);
+            $elements = Array.from(this.wrapEl.querySelectorAll(opts.elements));
         } else {
             if (opts.attributeName && $this._validateProperty(opts.attributeName) && opts.attributeValue && opts.attributeValue.trim() != '') {
-                $elements = this.wrapEl.querySelectorAll('[' + opts.attributeName + '="' + opts.attributeValue + '"]');
+                $elements = Array.from(this.wrapEl.querySelectorAll('[' + opts.attributeName + '="' + opts.attributeValue + '"]'));
             }
         }
         var rows: HTMLElement[][] = [$elements];
