@@ -312,7 +312,8 @@
                 }
                 if (opts.remove) {
                     if (opts.remove instanceof NodeList) {
-                        opts.remove.forEach(($el) => {
+                        var removedItems = Array.from(opts.remove);
+                        removedItems.forEach(($el) => {
                             if ($that === $el) {
                                 $this._resetStyle($el, opts.property);
                             }

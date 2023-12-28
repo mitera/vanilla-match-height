@@ -394,7 +394,8 @@ interface Settings {
 
                 if (opts.remove) {
                     if (opts.remove instanceof NodeList) {
-                        opts.remove.forEach(($el: HTMLElement) => {
+                        var removedItems: HTMLElement[] = Array.from(opts.remove);
+                        removedItems.forEach(($el: HTMLElement) => {
                             if ($that === $el) {
                                 $this._resetStyle($el, opts.property);
                             }
