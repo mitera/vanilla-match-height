@@ -25,12 +25,12 @@ interface MatchHeight {
 }
 interface Settings {
     elements?: string | null;
-    byRow: boolean;
+    byRow: boolean | null;
     target?: HTMLElement | null;
     attributeName?: string | null;
     attributeValue?: string | null;
     property?: string | null;
     remove?: HTMLElement | null;
-    events: boolean;
-    throttle: number;
+    events: boolean | null;
+    throttle: number | null;
 }

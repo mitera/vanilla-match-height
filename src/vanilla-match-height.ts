@@ -28,14 +28,14 @@ interface MatchHeight {
 
 interface Settings {
     elements?: string | null;
-    byRow: boolean;
+    byRow: boolean | null;
     target?: HTMLElement | null;
     attributeName?: string | null;
     attributeValue?: string | null;
     property?: string | null;
     remove?: HTMLElement | null;
-    events: boolean;
-    throttle: number;
+    events: boolean | null;
+    throttle: number | null;
 }
 
 (function(){
@@ -84,7 +84,7 @@ interface Settings {
                 document.addEventListener( 'DOMContentLoaded', this._bind, { once: true } );
             }
 
-            if (this.settings.throttle > 0) this._bind = this._throttle(this._bind, this.settings.throttle);
+            if (this.settings.throttle && this.settings.throttle > 0) this._bind = this._throttle(this._bind, this.settings.throttle);
             this._init();
         }
     }

@@ -44,7 +44,7 @@
             else {
                 document.addEventListener('DOMContentLoaded', this._bind, { once: true });
             }
-            if (this.settings.throttle > 0)
+            if (this.settings.throttle && this.settings.throttle > 0)
                 this._bind = this._throttle(this._bind, this.settings.throttle);
             this._init();
         }
