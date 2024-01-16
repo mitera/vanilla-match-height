@@ -19,7 +19,7 @@ interface MatchHeight {
     _applyAll($this: MatchHeight): void;
     _validateProperty(value?: string | null): RegExpMatchArray | null;
     _parse(value: string): number;
-    _rows(elements: [HTMLElement]): HTMLElement[][];
+    _rows(elements: HTMLElement[]): HTMLElement[][];
     _applyDataApi(property: string): void;
     _remove(): void;
     _apply(): void;
@@ -28,14 +28,14 @@ interface MatchHeight {
 
 interface Settings {
     elements?: string | null;
-    byRow: boolean | null;
+    byRow?: boolean | null;
     target?: HTMLElement | null;
     attributeName?: string | null;
     attributeValue?: string | null;
     property?: string | null;
     remove?: HTMLElement | null;
-    events: boolean | null;
-    throttle: number | null;
+    events?: boolean | null;
+    throttle?: number | null;
 }
 
 (function(){
@@ -197,7 +197,7 @@ interface Settings {
      * (as displayed after float wrapping applied by browser)
      * @param {Array} elements
      */
-    MatchHeight.prototype._rows = function(elements: [HTMLElement]) {
+    MatchHeight.prototype._rows = function(elements: HTMLElement[]) {
         var $this = this;
         var tolerance: number = 1,
             lastTop: number = -1,
