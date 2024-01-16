@@ -1,3 +1,10 @@
+<a name="1.2.2"></a>
+# 1.2.2 (2024-01-16)
+
+### release summary
+
+- Change optional settings on TS definition
+
 <a name="1.2.1"></a>
 # 1.2.1 (2023-12-18)
 
