@@ -1,6 +1,6 @@
 "use strict";
 /**
- * vanilla-match-height v1.2.2 by @mitera
+ * vanilla-match-height v1.2.3 by @mitera
  * Simone Miterangelis <simone@mite.it>
  * License: MIT
  */

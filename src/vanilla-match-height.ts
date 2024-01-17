@@ -1,11 +1,11 @@
 /**
- * vanilla-match-height v1.2.2 by @mitera
+ * vanilla-match-height v1.2.3 by @mitera
  * Simone Miterangelis <simone@mite.it>
  * License: MIT
  */
 
 interface HTMLElement {
-    matchHeight(settings: Settings): MatchHeight;
+    matchHeight(settings?: Settings): MatchHeight;
 }
 
 interface MatchHeight {
@@ -40,7 +40,7 @@ interface Settings {
 
 (function(){
     // Extend the element method
-    HTMLElement.prototype.matchHeight = function(settings: Settings) {
+    HTMLElement.prototype.matchHeight = function(settings?: Settings) {
         // @ts-ignore
         return new MatchHeight(this, settings);
     }
