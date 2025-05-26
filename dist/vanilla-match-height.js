@@ -228,6 +228,8 @@
      * and processes elements with matching data attributes,
      * grouping them by their attribute values and applying
      * equal height adjustments.
+     *
+     * @param {String} property
      */
     MatchHeight.prototype._applyDataApi = function (property) {
         let $row = Array.from(this.wrapEl.querySelectorAll('[' + property + ']'));
@@ -409,8 +411,8 @@
      * adjustments such as min-height, height, or padding are removed,
      * reverting the elements to their original styles.
      *
-     * @private
-     * @method
+     * @param {HTMLElement} $that
+     * @param {String} property
      */
     MatchHeight.prototype._resetStyle = function ($that, property) {
         if (this._validateProperty(property)) {
