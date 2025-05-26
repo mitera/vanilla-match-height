@@ -92,7 +92,9 @@ The default `options` are:
         remove: null,
         attributeName: null,
         events: true,
-        throttle: 80
+        throttle: 80,
+        beforeUpdate: null,
+        afterUpdate: null
     }
 
 Where:
@@ -105,6 +107,8 @@ Where:
 - `attributeName` is an optional for use custom attribute
 - `events` is `true` or `false` to enable default events
 - `throttle` milliseconds to executed resize event, default is `80`
+- `beforeUpdate` is a custom method that starts before the height matching process
+- `afterUpdate` is a custom method that starts after the height matching process
 
 ### Data API
 
@@ -198,6 +202,17 @@ Remove events
     var el = document.body.matchHeight({elements: '.item'});
     ...
     el._unbind();
+
+#### Callback events
+Since matchHeight automatically handles updating the layout after certain window events, you can supply functions as global callbacks if you need to be notified.
+Introduced new settings `beforeUpdate` and `afterUpdate` to allow custom logic to be executed before and after the height matching process. 
+
+    beforeUpdate: function () {
+        console.log('beforeUpdate action')
+    },
+    afterUpdate: function () {
+        console.log('afterUpdate action')
+    }
 
 ### Known limitations
 

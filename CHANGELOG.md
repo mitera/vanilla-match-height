@@ -1,3 +1,13 @@
+<a name="2.0.0"></a>
+# 2.0.0 (2025-05-26)
+
+### release summary
+
+- Code refactor
+- Removed unused variables and methods.
+- Add beforeUpdate and afterUpdate callback hooks.
+- Update documentations
+
 <a name="1.2.3"></a>
 # 1.2.3 (2024-01-19)
 

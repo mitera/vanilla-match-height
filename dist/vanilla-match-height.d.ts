@@ -1,5 +1,5 @@
 /**
- * vanilla-match-height v1.2.3 by @mitera
+ * vanilla-match-height v2.0.0 by @mitera
  * Simone Miterangelis <simone@mite.it>
  * License: MIT
  */
@@ -14,7 +14,7 @@ interface MatchHeight {
     _init(): void;
     _unbind(): void;
     _throttle(fn: Function, threshold: number): () => void;
-    _applyAll($this: MatchHeight): void;
+    _applyAll(): void;
     _validateProperty(value?: string | null): RegExpMatchArray | null;
     _parse(value: string): number;
     _rows(elements: HTMLElement[]): HTMLElement[][];
@@ -33,4 +33,6 @@ interface Settings {
     remove?: HTMLElement | null;
     events?: boolean | null;
     throttle?: number | null;
+    beforeUpdate?: any | null;
+    afterUpdate?: any | null;
 }
