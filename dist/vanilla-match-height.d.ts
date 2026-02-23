@@ -1,5 +1,5 @@
 /**
- * vanilla-match-height v2.0.0 by @mitera
+ * vanilla-match-height v2.1.0 by @mitera
  * Simone Miterangelis <simone@mite.it>
  * License: MIT
  */
@@ -7,6 +7,7 @@ interface HTMLElement {
     matchHeight(settings?: Settings): MatchHeight;
 }
 interface MatchHeight {
+    _remains: Item[];
     wrapEl: HTMLElement;
     settings: Settings;
     _bind(): void;
@@ -29,10 +30,15 @@ interface Settings {
     target?: HTMLElement | null;
     attributeName?: string | null;
     attributeValue?: string | null;
-    property?: string | null;
+    property: string;
     remove?: HTMLElement | null;
     events?: boolean | null;
     throttle?: number | null;
     beforeUpdate?: any | null;
     afterUpdate?: any | null;
 }
+type Item = {
+    el: HTMLElement;
+    top: number;
+    height: number;
+};

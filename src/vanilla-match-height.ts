@@ -1,5 +1,5 @@
 /**
- * vanilla-match-height v2.0.0 by @mitera
+ * vanilla-match-height v2.1.0 by @mitera
  * Simone Miterangelis <simone@mite.it>
  * License: MIT
  */
@@ -9,6 +9,7 @@ interface HTMLElement {
 }
 
 interface MatchHeight {
+    _remains: Item[];
     wrapEl: HTMLElement;
     settings: Settings;
     _bind(): void;
@@ -32,12 +33,18 @@ interface Settings {
     target?: HTMLElement | null;
     attributeName?: string | null;
     attributeValue?: string | null;
-    property?: string | null;
+    property: string;
     remove?: HTMLElement | null;
     events?: boolean | null;
     throttle?: number | null;
     beforeUpdate?: any | null;
     afterUpdate?: any | null;
+}
+
+type Item = {
+    el: HTMLElement;
+    top: number;
+    height: number;
 }
 
 (function(){
@@ -68,6 +75,7 @@ interface Settings {
      */
     function MatchHeight(this: MatchHeight, wrapEl: HTMLElement, settings: Settings) {
         this.wrapEl = wrapEl;
+        this._remains = [];
 
         // Default settings
         let default_settings: Settings = {
@@ -257,16 +265,16 @@ interface Settings {
      * @type {Array<Array<Element>>}
      * @private
      */
-    MatchHeight.prototype._rows = function(elements: HTMLElement[]) {
+    MatchHeight.prototype._rows = function(elements: Item[]) {
         let tolerance: number = 1,
             lastTop: number = -1,
-            listRows: HTMLElement[][] = [],
-            rows: HTMLElement[] = [];
+            listRows: Item[][] = [],
+            rows: Item[] = [];
 
         // group elements by their top position
         elements.forEach(($that) => {
 
-            let top = $that.getBoundingClientRect().top - this._parse(window.getComputedStyle($that).getPropertyValue('margin-top'));
+            let top = $that.el.getBoundingClientRect().top - this._parse(window.getComputedStyle($that.el).getPropertyValue('margin-top'));
 
             // if the row top is the same, add to the row group
             if (lastTop != -1 && Math.floor(Math.abs(lastTop - top)) >= tolerance) {
@@ -298,13 +306,8 @@ interface Settings {
      * @param {String} property
      */
     MatchHeight.prototype._applyDataApi = function(property: string) {
-        let $row: HTMLElement[] = Array.from(this.wrapEl.querySelectorAll('[' + property + ']'));
-        // generate groups by their groupId set by elements using data-match-height
-        $row.forEach(($el) => {
-            let groupId = $el.getAttribute(property);
-            this.settings = this._merge({attributeName: property, attributeValue: groupId}, this.settings);
-            this._apply();
-        });
+        let elements: HTMLElement[] = Array.from(this.wrapEl.querySelectorAll('[' + property + ']'));
+        this._update(elements);
     }
 
     /**
@@ -347,146 +350,122 @@ interface Settings {
      */
     MatchHeight.prototype._apply = function() {
         let opts = this.settings;
-        let $elements: HTMLElement[] = []
+        let elements: HTMLElement[] = []
         if (opts.elements && opts.elements.trim() != '') {
-            $elements = Array.from(this.wrapEl.querySelectorAll(opts.elements));
+            elements = Array.from(this.wrapEl.querySelectorAll(opts.elements));
         } else {
             if (opts.attributeName && this._validateProperty(opts.attributeName) && opts.attributeValue && opts.attributeValue.trim() != '') {
-                $elements = Array.from(this.wrapEl.querySelectorAll('[' + opts.attributeName + '="' + opts.attributeValue + '"]'));
+                elements = Array.from(this.wrapEl.querySelectorAll('[' + opts.attributeName + '="' + opts.attributeValue + '"]'));
             }
         }
-        let rows: HTMLElement[][] = [$elements];
+        this._update(elements);
+    }
 
-        // get rows if using byRow, otherwise assume one row
-        if (opts.byRow && !opts.target) {
+    /**
+     * Updates the height of elements in the MatchHeight instance.
+     * This function recalculates and applies the matching height
+     * logic to the target elements based on their current visibility,
+     * size, and any applied options. It ensures that the elements
+     * are properly aligned and maintain consistent heights.
+     *
+     * This method is usually called internally when the heights need
+     * to be refreshed, for example, after a window resize or content
+     * change.
+     *
+     * The height update takes into account any groupings, overrides,
+     * or custom configurations provided to the MatchHeight instance.
+     */
+    MatchHeight.prototype._update = function(elements: HTMLElement[]) {
+        if ( elements.length === 0 ) return;
 
-            // must first force an arbitrary equal height so floating elements break evenly
-            $elements.forEach(($that) => {
-                let display = window.getComputedStyle($that).getPropertyValue('display');
+        this._remains = Array.prototype.map.call( elements, ( el: HTMLElement ): Item => {
 
-                // temporarily force a usable display value
-                if (display && (display !== 'inline-block' && display !== 'flex' && display !== 'inline-flex')) {
-                    display = 'display: block; ';
-                }
+            return {
+                el,
+                top: 0,
+                height: 0,
+            };
 
-                // cache the original inline style
-                $that.setAttribute('style-cache', $that.getAttribute('style') || '');
-                // reset style
-                $that.setAttribute('style', display + 'padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0; border-top-width: 0; border-bottom-width: 0; height: 100px; overflow: hidden;');
-            });
+        } ) as Item[];
+        // remove all height before
+        this._remains.forEach( ( item: Item ) => {
+            this._resetStyle(item.el, this.settings.property);
+        } );
 
-            // get the array of rows (based on element top position)
-            rows = this._rows($elements);
+        this._process();
+    }
 
-            // revert original inline styles
-            $elements.forEach(($that) => {
-                $that.setAttribute('style', $that.getAttribute('style-cache') || '');
-                $that.removeAttribute('style-cache');
-                if ($that.getAttribute('style') === '') $that.removeAttribute('style');
-            });
-        }
+    /**
+     * Processes the elements provided to the MatchHeight instance and determines
+     * the height adjustment required to make all the elements have the same height.
+     * This method calculates the maximum height among a group of elements and
+     * applies it uniformly to maintain consistency in their appearance.
+     *
+     * This method is typically used when dynamic height adjustments
+     * are required to ensure a uniform layout for elements with varying heights.
+     * Internal logic includes checking constraints, grouping elements, and
+     * calculating corresponding height adjustments while avoiding unnecessary DOM changes.
+     *
+     * @private
+     */
+    MatchHeight.prototype._process = function() {
 
-        rows.forEach(($row) => {
-            let targetHeight = 0;
+        this._remains.forEach( ( item:Item ) => {
 
-            if (!opts.target) {
-                // skip apply to rows with only one item
-                if (opts.byRow && $row.length <= 1) {
-                    $row.forEach(($that) => {
-                        this._resetStyle($that, opts.property);
-                    })
-                    return;
-                }
+            const bb = item.el.getBoundingClientRect();
 
-                // iterate the row and find the max height
-                $row.forEach(($that) => {
-                    let style = $that.getAttribute('style') || '',
-                        display = window.getComputedStyle($that).getPropertyValue('display');
+            item.top    = this.settings.byRow ? (bb.top - this._parse(window.getComputedStyle(item.el).getPropertyValue('margin-top'))) : 0;
+            item.height = bb.height;
 
-                    // temporarily force a usable display value
-                    if (display && (display !== 'inline-block' && display !== 'flex' && display !== 'inline-flex')) {
-                        display = 'block';
-                    }
+        } );
 
-                    // ensure we get the correct actual height (and not a previously set height value)
-                    $that.setAttribute('style', 'display: ' + display + ';');
+        this._remains.sort( ( a:Item, b:Item ) => a.top - b.top );
 
-                    // find the max height (including padding, but not margin)
-                    let isTarget = true;
-                    if (opts.remove) {
-                        if (opts.remove instanceof NodeList) {
-                            opts.remove.forEach(($el: HTMLElement) => {
-                                if ($that === $el) {
-                                    isTarget = false;
-                                }
-                            });
-                        } else {
-                            if ($that === opts.remove) {
-                                isTarget = false;
-                            }
-                        }
-                    }
-                    if (isTarget) {
-                        if ($that.getBoundingClientRect().height > targetHeight) {
-                            targetHeight = $that.getBoundingClientRect().height;
-                        }
-                    }
+        let rows = this._rows(this._remains);
+        let processingTargets = rows[0];
+        //rows.forEach((processingTargets) => {
 
-                    // revert styles
-                    if (style) {
-                        $that.setAttribute('style', style);
-                    } else {
-                        $that.style.setProperty('display', '');
-                    }
+        let maxHeightInRow = 0;
+        if (this.settings.target) maxHeightInRow = this.settings.target.getBoundingClientRect().height;
+        else maxHeightInRow = Math.max(...processingTargets.map((item: Item) => item.height));
 
-                    if ($that.getAttribute('style') === '') $that.removeAttribute('style');
-                });
+        processingTargets.forEach((item: Item) => {
+
+            const styles = window.getComputedStyle(item.el);
+            const isBorderBox = styles.boxSizing === 'border-box';
+
+            if (isBorderBox) {
+
+                if (this.settings.property) item.el.style.setProperty(this.settings.property, `${maxHeightInRow}px`);
 
             } else {
-                // if target set, use the height of the target element
-                targetHeight = opts.target.getBoundingClientRect().height;
+                const paddingAndBorder =
+                    (parseFloat(styles.paddingTop) || 0) +
+                    (parseFloat(styles.paddingBottom) || 0) +
+                    (parseFloat(styles.borderTopWidth) || 0) +
+                    (parseFloat(styles.borderBottomWidth) || 0);
+                if (this.settings.property) item.el.style.setProperty(this.settings.property, `${maxHeightInRow - paddingAndBorder}px`);
             }
 
-            // iterate the row and apply the height to all elements
-            $row.forEach(($that) => {
-                let verticalPadding = 0;
-
-                // don't apply to a target
-                if (opts.target && $that === opts.target) {
-                    return;
-                }
-
-                // handle padding and border correctly (required when not using border-box)
-                verticalPadding = this._parse(window.getComputedStyle($that).getPropertyValue('padding-top')) +
-                    this._parse(window.getComputedStyle($that).getPropertyValue('padding-bottom')) +
-                    this._parse(window.getComputedStyle($that).getPropertyValue('border-top-width')) +
-                    this._parse(window.getComputedStyle($that).getPropertyValue('border-bottom-width'));
-
-                // set the height (accounting for padding and border)
-                $that.style.setProperty(opts.property,  (targetHeight - verticalPadding) + 'px');
-
-                if ($that.getBoundingClientRect().height < targetHeight) {
-                    $that.style.setProperty(opts.property,  targetHeight + 'px');
-                }
-
-                if (opts.remove) {
-                    if (opts.remove instanceof NodeList) {
-                        let removedItems: HTMLElement[] = Array.from(opts.remove);
-                        removedItems.forEach(($el: HTMLElement) => {
-                            if ($that === $el) {
-                                this._resetStyle($el, opts.property);
-                            }
-                        });
-                    } else {
-                        if ($that === opts.remove) {
-                            this._resetStyle($that, opts.property);
+            if (this.settings.remove) {
+                if (this.settings.remove instanceof NodeList) {
+                    Array.from(this.settings.remove).forEach((el) => {
+                        if (item.el === el && this.settings.property && el instanceof HTMLElement) {
+                            this._resetStyle(el, this.settings.property);
                         }
-                    }
+                    });
+                } else if (item.el === this.settings.remove && this.settings.property) {
+                    this._resetStyle(item.el, this.settings.property);
                 }
-            });
+            }
 
+            this._remains = this._remains.filter( ( remain: Item ) => remain !== item );
         });
 
+        //});
+        if (rows.length > 1) {
+            this._process();
+        }
     }
 
     /**

@@ -1,3 +1,12 @@
+<a name="2.1.0"></a>
+# 2.1.0 (2026-02-23)
+
+### release summary
+
+Add `_remains` property, refactor height processing, and improve type safety.
+
+Enhanced height calculation logic with new `_remains` property and streamlined methods (`_update`, `_process`). Introduced `Item` type for better definition, improving maintainability and scalability.
+
 <a name="2.0.0"></a>
 # 2.0.0 (2025-05-26)
 
