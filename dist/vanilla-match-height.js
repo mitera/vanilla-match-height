@@ -234,7 +234,23 @@
      */
     MatchHeight.prototype._applyDataApi = function (property) {
         let elements = Array.from(this.wrapEl.querySelectorAll('[' + property + ']'));
-        this._update(elements);
+        elements.forEach((item) => {
+            this._resetStyle(item, this.settings.property);
+        });
+        const groups = new Map();
+        elements.forEach((el) => {
+            const groupId = el.getAttribute(property);
+            if (groupId) {
+                if (!groups.has(groupId)) {
+                    groups.set(groupId, []);
+                }
+                groups.get(groupId).push(el);
+            }
+        });
+        // Apply once per unique group instead of once per element
+        groups.forEach((elements) => {
+            this._update(elements);
+        });
     };
     /**
      * Removes the match height functionality from the elements.
@@ -302,14 +318,16 @@
      * The height update takes into account any groupings, overrides,
      * or custom configurations provided to the MatchHeight instance.
      */
-    MatchHeight.prototype._update = function (elements) {
+    MatchHeight.prototype._update = function (elements, property) {
         if (elements.length === 0)
             return;
+        let attributeName = property ? property : this.settings.attributeName ? this.settings.attributeName : 'data-mh';
         this._remains = Array.prototype.map.call(elements, (el) => {
             return {
                 el,
                 top: 0,
                 height: 0,
+                property: el.getAttribute(attributeName) || attributeName
             };
         });
         // remove all height before
@@ -337,7 +355,7 @@
             item.top = this.settings.byRow ? (bb.top - this._parse(window.getComputedStyle(item.el).getPropertyValue('margin-top'))) : 0;
             item.height = bb.height;
         });
-        this._remains.sort((a, b) => a.top - b.top);
+        this._remains.sort((a, b) => a.top - b.top && a.property.localeCompare(b.property));
         let rows = this._rows(this._remains);
         let processingTargets = rows[0];
         let maxHeightInRow = 0;
