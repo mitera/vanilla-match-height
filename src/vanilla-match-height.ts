@@ -304,17 +304,17 @@ type Item = {
      * grouping them by their attribute values and applying
      * equal height adjustments.
      *
-     * @param {String} property
+     * @param {String} attributeName
      */
-    MatchHeight.prototype._applyDataApi = function(property: string) {
-        let elements: HTMLElement[] = Array.from(this.wrapEl.querySelectorAll('[' + property + ']'));
+    MatchHeight.prototype._applyDataApi = function(attributeName: string) {
+        let elements: HTMLElement[] = Array.from(this.wrapEl.querySelectorAll('[' + attributeName + ']'));
         elements.forEach( ( item ) => {
             this._resetStyle(item, this.settings.property);
         } );
 
         const groups: Map<string, HTMLElement[]> = new Map();
         elements.forEach((el) => {
-            const groupId = el.getAttribute(property);
+            const groupId = el.getAttribute(attributeName);
             if (groupId) {
                 if (!groups.has(groupId)) {
                     groups.set(groupId, []);
@@ -325,7 +325,7 @@ type Item = {
 
         // Apply once per unique group instead of once per element
         groups.forEach((elements) => {
-            this._update(elements);
+            this._update(elements, attributeName);
         });
     }
 
@@ -397,7 +397,7 @@ type Item = {
     MatchHeight.prototype._update = function(elements: HTMLElement[], attribute?: string) {
         if ( elements.length === 0 ) return;
 
-        let attributeName = attribute ? attribute : this.settings.attributeName? this.settings.attributeName : 'data-mh';
+        let attributeName = attribute ? attribute : this.settings.attributeName? this.settings.attributeName : '';
 
         this._remains = Array.prototype.map.call( elements, ( el: HTMLElement ): Item => {
 
