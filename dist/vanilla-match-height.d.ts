@@ -41,5 +41,4 @@ type Item = {
     el: HTMLElement;
     top: number;
     height: number;
-    attribute: string;
 };
