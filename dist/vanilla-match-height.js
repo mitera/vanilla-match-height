@@ -321,13 +321,13 @@
     MatchHeight.prototype._update = function (elements, attribute) {
         if (elements.length === 0)
             return;
-        let attributeName = attribute ? attribute : this.settings.attributeName ? this.settings.attributeName : '';
+        let attributeName = attribute ? attribute : this.settings.attributeName ? this.settings.attributeName : null;
         this._remains = Array.prototype.map.call(elements, (el) => {
             return {
                 el,
                 top: 0,
                 height: 0,
-                attribute: el.getAttribute(attributeName) || attributeName
+                attribute: attributeName ? el.getAttribute(attributeName) || attributeName : ''
             };
         });
         // remove all height before
