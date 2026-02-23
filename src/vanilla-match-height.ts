@@ -423,7 +423,6 @@ type Item = {
 
         let rows = this._rows(this._remains);
         let processingTargets = rows[0];
-        //rows.forEach((processingTargets) => {
 
         let maxHeightInRow = 0;
         if (this.settings.target) maxHeightInRow = this.settings.target.getBoundingClientRect().height;
@@ -458,13 +457,11 @@ type Item = {
                     this._resetStyle(item.el, this.settings.property);
                 }
             }
-
-            this._remains = this._remains.filter( ( remain: Item ) => remain !== item );
         });
 
-        //});
-        if (rows.length > 1) {
-            this._process();
+        this._remains.splice(0, processingTargets.length);
+        if (0 < this._remains.length) {
+            this._process()
         }
     }
 
