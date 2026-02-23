@@ -45,7 +45,7 @@ type Item = {
     el: HTMLElement;
     top: number;
     height: number;
-    property: string;
+    attribute: string;
 }
 
 (function(){
@@ -394,10 +394,10 @@ type Item = {
      * The height update takes into account any groupings, overrides,
      * or custom configurations provided to the MatchHeight instance.
      */
-    MatchHeight.prototype._update = function(elements: HTMLElement[], property?: string) {
+    MatchHeight.prototype._update = function(elements: HTMLElement[], attribute?: string) {
         if ( elements.length === 0 ) return;
 
-        let attributeName = property ? property : this.settings.attributeName? this.settings.attributeName : 'data-mh';
+        let attributeName = attribute ? attribute : this.settings.attributeName? this.settings.attributeName : 'data-mh';
 
         this._remains = Array.prototype.map.call( elements, ( el: HTMLElement ): Item => {
 
@@ -405,7 +405,7 @@ type Item = {
                 el,
                 top: 0,
                 height: 0,
-                property: el.getAttribute(attributeName) || attributeName
+                attribute: el.getAttribute(attributeName) || attributeName
             };
 
         } ) as Item[];
@@ -441,7 +441,7 @@ type Item = {
 
         } );
 
-        this._remains.sort( ( a:Item, b:Item ) => a.top - b.top && a.property.localeCompare( b.property ));
+        this._remains.sort( ( a:Item, b:Item ) => a.top - b.top && a.attribute.localeCompare( b.attribute ));
 
         let rows = this._rows(this._remains);
         let processingTargets = rows[0];

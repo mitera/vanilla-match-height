@@ -318,16 +318,16 @@
      * The height update takes into account any groupings, overrides,
      * or custom configurations provided to the MatchHeight instance.
      */
-    MatchHeight.prototype._update = function (elements, property) {
+    MatchHeight.prototype._update = function (elements, attribute) {
         if (elements.length === 0)
             return;
-        let attributeName = property ? property : this.settings.attributeName ? this.settings.attributeName : 'data-mh';
+        let attributeName = attribute ? attribute : this.settings.attributeName ? this.settings.attributeName : 'data-mh';
         this._remains = Array.prototype.map.call(elements, (el) => {
             return {
                 el,
                 top: 0,
                 height: 0,
-                property: el.getAttribute(attributeName) || attributeName
+                attribute: el.getAttribute(attributeName) || attributeName
             };
         });
         // remove all height before
@@ -355,7 +355,7 @@
             item.top = this.settings.byRow ? (bb.top - this._parse(window.getComputedStyle(item.el).getPropertyValue('margin-top'))) : 0;
             item.height = bb.height;
         });
-        this._remains.sort((a, b) => a.top - b.top && a.property.localeCompare(b.property));
+        this._remains.sort((a, b) => a.top - b.top && a.attribute.localeCompare(b.attribute));
         let rows = this._rows(this._remains);
         let processingTargets = rows[0];
         let maxHeightInRow = 0;
