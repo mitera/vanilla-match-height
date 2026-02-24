@@ -143,25 +143,6 @@ type Item = {
     }
 
     /**
-     * Merges the specified elements' heights into a single maximum height
-     * value. This method adjusts the heights of the elements it processes
-     * to ensure uniformity across the group.
-     *
-     * @private
-     * @param {HTMLElement[]} elements - An array of DOM elements whose heights are to be merged.
-     * @param {number[]} heights - An array of heights corresponding to the elements.
-     * @return {void}
-     */
-    MatchHeight.prototype._merge = function(o1: any, o2: any) {
-        if (o1 != null) {
-            for (let i in o1) {
-                o2[i] = o1[i];
-            }
-        }
-        return o2;
-    }
-
-    /**
      * A utility function designed to limit the rate at which a given function is executed.
      * This method ensures that the specified function is triggered at most once within
      * a defined time period determined by the provided delay duration.
@@ -236,22 +217,6 @@ type Item = {
             .match(
                 /^([a-z-]{2,})$/
             );
-    }
-
-    /**
-     * Parses the elements that need to be matched for height.
-     * This method iterates through a collection of elements,
-     * converts their relevant height-related data into an array of objects,
-     * and prepares the data for further processing.
-     *
-     * @private
-     * @param {NodeList | HTMLElement[]} elements - A collection of DOM elements whose heights need to be matched.
-     * @returns {Object[]} - An array of objects where each object contains the DOM element
-     *                       and its calculated height details.
-     */
-    MatchHeight.prototype._parse = function(value: string) {
-        // parse value and convert NaN to 0
-        return parseFloat(value) || 0;
     }
 
     /**
