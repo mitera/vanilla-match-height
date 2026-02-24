@@ -11,7 +11,6 @@ interface MatchHeight {
     wrapEl: HTMLElement;
     settings: Settings;
     _bind(): void;
-    _merge(o1: Settings, o2: Settings): Settings;
     _init(): void;
     _unbind(): void;
     _throttle(fn: Function, threshold: number): () => void;
