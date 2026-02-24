@@ -17,7 +17,8 @@
 
 ### Demo
 
-See the [vanilla-match-height.js demo](https://codepen.io/mitera/pen/mdvaKBN).
+- [demo HTML](https://codepen.io/Simone-Miterangelis/pen/XWLPqJQ)
+- [demo Javascript](https://codepen.io/mitera/pen/mdvaKBN).
 
 [![vanilla-match-height.js screenshot](https://github.com/mitera/vanilla-match-height/blob/master/vanilla-match-height.jpg)](https://github.com/mitera/vanilla-match-height/archive/refs/heads/master.zip)
 
@@ -60,7 +61,20 @@ modular code
 
     import 'vanilla-match-height'
 
-### Usage
+### Usage html
+
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            <h2 class="title">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
+            <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+        <div class="col-12 col-sm-6">
+            <h2 class="title">Lorem ipsum dolor sit amet.</h2>
+            <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a nisi hendrerit, viverra felis non, aliquam sapien. In faucibus justo massa, non pretium urna lacinia id. </p>
+        </div>
+    </div>
+
+### Usage javascript
 
     document.body.matchHeight({elements: '.item'});
 
