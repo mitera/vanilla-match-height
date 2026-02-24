@@ -19,8 +19,6 @@ interface MatchHeight {
     _throttle(fn: Function, threshold: number): () => void;
     _applyAll(): void;
     _validateProperty(value?: string | null): RegExpMatchArray | null;
-    _parse(value: string): number;
-    _rows(elements: HTMLElement[]): HTMLElement[][];
     _applyDataApi(property: string): void;
     _remove(): void;
     _apply(): void;
@@ -257,42 +255,6 @@ type Item = {
     }
 
     /**
-     * An internal property used to store an array of rows within the MatchHeight instance.
-     * Each row is represented by a group of DOM elements that should have their heights matched.
-     * This property is dynamically populated and updated based on the current layout and grouping logic.
-     * It plays a critical role in determining the height adjustments applied to the elements.
-     *
-     * @type {Array<Array<Element>>}
-     * @private
-     */
-    MatchHeight.prototype._rows = function(elements: Item[]) {
-        let tolerance: number = 1,
-            lastTop: number = -1,
-            listRows: Item[][] = [],
-            rows: Item[] = [];
-
-        // group elements by their top position
-        elements.forEach(($that) => {
-
-            let top = $that.el.getBoundingClientRect().top - this._parse(window.getComputedStyle($that.el).getPropertyValue('margin-top'));
-
-            // if the row top is the same, add to the row group
-            if (lastTop != -1 && Math.floor(Math.abs(lastTop - top)) >= tolerance) {
-                listRows.push(rows);
-                rows = [];
-                lastTop = -1;
-            }
-            rows.push($that);
-
-            // keep track of the last row top
-            lastTop = top;
-        });
-        listRows.push(rows);
-
-        return listRows;
-    }
-
-    /**
      * Applies the match height functionality to all elements
      * found in the DOM that use the `data-match-height` attribute.
      * The method selects such elements and applies the match
@@ -432,15 +394,16 @@ type Item = {
 
             const bb = item.el.getBoundingClientRect();
 
-            item.top    = this.settings.byRow ? (bb.top - this._parse(window.getComputedStyle(item.el).getPropertyValue('margin-top'))) : 0;
+            item.top    = this.settings.byRow ? bb.top : 0;
             item.height = bb.height;
 
         } );
 
         this._remains.sort( ( a:Item, b:Item ) => a.top - b.top);
 
-        let rows = this._rows(this._remains);
-        let processingTargets = rows[0];
+        const errorThreshold = 1;
+        const processingTop = this._remains[0].top;
+        const processingTargets = this._remains.filter((item: { top: number; }) => Math.abs(item.top - processingTop) <= errorThreshold);
 
         let maxHeightInRow = 0;
         if (this.settings.target) maxHeightInRow = this.settings.target.getBoundingClientRect().height;
