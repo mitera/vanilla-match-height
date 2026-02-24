@@ -20,6 +20,8 @@ interface MatchHeight {
     _remove(): void;
     _apply(): void;
     _resetStyle($that: HTMLElement, property: string): void;
+    _update(elements: HTMLElement[]): void;
+    _process(): void;
 }
 interface Settings {
     elements?: string | null;
