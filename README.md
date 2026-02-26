@@ -180,13 +180,14 @@ Note that `byRow` will be enabled when using the data API, if you don't want thi
 There are some additional functions and properties you should know about:
 
 #### Manually trigger an update
+All groups are automatically updated when the window is resized.
+
+if you want to manually trigger an update of a specific group, you can use the `_applyAll` method:
+
 ```js
 let el = document.body.matchHeight();
 el._applyAll();
 ```
-
-#### Automatic trigger an update
-All groups are automatically updated when the window is resized.
 
 If you need to manually trigger an update of all currently set groups, for example if you've modified some content.
 
