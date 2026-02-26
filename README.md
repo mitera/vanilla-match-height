@@ -65,12 +65,12 @@ modular code
 
     <div class="row">
         <div class="col-12 col-sm-6">
-            <h2 class="title">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
-            <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <h2 class="title" data-mh="title">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
+            <p class="description" data-mh="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
         </div>
         <div class="col-12 col-sm-6">
-            <h2 class="title">Lorem ipsum dolor sit amet.</h2>
-            <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a nisi hendrerit, viverra felis non, aliquam sapien. In faucibus justo massa, non pretium urna lacinia id. </p>
+            <h2 class="title" data-mh="title">Lorem ipsum dolor sit amet.</h2>
+            <p class="description" data-mh="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a nisi hendrerit, viverra felis non, aliquam sapien. In faucibus justo massa, non pretium urna lacinia id. </p>
         </div>
     </div>
 
