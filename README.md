@@ -46,42 +46,46 @@ Use this library to match height of internal elements, like title or text of tea
 ### Install
 
 CDN via jsDelivr
-
-    <script src="https://cdn.jsdelivr.net/npm/vanilla-match-height@latest/dist/vanilla-match-height.min.js" type="text/javascript"></script>
-
+```html
+<script src="https://cdn.jsdelivr.net/npm/vanilla-match-height@latest/dist/vanilla-match-height.min.js" type="text/javascript"></script>
+```
 Download [vanilla-match-height.js](https://github.com/mitera/vanilla-match-height/blob/master/vanilla-match-height.js) and include the script in your HTML file:
-
-	<script src="vanilla-match-height.js" type="text/javascript"></script>
-
+```html
+<script src="vanilla-match-height.js" type="text/javascript"></script>
+```
 You can also install using the package managers [NPM](https://www.npmjs.com/package/vanilla-match-height).
-
-    npm install vanilla-match-height
-
+```console
+npm install vanilla-match-height
+```
 modular code
-
-    import 'vanilla-match-height'
-
+```js
+import 'vanilla-match-height'
+```
 ### Usage html
 
-    <div class="row">
-        <div class="col-12 col-sm-6">
-            <h2 class="title" data-mh="title">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
-            <p class="description" data-mh="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </div>
-        <div class="col-12 col-sm-6">
-            <h2 class="title" data-mh="title">Lorem ipsum dolor sit amet.</h2>
-            <p class="description" data-mh="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a nisi hendrerit, viverra felis non, aliquam sapien. In faucibus justo massa, non pretium urna lacinia id. </p>
-        </div>
+use `data-mh` attribute for set group name
+```html
+<div class="row">
+    <div class="col-12 col-sm-6">
+        <h2 class="title" data-mh="title">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
+        <p class="description" data-mh="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
     </div>
+    <div class="col-12 col-sm-6">
+        <h2 class="title" data-mh="title">Lorem ipsum dolor sit amet.</h2>
+        <p class="description" data-mh="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a nisi hendrerit, viverra felis non, aliquam sapien. In faucibus justo massa, non pretium urna lacinia id. </p>
+    </div>
+</div>
+```
 
 ### Usage javascript
+```js
+document.body.matchHeight({elements: '.item'});
 
-    document.body.matchHeight({elements: '.item'});
-
-	const containers = document.querySelectorAll(".items-container");
-    containers.forEach((container) => {			
-        container.matchHeight({elements: '.item'});
-    });
+const containers = document.querySelectorAll(".items-container");
+containers.forEach((container) => {			
+    container.matchHeight({elements: '.item'});
+});
+```
 
 Where `options` is an optional parameter.   
 See below for a description of the available options and defaults.
@@ -97,20 +101,20 @@ Also see the [Data API](#data-api) below for a simple, alternative inline usage.
 ### Options
 
 The default `options` are:
-
-    {
-        elements: null,
-        byRow: true,
-        property: 'height',
-        target: null,
-        remove: null,
-        attributeName: null,
-        events: true,
-        throttle: 80,
-        beforeUpdate: null,
-        afterUpdate: null
-    }
-
+```js
+{
+    elements: null,
+    byRow: true,
+    property: 'height',
+    target: null,
+    remove: null,
+    attributeName: null,
+    events: true,
+    throttle: 80,
+    beforeUpdate: null,
+    afterUpdate: null
+}
+```
 Where:
 
 - `elements` is an optional string containing one or more selectors to match against. This string must be a valid CSS selector string
@@ -127,26 +131,28 @@ Where:
 ### Data API
 
 Use the data attribute `data-mh="group-name"` or `data-match-height="group-name"` where `group-name` is an arbitrary string to identify which elements should be considered as a group.
-
-	<div data-mh="my-group">My text</div>
-	<div data-mh="my-group">Some other text</div>
-	<div data-mh="my-other-group">Even more text</div>
-	<div data-mh="my-other-group">The last bit of text</div>
-
+```html
+<div data-mh="my-group">My text</div>
+<div data-mh="my-group">Some other text</div>
+<div data-mh="my-other-group">Even more text</div>
+<div data-mh="my-other-group">The last bit of text</div>
+```
 All elements with the same group name will be set to the same height when the page is loaded, regardless of their position in the DOM, without any extra code required.
 
 It's possible to use custom data attribute `data-same-height="group-name"`
+```html
+<div data-same-height="my-group">My text</div>
+<div data-same-height="my-group">Some other text</div>
+<div data-same-height="my-other-group">Even more text</div>
+<div data-same-height="my-other-group">The last bit of text</div>
+```
 
-    <div data-same-height="my-group">My text</div>
-	<div data-same-height="my-group">Some other text</div>
-	<div data-same-height="my-other-group">Even more text</div>
-	<div data-same-height="my-other-group">The last bit of text</div>
-
-    const containers = document.querySelectorAll(".data-api-items");
-    containers.forEach((container) => {
-        container.matchHeight({attributeName: 'data-same-height'});
-    });
-
+```js
+const containers = document.querySelectorAll(".data-api-items");
+containers.forEach((container) => {
+    container.matchHeight({attributeName: 'data-same-height'});
+});
+```
 Note that `byRow` will be enabled when using the data API, if you don't want this (or require other options) then use the alternative method above.
 
 ### Advanced Usage
@@ -154,9 +160,9 @@ Note that `byRow` will be enabled when using the data API, if you don't want thi
 There are some additional functions and properties you should know about:
 
 #### Manually trigger an update
-
-	window.dispatchEvent(new Event('resize'));
-
+```js
+window.dispatchEvent(new Event('resize'));
+```
 If you need to manually trigger an update of all currently set groups, for example if you've modified some content.
 
 #### Row detection
@@ -165,21 +171,21 @@ You can toggle row detection by setting the `byRow` option, which defaults to `t
 It's also possible to use the row detection function at any time:
 
 #### Custom target element
-
-	const containers = document.querySelectorAll(".target-items");
-    containers.forEach((container) => {			
-        container.matchHeight({elements: '.item-0, .item-2, .item-3', target: document.getElementById("target-item-1")});
-    });
-
+```js
+const containers = document.querySelectorAll(".target-items");
+containers.forEach((container) => {			
+    container.matchHeight({elements: '.item-0, .item-2, .item-3', target: document.getElementById("target-item-1")});
+});
+```
 Will set all selected elements to the height of the first item with class `sidebar`.
 
 #### Custom property
-
-	const containers = document.querySelectorAll(".property-items");
-    containers.forEach((container) => {			
-        container.matchHeight({elements: '.item', property: 'min-height'});
-    });
-
+```js
+const containers = document.querySelectorAll(".property-items");
+containers.forEach((container) => {			
+    container.matchHeight({elements: '.item', property: 'min-height'});
+});
+```
 This will set the `min-height` property instead of the `height` property.
 
 Where `event` a event object (`DOMContentLoaded`, `resize`, `orientationchange`).
@@ -193,41 +199,41 @@ If you experience lagging or freezing during resize, you should increase the `th
 #### Manually apply match height
 
 Manual apply, code for JavaScript framework/library (e.g. `vue`, `react` ...).
-
-    var el = document.body.matchHeight({elements: '.item'});
-    ...
-	el._apply();
-    el._applyDataApi('data-match-height');
-    el._applyDataApi('data-mh');
-    el._applyAll();
-
+```js
+let el = document.body.matchHeight({elements: '.item'});
+...
+el._apply();
+el._applyDataApi('data-match-height');
+el._applyDataApi('data-mh');
+el._applyAll();
+```
 #### Remove match height from elements
 
 Reset inline style property
-
-    var el = document.body.matchHeight({elements: '.item'});
-    ...
-    el._remove();
-
+```js
+var el = document.body.matchHeight({elements: '.item'});
+...
+el._remove();
+```
 #### Remove events from match height elements
 
 Remove events
-
-    var el = document.body.matchHeight({elements: '.item'});
-    ...
-    el._unbind();
-
+```js
+let el = document.body.matchHeight({elements: '.item'});
+...
+el._unbind();
+```
 #### Callback events
 Since matchHeight automatically handles updating the layout after certain window events, you can supply functions as global callbacks if you need to be notified.
 Introduced new settings `beforeUpdate` and `afterUpdate` to allow custom logic to be executed before and after the height matching process. 
-
-    beforeUpdate: function () {
-        console.log('beforeUpdate action')
-    },
-    afterUpdate: function () {
-        console.log('afterUpdate action')
-    }
-
+```js
+beforeUpdate: function () {
+    console.log('beforeUpdate action')
+},
+afterUpdate: function () {
+    console.log('afterUpdate action')
+}
+```
 ### Known limitations
 
 #### CSS transitions and animations are not supported
@@ -235,60 +241,60 @@ Introduced new settings `beforeUpdate` and `afterUpdate` to allow custom logic t
 You should ensure that there are no transitions or other animations that will delay the height changes of the elements you are matching, including any `transition: all` rules. Otherwise the plugin will produce unexpected results, as animations can't be accounted for.
 
 ### Vue3 Example:
-
-    import 'vanilla-match-height';
-    export default {
-        name: 'Example',
-        data: function () {
-            return {
-                matchHeight: document.body.matchHeight({elements: '.item p'})
-            }
-        },
-        beforeUnmount() {
-            this.matchHeight._unbind();
-        },
-        mounted() {
+```js
+import 'vanilla-match-height';
+export default {
+    name: 'Example',
+    data: function () {
+        return {
+            matchHeight: document.body.matchHeight({elements: '.item p'})
+        }
+    },
+    beforeUnmount() {
+        this.matchHeight._unbind();
+    },
+    mounted() {
+        this.matchHeight._apply();
+    },
+    methods: {
+        reMatch() {
             this.matchHeight._apply();
-        },
-        methods: {
-            reMatch() {
-                this.matchHeight._apply();
-            }
         }
     }
-
+}
+```
 ### React Example:
-
-    import 'vanilla-match-height';
-    class MyComponent extends Component {
-        matchHeight = document.body.matchHeight({elements: '.item p'});
-        componentDidMount() {
-            this.matchHeight._apply();
-        }
-        componentWillUnmount() {
-            this.matchHeight._unbind();
-        }
-        render() {
-            return (
-                ...
-            );
-        }
+```js
+import 'vanilla-match-height';
+class MyComponent extends Component {
+    matchHeight = document.body.matchHeight({elements: '.item p'});
+    componentDidMount() {
+        this.matchHeight._apply();
     }
-
+    componentWillUnmount() {
+        this.matchHeight._unbind();
+    }
+    render() {
+        return (
+            ...
+        );
+    }
+}
+```
 ### Not duplicate instance!
 
 I suggest to assign element to a variable for not create multiple events instances
+```js
+//Right solution
+let el = document.body.matchHeight({elements: '.item'});
+... json update
+el._apply();
 
-    //Right solution
-    var el = document.body.matchHeight({elements: '.item'});
-    ... json update
-    el._apply();
-
-    //Wrong solution
-    document.body.matchHeight({elements: '.item'});
-    ... json update
-    document.body.matchHeight({elements: '.item'})._apply();
-
+//Wrong solution
+document.body.matchHeight({elements: '.item'});
+... json update
+document.body.matchHeight({elements: '.item'})._apply();
+```
 ### Changelog
 
 To see what's new or changed in the latest version, see the [changelog](https://github.com/mitera/vanilla-match-height/blob/master/CHANGELOG.md)
@@ -296,7 +302,7 @@ To see what's new or changed in the latest version, see the [changelog](https://
 ### License
 
 vanilla-match-height.js is licensed under [The MIT License (MIT)](http://opensource.org/licenses/MIT)
-<br/>Copyright (c) 2023 Simone Miterangelis
+<br/>Copyright (c) 2026 Simone Miterangelis
 
 This license is also supplied with the release and source code.
 <br/>As stated in the license, absolutely no warranty is provided.
