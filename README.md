@@ -75,6 +75,9 @@ use `data-mh` attribute for set group name
         <p class="description" data-mh="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a nisi hendrerit, viverra felis non, aliquam sapien. In faucibus justo massa, non pretium urna lacinia id. </p>
     </div>
 </div>
+<script>
+    document.body.matchHeight();
+</script>
 ```
 
 ### Usage javascript
