@@ -105,17 +105,16 @@ The example above sets the maximum height of the tags for the title and then for
 The above example will set all selected elements with the class `item` to the height of the tallest.  
 If the items are on multiple rows, the items of each row will be set to the tallest of that row (see `byRow` option).
 
-`options` is an optional parameter.   
-See below for a description of the available options and defaults.
-
-Call this on the event (the plugin will automatically update on window load).   
+The plugin will automatically update on window load.   
 See the included [test.html](https://github.com/mitera/vanilla-match-height/blob/master/test/test.html) for many working examples.
 
 ### Options
 
+Javascript `options` is an optional parameter.
+
 Also see the [Data API](#data-api) below for a simple, alternative inline usage.
 
-The default `options` are:
+The default value are:
 ```
 {
     elements: null,
