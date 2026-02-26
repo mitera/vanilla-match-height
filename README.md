@@ -101,7 +101,7 @@ Also see the [Data API](#data-api) below for a simple, alternative inline usage.
 ### Options
 
 The default `options` are:
-```js
+```
 {
     elements: null,
     byRow: true,
@@ -201,7 +201,7 @@ If you experience lagging or freezing during resize, you should increase the `th
 Manual apply, code for JavaScript framework/library (e.g. `vue`, `react` ...).
 ```js
 let el = document.body.matchHeight({elements: '.item'});
-...
+//...
 el._apply();
 el._applyDataApi('data-match-height');
 el._applyDataApi('data-mh');
@@ -211,8 +211,8 @@ el._applyAll();
 
 Reset inline style property
 ```js
-var el = document.body.matchHeight({elements: '.item'});
-...
+let el = document.body.matchHeight({elements: '.item'});
+//...
 el._remove();
 ```
 #### Remove events from match height elements
@@ -220,13 +220,13 @@ el._remove();
 Remove events
 ```js
 let el = document.body.matchHeight({elements: '.item'});
-...
+//...
 el._unbind();
 ```
 #### Callback events
 Since matchHeight automatically handles updating the layout after certain window events, you can supply functions as global callbacks if you need to be notified.
 Introduced new settings `beforeUpdate` and `afterUpdate` to allow custom logic to be executed before and after the height matching process. 
-```js
+```
 beforeUpdate: function () {
     console.log('beforeUpdate action')
 },
@@ -275,9 +275,7 @@ class MyComponent extends Component {
         this.matchHeight._unbind();
     }
     render() {
-        return (
-            ...
-        );
+        //return (...);
     }
 }
 ```
@@ -287,12 +285,12 @@ I suggest to assign element to a variable for not create multiple events instanc
 ```js
 //Right solution
 let el = document.body.matchHeight({elements: '.item'});
-... json update
+//... json update
 el._apply();
 
 //Wrong solution
 document.body.matchHeight({elements: '.item'});
-... json update
+//... json update
 document.body.matchHeight({elements: '.item'})._apply();
 ```
 ### Changelog
