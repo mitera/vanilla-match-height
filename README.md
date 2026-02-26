@@ -81,6 +81,8 @@ use `data-mh` attribute for set group name
 ```
 The example above sets the maximum height of the tags for the title and then for the description.
 
+Also see the [Data API](#data-api) below for a simple, alternative inline usage.
+
 ### Usage javascript
 ```html
 <div class="items-container">
@@ -103,16 +105,16 @@ The example above sets the maximum height of the tags for the title and then for
 </script>
 ```
 The above example will set all selected elements with the class `item` to the height of the tallest.  
+
 If the items are on multiple rows, the items of each row will be set to the tallest of that row (see `byRow` option).
 
 The plugin will automatically update on window load.   
+
 See the included [test.html](https://github.com/mitera/vanilla-match-height/blob/master/test/test.html) for many working examples.
 
 ### Options
 
-Javascript `options` is an optional parameter.
-
-Also see the [Data API](#data-api) below for a simple, alternative inline usage.
+javascript `options` parameter `document.body.matchHeight(`options`);` is an optional .
 
 The default value are:
 ```
@@ -150,6 +152,10 @@ Use the data attribute `data-mh="group-name"` or `data-match-height="group-name"
 <div data-mh="my-group">Some other text</div>
 <div data-mh="my-other-group">Even more text</div>
 <div data-mh="my-other-group">The last bit of text</div>
+<div data-match-height="my-group">My text</div>
+<div data-match-height="my-group">Some other text</div>
+<div data-match-height="my-other-group">Even more text</div>
+<div data-match-height="my-other-group">The last bit of text</div>
 ```
 All elements with the same group name will be set to the same height when the page is loaded, regardless of their position in the DOM, without any extra code required.
 
