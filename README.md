@@ -67,41 +67,53 @@ use `data-mh` attribute for set group name
 ```html
 <div class="row">
     <div class="col-12 col-sm-6">
-        <h2 class="title" data-mh="title">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
-        <p class="description" data-mh="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <h2 data-mh="title">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
+        <p data-mh="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
     </div>
     <div class="col-12 col-sm-6">
-        <h2 class="title" data-mh="title">Lorem ipsum dolor sit amet.</h2>
-        <p class="description" data-mh="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a nisi hendrerit, viverra felis non, aliquam sapien. In faucibus justo massa, non pretium urna lacinia id. </p>
+        <h2 data-mh="title">Lorem ipsum dolor sit amet.</h2>
+        <p data-mh="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a nisi hendrerit, viverra felis non, aliquam sapien. In faucibus justo massa, non pretium urna lacinia id. </p>
     </div>
 </div>
 <script>
     document.body.matchHeight();
 </script>
 ```
+The example above sets the maximum height of the tags for the title and then for the description.
 
 ### Usage javascript
-```js
-document.body.matchHeight({elements: '.item'});
-
-const containers = document.querySelectorAll(".items-container");
-containers.forEach((container) => {			
-    container.matchHeight({elements: '.item'});
-});
+```html
+<div class="items-container">
+    <div class="item">
+        <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    </div>
+    <div class="item">
+        <h2>Lorem ipsum dolor sit amet.</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a nisi hendrerit, viverra felis non, aliquam sapien. In faucibus justo massa, non pretium urna lacinia id. </p>
+    </div>
+</div>
+<script>
+    document.body.matchHeight({elements: '.item'});
+    //or
+    const containers = document.querySelectorAll(".items-container");
+    containers.forEach((container) => {			
+        container.matchHeight({elements: '.item'});
+    });
+</script>
 ```
-
-Where `options` is an optional parameter.   
-See below for a description of the available options and defaults.
-
 The above example will set all selected elements with the class `item` to the height of the tallest.  
 If the items are on multiple rows, the items of each row will be set to the tallest of that row (see `byRow` option).
+
+`options` is an optional parameter.   
+See below for a description of the available options and defaults.
 
 Call this on the event (the plugin will automatically update on window load).   
 See the included [test.html](https://github.com/mitera/vanilla-match-height/blob/master/test/test.html) for many working examples.
 
-Also see the [Data API](#data-api) below for a simple, alternative inline usage.
-
 ### Options
+
+Also see the [Data API](#data-api) below for a simple, alternative inline usage.
 
 The default `options` are:
 ```
