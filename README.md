@@ -181,9 +181,18 @@ There are some additional functions and properties you should know about:
 
 #### Manually trigger an update
 ```js
+let el = document.body.matchHeight();
+el._applyAll();
+```
+
+#### Automatic trigger an update
+All groups are automatically updated when the window is resized.
+
+If you need to manually trigger an update of all currently set groups, for example if you've modified some content.
+
+```js
 window.dispatchEvent(new Event('resize'));
 ```
-If you need to manually trigger an update of all currently set groups, for example if you've modified some content.
 
 #### Row detection
 
