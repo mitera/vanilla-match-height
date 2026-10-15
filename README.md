@@ -47,9 +47,11 @@ Use this library to match height of internal elements, like title or text of tea
 
 CDN via jsDelivr
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-match-height@latest/dist/vanilla-match-height.min.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-match-height@2/dist/vanilla-match-height.min.js" type="text/javascript"></script>
 ```
-Download [vanilla-match-height.js](https://github.com/mitera/vanilla-match-height/blob/master/vanilla-match-height.js) and include the script in your HTML file:
+Pin a version (`@2` for the latest 2.x release, or an exact one such as `@2.1.0`) instead of `@latest`, so that a new major release cannot change your site unexpectedly. For an exact version you can also add the `integrity` attribute provided by [jsDelivr](https://www.jsdelivr.com/package/npm/vanilla-match-height).
+
+Download [vanilla-match-height.js](https://github.com/mitera/vanilla-match-height/blob/master/dist/vanilla-match-height.js) and include the script in your HTML file:
 ```html
 <script src="vanilla-match-height.js" type="text/javascript"></script>
 ```
@@ -60,6 +62,15 @@ npm install vanilla-match-height
 modular code
 ```js
 import 'vanilla-match-height'
+```
+#### TypeScript
+
+Type definitions are included. The import adds `matchHeight()` to `HTMLElement`; the options type is `MatchHeightSettings` and the returned instance is `MatchHeight`:
+```ts
+import 'vanilla-match-height';
+
+const options: MatchHeightSettings = { elements: '.item', property: 'min-height' };
+const mh: MatchHeight = document.body.matchHeight(options);
 ```
 ### Usage html
 
@@ -114,9 +125,9 @@ See the included [test.html](https://github.com/mitera/vanilla-match-height/blob
 
 ### Options
 
-javascript `options` parameter `document.body.matchHeight(`options`);` is an optional .
+The `options` parameter of `document.body.matchHeight(options)` is optional.
 
-The default value are:
+The default values are:
 ```
 {
     elements: null,
@@ -125,6 +136,7 @@ The default value are:
     target: null,
     remove: null,
     attributeName: null,
+    attributeValue: null,
     events: true,
     throttle: 80,
     beforeUpdate: null,
@@ -138,9 +150,10 @@ Where:
 - `property` is the CSS property name to set (e.g. `'height'` or `'min-height'`; camelCase such as `'minHeight'` is converted)
 - `target` is an optional element to use instead of the element with maximum height
 - `remove` is an optional element, `NodeList` or array of elements to exclude: excluded elements keep their natural height and are not used to compute the group height
-- `attributeName` is an optional for use custom attribute
+- `attributeName` is an optional custom attribute name to group elements by its value, in addition to `data-mh` and `data-match-height` (see [Data API](#data-api))
+- `attributeValue` is an optional value for `attributeName`: when `elements` is not set, `_apply()` and `_remove()` work on the `[attributeName="attributeValue"]` elements only
 - `events` is `true` or `false` to enable default events (`DOMContentLoaded`, `load`, `resize`, `orientationchange`); with `false` nothing is applied automatically, call `_applyAll()` (or `_apply()`) yourself
-- `throttle` milliseconds to executed resize event, default is `80`; `0` disables throttling
+- `throttle` is the minimum interval in milliseconds between two updates on `resize`/`orientationchange`, default is `80`; `0` disables throttling
 - `beforeUpdate` is a custom method that starts before the height matching process
 - `afterUpdate` is a custom method that starts after the height matching process
 
@@ -157,7 +170,10 @@ Use the data attribute `data-mh="group-name"` or `data-match-height="group-name"
 <div data-match-height="my-other-group">Even more text</div>
 <div data-match-height="my-other-group">The last bit of text</div>
 ```
-All elements with the same group name will be set to the same height when the page is loaded, regardless of their position in the DOM, without any extra code required.
+All elements with the same group name will be set to the same height when the page is loaded, regardless of their position inside the element on which `matchHeight()` is called. One call is required to activate the data API, e.g. for the whole page:
+```js
+document.body.matchHeight();
+```
 
 It's possible to use custom data attribute `data-same-height="group-name"`
 ```html
@@ -197,8 +213,8 @@ window.dispatchEvent(new Event('resize'));
 
 #### Row detection
 
-You can toggle row detection by setting the `byRow` option, which defaults to `true`.  
-It's also possible to use the row detection function at any time:
+You can toggle row detection by setting the `byRow` option, which defaults to `true`.
+Elements are considered in the same row when their top position differs by 1px at most; each row is set to the height of its tallest element. A row with a single element keeps its natural height (unless `target` is set), and hidden elements (`display: none`) are skipped.
 
 #### Custom target element
 ```js
@@ -207,7 +223,7 @@ containers.forEach((container) => {
     container.matchHeight({elements: '.item-0, .item-2, .item-3', target: document.getElementById("target-item-1")});
 });
 ```
-Will set all selected elements to the height of the first item with class `sidebar`.
+Will set the elements `.item-0`, `.item-2` and `.item-3` to the height of the element with id `target-item-1`.
 
 #### Custom property
 ```js
@@ -218,11 +234,9 @@ containers.forEach((container) => {
 ```
 This will set the `min-height` property instead of the `height` property.
 
-Where `event` a event object (`DOMContentLoaded`, `resize`, `orientationchange`).
-
 #### Throttling resize updates
 
-By default, the `events` is throttled to execute at a maximum rate of once every `80ms`.
+By default, the updates on `resize` and `orientationchange` are throttled to execute at a maximum rate of once every `80ms`.
 Decreasing the `throttle` option will update your layout quicker, appearing smoother during resize, at the expense of performance.
 If you experience lagging or freezing during resize, you should increase the `throttle` option.
 
@@ -232,22 +246,25 @@ Manual apply, code for JavaScript framework/library (e.g. `vue`, `react` ...).
 ```js
 let el = document.body.matchHeight({elements: '.item'});
 //...
-el._apply();
-el._applyDataApi('data-match-height');
-el._applyDataApi('data-mh');
-el._applyAll();
+el._applyAll(); // elements/attributeValue group + data API groups, with beforeUpdate/afterUpdate callbacks
+//or
+el._apply(); // only the `elements` (or `attributeName`/`attributeValue`) group
+//or
+el._applyDataApi('data-mh'); // only the groups of one data attribute
 ```
 #### Remove match height from elements
 
-Reset inline style property
+Reset the inline style property of the `elements` (or `attributeName`/`attributeValue`) group. Groups of the data API are not reset.
+Call `_unbind()` first, otherwise the heights are applied again on the next `resize`.
 ```js
 let el = document.body.matchHeight({elements: '.item'});
 //...
+el._unbind();
 el._remove();
 ```
 #### Remove events from match height elements
 
-Remove events
+Remove the `resize`/`orientationchange` listeners, the pending page load updates and any throttled update
 ```js
 let el = document.body.matchHeight({elements: '.item'});
 //...
@@ -256,7 +273,7 @@ el._unbind();
 #### Callback events
 Since matchHeight automatically handles updating the layout after certain window events, you can supply functions as global callbacks if you need to be notified.
 Introduced new settings `beforeUpdate` and `afterUpdate` to allow custom logic to be executed before and after the height matching process. 
-```
+```js
 beforeUpdate: function () {
     console.log('beforeUpdate action')
 },
@@ -275,43 +292,46 @@ You should ensure that there are no transitions or other animations that will de
 import 'vanilla-match-height';
 export default {
     name: 'Example',
-    data: function () {
-        return {
-            matchHeight: document.body.matchHeight({elements: '.item p'})
-        }
+    mounted() {
+        // Created after mount and kept out of data(), so Vue does not make it reactive
+        this.matchHeight = this.$el.matchHeight({elements: '.item p'});
     },
     beforeUnmount() {
         this.matchHeight._unbind();
     },
-    mounted() {
-        this.matchHeight._apply();
-    },
     methods: {
         reMatch() {
-            this.matchHeight._apply();
+            // e.g. after the content has changed
+            this.$nextTick(() => this.matchHeight._apply());
         }
     }
 }
 ```
+`this.$el` must be an element: use a single root element in the template (or a template ref).
 ### React Example:
 ```js
 import 'vanilla-match-height';
-class MyComponent extends Component {
-    matchHeight = document.body.matchHeight({elements: '.item p'});
-    componentDidMount() {
-        this.matchHeight._apply();
-    }
-    componentWillUnmount() {
-        this.matchHeight._unbind();
-    }
-    render() {
-        //return (...);
-    }
+import { useEffect, useRef } from 'react';
+
+function MyComponent({ items }) {
+    const containerRef = useRef(null);
+
+    useEffect(() => {
+        // Created after render, so it also works with server-side rendering and StrictMode
+        const matchHeight = containerRef.current.matchHeight({elements: '.item p'});
+        return () => matchHeight._unbind();
+    }, [items]);
+
+    return (
+        <div ref={containerRef}>
+            {/* ...items */}
+        </div>
+    );
 }
 ```
-### Not duplicate instance!
+### Avoid duplicate instances
 
-I suggest to assign element to a variable for not create multiple events instances
+Assign the instance to a variable and reuse it, so that multiple event listeners are not created
 ```js
 //Right solution
 let el = document.body.matchHeight({elements: '.item'});
