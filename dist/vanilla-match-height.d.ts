@@ -18,6 +18,7 @@ interface MatchHeight {
     _throttle(fn: Function, threshold: number): () => void;
     _applyAll(): void;
     _validateProperty(value?: string | null): RegExpMatchArray | null;
+    _validateAttributeName(value?: string | null): boolean;
     _applyDataApi(property: string): void;
     _remove(): void;
     _apply(): void;

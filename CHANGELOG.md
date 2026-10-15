@@ -7,7 +7,9 @@
 - Fix: heights are recalculated on window `load`, so images loaded after `DOMContentLoaded` are taken into account.
 - Fix: elements in `remove` no longer contribute to the group height.
 - Fix: camelCase `property` values (e.g. `minHeight`) are converted to kebab-case instead of being silently ignored.
-- Fix: `attributeValue` is escaped with `CSS.escape()`; values containing quotes no longer throw a `SyntaxError`. `attributeName` is validated in `_remove()` too.
+- Fix: `attributeValue` is escaped with `CSS.escape()` (with a fallback where it is missing, e.g. jsdom); values containing quotes no longer throw a `SyntaxError`. `attributeName` is validated in `_remove()` too.
+- Fix: attribute names containing digits or underscores (e.g. `data-mh2`, `data-match_height`) are accepted; they were previously ignored.
+- Fix: uppercase `property` values (e.g. `HEIGHT`, `Height`) are lowercased instead of being turned into invalid names.
 - Fix: `_unbind()` also removes the pending `DOMContentLoaded`/`load` listeners and the throttle timer.
 - Fix: hidden elements (`display: none`) are skipped instead of being locked to `0px`.
 - Fix: rows with a single element (and no `target`) are no longer locked to a fixed height.

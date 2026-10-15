@@ -20,6 +20,7 @@ interface MatchHeight {
     _throttle(fn: Function, threshold: number): () => void;
     _applyAll(): void;
     _validateProperty(value?: string | null): RegExpMatchArray | null;
+    _validateAttributeName(value?: string | null): boolean;
     _applyDataApi(property: string): void;
     _remove(): void;
     _apply(): void;
@@ -97,8 +98,9 @@ type MatchHeightItem = {
 
         this.settings = {...default_settings, ...settings} as MatchHeightSettings;
 
-        // Accept camelCase property names (e.g. 'minHeight'): style.setProperty() requires kebab-case
-        this.settings.property = String(this.settings.property || 'height').replace(/[A-Z]/g, (c) => '-' + c.toLowerCase());
+        // Accept camelCase property names (e.g. 'minHeight'): style.setProperty() requires kebab-case.
+        // Only a lowercase-to-uppercase boundary starts a new word, so 'HEIGHT' or 'Height' become 'height'.
+        this.settings.property = String(this.settings.property || 'height').replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
         if (!this._validateProperty(this.settings.property)) {
             this.settings.property = 'height';
         }
@@ -216,7 +218,7 @@ type MatchHeightItem = {
         }
 
         this._apply();
-        if (this.settings.attributeName && this._validateProperty(this.settings.attributeName)) {
+        if (this.settings.attributeName && this._validateAttributeName(this.settings.attributeName)) {
             this._applyDataApi(this.settings.attributeName);
         }
         this._applyDataApi('data-match-height');
@@ -242,6 +244,19 @@ type MatchHeightItem = {
             .match(
                 /^([a-z-]{2,})$/
             );
+    }
+
+    /**
+     * Validates an attribute name before it is used, unquoted, in a selector.
+     * Unlike CSS property names, attribute names may contain digits and
+     * underscores (e.g. `data-mh2`, `data-match_height`).
+     *
+     * @private
+     * @param {string} value - The attribute name to validate.
+     * @returns {boolean} True if the name can be safely used in an attribute selector.
+     */
+    MatchHeight.prototype._validateAttributeName = function(value: string) {
+        return /^[a-z_][a-z0-9_-]*$/i.test(String(value));
     }
 
     /**
@@ -295,7 +310,7 @@ type MatchHeightItem = {
         if (opts.elements) {
             $elements = Array.from(this.wrapEl.querySelectorAll(opts.elements));
         } else {
-            if (opts.attributeName && this._validateProperty(opts.attributeName) && opts.attributeValue) {
+            if (opts.attributeName && this._validateAttributeName(opts.attributeName) && opts.attributeValue) {
                 $elements = Array.from(this.wrapEl.querySelectorAll(this._attributeSelector(opts.attributeName, opts.attributeValue)));
             }
         }
@@ -324,7 +339,7 @@ type MatchHeightItem = {
         if (opts.elements && opts.elements.trim() != '') {
             elements = Array.from(this.wrapEl.querySelectorAll(opts.elements));
         } else {
-            if (opts.attributeName && this._validateProperty(opts.attributeName) && opts.attributeValue && opts.attributeValue.trim() != '') {
+            if (opts.attributeName && this._validateAttributeName(opts.attributeName) && opts.attributeValue && opts.attributeValue.trim() != '') {
                 elements = Array.from(this.wrapEl.querySelectorAll(this._attributeSelector(opts.attributeName, opts.attributeValue)));
             }
         }
@@ -336,12 +351,19 @@ type MatchHeightItem = {
      * backslashes cannot break the selector syntax.
      *
      * @private
-     * @param {String} attributeName - A name already checked by `_validateProperty`.
+     * @param {String} attributeName - A name already checked by `_validateAttributeName`.
      * @param {String} attributeValue - An arbitrary value.
      * @returns {String} The `[name="value"]` selector.
      */
     MatchHeight.prototype._attributeSelector = function(attributeName: string, attributeValue: string) {
-        return '[' + attributeName + '="' + CSS.escape(attributeValue) + '"]';
+        // CSS.escape() is missing in some environments (e.g. jsdom): escaping quotes,
+        // backslashes and line breaks is enough inside a quoted string
+        const escaped = typeof CSS !== 'undefined' && typeof CSS.escape === 'function'
+            ? CSS.escape(attributeValue)
+            : String(attributeValue)
+                .replace(/["\\]/g, '\\$&')
+                .replace(/[\n\r\f]/g, (c) => '\\' + c.charCodeAt(0).toString(16) + ' ');
+        return '[' + attributeName + '="' + escaped + '"]';
     }
 
     /**
