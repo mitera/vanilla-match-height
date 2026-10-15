@@ -1,5 +1,5 @@
-<a name="unreleased"></a>
-# Unreleased
+<a name="2.2.0"></a>
+# 2.2.0 (2026-10-15)
 
 ### release summary
 
@@ -15,6 +15,8 @@
 - Fix: rows with a single element (and no `target`) are no longer locked to a fixed height.
 - Fix: row processing is iterative instead of recursive; negative heights are clamped to `0`.
 - TS definitions: global types renamed to `MatchHeightSettings` / `MatchHeightItem` to avoid clashes; `property` is optional, callbacks and `remove` are properly typed (`HTMLElement | NodeList | HTMLElement[]`).
+- Build: the license banner (name, version, author, license) is generated from `package.json` and added to all `dist` files, including the minified one.
+- Package: only `dist` is published to npm.
 
 <a name="2.1.0"></a>
 # 2.1.0 (2026-02-23)
