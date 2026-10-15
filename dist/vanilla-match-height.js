@@ -1,9 +1,9 @@
-"use strict";
-/**
+/*!
  * vanilla-match-height v2.1.0 by @mitera
  * Simone Miterangelis <simone@mite.it>
  * License: MIT
  */
+"use strict";
 (function () {
     /**
      * Extends the HTMLElement prototype with a method named `matchHeight`.

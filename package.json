@@ -6,6 +6,10 @@
   "description": "a vanilla responsive equal heights",
   "main": "dist/vanilla-match-height.js",
   "types": "dist/vanilla-match-height.d.ts",
+  "files": [
+    "dist",
+    "!dist/tsconfig.tsbuildinfo"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mitera/vanilla-match-height.git"
@@ -26,7 +30,7 @@
     "test": "test"
   },
   "scripts": {
-    "build": "tsc --build && esbuild dist/vanilla-match-height.js --minify --outfile=dist/vanilla-match-height.min.js",
+    "build": "tsc --build && node scripts/build.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
