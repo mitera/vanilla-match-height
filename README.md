@@ -135,12 +135,12 @@ Where:
 
 - `elements` is an optional string containing one or more selectors to match against. This string must be a valid CSS selector string
 - `byRow` is `true` or `false` to enable row detection
-- `property` is the CSS property name to set (e.g. `'height'` or `'min-height'`)
+- `property` is the CSS property name to set (e.g. `'height'` or `'min-height'`; camelCase such as `'minHeight'` is converted)
 - `target` is an optional element to use instead of the element with maximum height
-- `remove` is an optional element/s to excluded
+- `remove` is an optional element, `NodeList` or array of elements to exclude: excluded elements keep their natural height and are not used to compute the group height
 - `attributeName` is an optional for use custom attribute
-- `events` is `true` or `false` to enable default events
-- `throttle` milliseconds to executed resize event, default is `80`
+- `events` is `true` or `false` to enable default events (`DOMContentLoaded`, `load`, `resize`, `orientationchange`); with `false` nothing is applied automatically, call `_applyAll()` (or `_apply()`) yourself
+- `throttle` milliseconds to executed resize event, default is `80`; `0` disables throttling
 - `beforeUpdate` is a custom method that starts before the height matching process
 - `afterUpdate` is a custom method that starts after the height matching process
 

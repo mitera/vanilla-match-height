@@ -1,3 +1,19 @@
+<a name="unreleased"></a>
+# Unreleased
+
+### release summary
+
+- Fix: resize/orientationchange updates did not run with `throttle: 0`.
+- Fix: heights are recalculated on window `load`, so images loaded after `DOMContentLoaded` are taken into account.
+- Fix: elements in `remove` no longer contribute to the group height.
+- Fix: camelCase `property` values (e.g. `minHeight`) are converted to kebab-case instead of being silently ignored.
+- Fix: `attributeValue` is escaped with `CSS.escape()`; values containing quotes no longer throw a `SyntaxError`. `attributeName` is validated in `_remove()` too.
+- Fix: `_unbind()` also removes the pending `DOMContentLoaded`/`load` listeners and the throttle timer.
+- Fix: hidden elements (`display: none`) are skipped instead of being locked to `0px`.
+- Fix: rows with a single element (and no `target`) are no longer locked to a fixed height.
+- Fix: row processing is iterative instead of recursive; negative heights are clamped to `0`.
+- TS definitions: global types renamed to `MatchHeightSettings` / `MatchHeightItem` to avoid clashes; `property` is optional, callbacks and `remove` are properly typed (`HTMLElement | NodeList | HTMLElement[]`).
+
 <a name="2.1.0"></a>
 # 2.1.0 (2026-02-23)
 

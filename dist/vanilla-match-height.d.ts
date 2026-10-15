@@ -4,12 +4,14 @@
  * License: MIT
  */
 interface HTMLElement {
-    matchHeight(settings?: Settings): MatchHeight;
+    matchHeight(settings?: MatchHeightSettings): MatchHeight;
 }
 interface MatchHeight {
-    _remains: Item[];
+    _remains: MatchHeightItem[];
     wrapEl: HTMLElement;
-    settings: Settings;
+    settings: MatchHeightSettings;
+    _handler?: () => void;
+    _deferTimer?: ReturnType<typeof setTimeout>;
     _bind(): void;
     _init(): void;
     _unbind(): void;
@@ -22,21 +24,23 @@ interface MatchHeight {
     _resetStyle($that: HTMLElement, property: string): void;
     _update(elements: HTMLElement[]): void;
     _process(): void;
+    _isRemoved(el: HTMLElement): boolean;
+    _attributeSelector(attributeName: string, attributeValue: string): string;
 }
-interface Settings {
+interface MatchHeightSettings {
     elements?: string | null;
     byRow?: boolean | null;
     target?: HTMLElement | null;
     attributeName?: string | null;
     attributeValue?: string | null;
-    property: string;
-    remove?: HTMLElement | null;
+    property?: string | null;
+    remove?: HTMLElement | NodeList | HTMLElement[] | null;
     events?: boolean | null;
     throttle?: number | null;
-    beforeUpdate?: any | null;
-    afterUpdate?: any | null;
+    beforeUpdate?: (() => void) | null;
+    afterUpdate?: (() => void) | null;
 }
-type Item = {
+type MatchHeightItem = {
     el: HTMLElement;
     top: number;
     height: number;

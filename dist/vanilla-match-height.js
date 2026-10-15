@@ -25,7 +25,7 @@
      * Constructs a new MatchHeight instance.
      *
      * @param {HTMLElement} wrapEl - The parent element within which child elements will have their heights matched.
-     * @param {Settings} settings - An object containing configuration options for the MatchHeight instance, such as elements to select, row-type matching, and event handling.
+     * @param {MatchHeightSettings} settings - An object containing configuration options for the MatchHeight instance, such as elements to select, row-type matching, and event handling.
      * @return {void} This function does not return a value; it initializes a new instance of the MatchHeight class.
      */
     function MatchHeight(wrapEl, settings) {
@@ -46,19 +46,32 @@
             afterUpdate: null
         };
         this.settings = Object.assign(Object.assign({}, default_settings), settings);
+        // Accept camelCase property names (e.g. 'minHeight'): style.setProperty() requires kebab-case
+        this.settings.property = String(this.settings.property || 'height').replace(/[A-Z]/g, (c) => '-' + c.toLowerCase());
         if (!this._validateProperty(this.settings.property)) {
             this.settings.property = 'height';
         }
+        // HTML attribute names are case-insensitive
+        if (this.settings.attributeName) {
+            this.settings.attributeName = this.settings.attributeName.toLowerCase();
+        }
         if (this.settings.events) {
-            const update = this._applyAll.bind(this);
+            const update = this._handler = this._applyAll.bind(this);
             if (document.readyState !== 'loading') {
                 this._applyAll();
             }
             else {
                 document.addEventListener('DOMContentLoaded', update, { once: true });
             }
+            // Images and other media may change the layout after DOMContentLoaded
+            if (document.readyState !== 'complete') {
+                window.addEventListener('load', update, { once: true });
+            }
             if (this.settings.throttle && this.settings.throttle > 0) {
                 this._bind = this._throttle(update, this.settings.throttle);
+            }
+            else {
+                this._bind = update;
             }
             this._init();
         }
@@ -88,6 +101,12 @@
     MatchHeight.prototype._unbind = function () {
         window.removeEventListener("resize", this._bind);
         window.removeEventListener("orientationchange", this._bind);
+        // Also drop the pending page-load updates and any deferred throttled call
+        if (this._handler) {
+            document.removeEventListener("DOMContentLoaded", this._handler);
+            window.removeEventListener("load", this._handler);
+        }
+        clearTimeout(this._deferTimer);
     };
     /**
      * A utility function designed to limit the rate at which a given function is executed.
@@ -102,12 +121,14 @@
      * the throttle behavior, allowing controlled execution within the given delay.
      */
     MatchHeight.prototype._throttle = function (fn, threshold) {
-        let last, deferTimer;
+        let last;
+        // The timer lives on the instance so that _unbind() can cancel it
+        const self = this;
         return function () {
             const now = Date.now();
             if (last && now < last + threshold) {
-                clearTimeout(deferTimer);
-                deferTimer = setTimeout(function () {
+                clearTimeout(self._deferTimer);
+                self._deferTimer = setTimeout(function () {
                     last = now;
                     fn();
                 }, threshold);
@@ -156,7 +177,6 @@
      */
     MatchHeight.prototype._validateProperty = function (value) {
         return String(value)
-            .toLowerCase()
             .match(/^([a-z-]{2,})$/);
     };
     /**
@@ -208,8 +228,8 @@
             $elements = Array.from(this.wrapEl.querySelectorAll(opts.elements));
         }
         else {
-            if (opts.attributeName && opts.attributeValue) {
-                $elements = Array.from(this.wrapEl.querySelectorAll('[' + opts.attributeName + '="' + opts.attributeValue + '"]'));
+            if (opts.attributeName && this._validateProperty(opts.attributeName) && opts.attributeValue) {
+                $elements = Array.from(this.wrapEl.querySelectorAll(this._attributeSelector(opts.attributeName, opts.attributeValue)));
             }
         }
         $elements.forEach((item) => {
@@ -239,10 +259,22 @@
         }
         else {
             if (opts.attributeName && this._validateProperty(opts.attributeName) && opts.attributeValue && opts.attributeValue.trim() != '') {
-                elements = Array.from(this.wrapEl.querySelectorAll('[' + opts.attributeName + '="' + opts.attributeValue + '"]'));
+                elements = Array.from(this.wrapEl.querySelectorAll(this._attributeSelector(opts.attributeName, opts.attributeValue)));
             }
         }
         this._update(elements);
+    };
+    /**
+     * Builds an attribute selector, escaping the value so that quotes or
+     * backslashes cannot break the selector syntax.
+     *
+     * @private
+     * @param {String} attributeName - A name already checked by `_validateProperty`.
+     * @param {String} attributeValue - An arbitrary value.
+     * @returns {String} The `[name="value"]` selector.
+     */
+    MatchHeight.prototype._attributeSelector = function (attributeName, attributeValue) {
+        return '[' + attributeName + '="' + CSS.escape(attributeValue) + '"]';
     };
     /**
      * Updates the height of elements in the MatchHeight instance.
@@ -272,6 +304,10 @@
         this._remains.forEach((item) => {
             this._resetStyle(item.el, this.settings.property);
         });
+        // Hidden elements (display: none, also through an ancestor) have no box to match
+        this._remains = this._remains.filter((item) => item.el.getClientRects().length > 0);
+        if (this._remains.length === 0)
+            return;
         this._process();
     };
     /**
@@ -288,52 +324,60 @@
      * @private
      */
     MatchHeight.prototype._process = function () {
-        this._remains.forEach((item) => {
-            const bb = item.el.getBoundingClientRect();
-            item.top = this.settings.byRow ? bb.top : 0;
-            item.height = bb.height;
-        });
-        this._remains.sort((a, b) => a.top - b.top);
         const errorThreshold = 1;
-        const processingTop = this._remains[0].top;
-        const processingTargets = this._remains.filter((item) => Math.abs(item.top - processingTop) <= errorThreshold);
-        let maxHeightInRow = 0;
-        if (this.settings.target)
-            maxHeightInRow = this.settings.target.getBoundingClientRect().height;
-        else
-            maxHeightInRow = Math.max(...processingTargets.map((item) => item.height));
-        processingTargets.forEach((item) => {
-            const styles = window.getComputedStyle(item.el);
-            const isBorderBox = styles.boxSizing === 'border-box';
-            if (isBorderBox) {
-                if (this.settings.property)
-                    item.el.style.setProperty(this.settings.property, `${maxHeightInRow}px`);
-            }
-            else {
-                const paddingAndBorder = (parseFloat(styles.paddingTop) || 0) +
-                    (parseFloat(styles.paddingBottom) || 0) +
-                    (parseFloat(styles.borderTopWidth) || 0) +
-                    (parseFloat(styles.borderBottomWidth) || 0);
-                if (this.settings.property)
-                    item.el.style.setProperty(this.settings.property, `${maxHeightInRow - paddingAndBorder}px`);
-            }
-            if (this.settings.remove) {
-                if (this.settings.remove instanceof NodeList) {
-                    Array.from(this.settings.remove).forEach((el) => {
-                        if (item.el === el && this.settings.property && el instanceof HTMLElement) {
-                            this._resetStyle(el, this.settings.property);
-                        }
-                    });
+        // One row per iteration: positions are measured again because matching a row can move the next ones
+        while (this._remains.length > 0) {
+            this._remains.forEach((item) => {
+                const bb = item.el.getBoundingClientRect();
+                item.top = this.settings.byRow ? bb.top : 0;
+                item.height = bb.height;
+            });
+            this._remains.sort((a, b) => a.top - b.top);
+            const processingTop = this._remains[0].top;
+            const processingTargets = this._remains.filter((item) => Math.abs(item.top - processingTop) <= errorThreshold);
+            this._remains.splice(0, processingTargets.length);
+            // Removed elements must not contribute to the row height
+            const matchingTargets = processingTargets.filter((item) => !this._isRemoved(item.el));
+            // A single element has nothing to match with: keep its natural height
+            if (!this.settings.target && matchingTargets.length < 2)
+                continue;
+            let maxHeightInRow = 0;
+            if (this.settings.target)
+                maxHeightInRow = this.settings.target.getBoundingClientRect().height;
+            else
+                maxHeightInRow = Math.max(...matchingTargets.map((item) => item.height));
+            matchingTargets.forEach((item) => {
+                const styles = window.getComputedStyle(item.el);
+                const isBorderBox = styles.boxSizing === 'border-box';
+                if (isBorderBox) {
+                    if (this.settings.property)
+                        item.el.style.setProperty(this.settings.property, `${maxHeightInRow}px`);
                 }
-                else if (item.el === this.settings.remove && this.settings.property) {
-                    this._resetStyle(item.el, this.settings.property);
+                else {
+                    const paddingAndBorder = (parseFloat(styles.paddingTop) || 0) +
+                        (parseFloat(styles.paddingBottom) || 0) +
+                        (parseFloat(styles.borderTopWidth) || 0) +
+                        (parseFloat(styles.borderBottomWidth) || 0);
+                    if (this.settings.property)
+                        item.el.style.setProperty(this.settings.property, `${Math.max(0, maxHeightInRow - paddingAndBorder)}px`);
                 }
-            }
-        });
-        this._remains.splice(0, processingTargets.length);
-        if (0 < this._remains.length) {
-            this._process();
+            });
         }
+    };
+    /**
+     * Checks whether an element is excluded through the `remove` setting.
+     *
+     * @private
+     * @param {HTMLElement} el
+     * @returns {boolean} True if the element must keep its natural height.
+     */
+    MatchHeight.prototype._isRemoved = function (el) {
+        const remove = this.settings.remove;
+        if (!remove)
+            return false;
+        if (remove instanceof NodeList || Array.isArray(remove))
+            return Array.prototype.indexOf.call(remove, el) !== -1;
+        return remove === el;
     };
     /**
      * Resets the inline styles applied to the elements previously adjusted
