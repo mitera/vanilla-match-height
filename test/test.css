@@ -100,6 +100,8 @@ a.test-summary.has-failed {
 /* test items */
 
 .items-container,
+.class-items,
+.data-api-false-items,
 .data-api-items,
 .target-items,
 .property-items {
@@ -321,4 +323,31 @@ a.test-summary.has-failed {
     height: 150px;
     margin: 0 20px 12px 0;
     background: #EB6841;
+}
+
+/* automatic checks */
+
+.checks {
+    margin-top: -20px;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+.checks p,
+.checks ul {
+    margin: 0 0 11px 0;
+    list-style: none;
+    overflow-wrap: anywhere;
+}
+
+.checks li {
+    margin: 0 0 3px 0;
+}
+
+.checks .check-pass {
+    color: #6fe08f;
+}
+
+.checks .check-fail {
+    color: #ff9aa2;
+    font-weight: bold;
 }

@@ -12,7 +12,7 @@
 
 > *matchHeight:* makes the height of all selected elements exactly equal
 
-[Demo](#demo) - [Features](#features) - [Install](#install) - [Usage](#usage) - [Options](#options) - [Data API](#data-api)  
+[Demo](#demo) - [Features](#features) - [Install](#install) - [Usage](#usage-html) - [Class API](#class-api) - [Options](#options) - [Data API](#data-api)  
 [Advanced Usage](#advanced-usage) - [Changelog](#changelog) - [License](#license)
 
 ### Demo
@@ -63,6 +63,17 @@ modular code
 ```js
 import 'vanilla-match-height'
 ```
+The import adds `matchHeight()` to `HTMLElement` and also exports the `MatchHeight` class.
+To use only the class, without extending `HTMLElement`, import `vanilla-match-height/core` (see [Class API](#class-api)).
+
+| Entry point | `HTMLElement.prototype.matchHeight` | Exports |
+|---|---|---|
+| `<script src=".../dist/vanilla-match-height.min.js">` | added | `window.MatchHeight` |
+| `import 'vanilla-match-height'` / `require('vanilla-match-height')` | added | `MatchHeight` (named and default), `installMatchHeight` |
+| `import 'vanilla-match-height/core'` / `require('vanilla-match-height/core')` | not added | `MatchHeight` (named and default) |
+
+The package can be imported during server-side rendering: outside the browser nothing is added to `HTMLElement`.
+
 #### TypeScript
 
 Type definitions are included. The import adds `matchHeight()` to `HTMLElement`; the options type is `MatchHeightSettings` and the returned instance is `MatchHeight`:
@@ -71,6 +82,13 @@ import 'vanilla-match-height';
 
 const options: MatchHeightSettings = { elements: '.item', property: 'min-height' };
 const mh: MatchHeight = document.body.matchHeight(options);
+```
+With the class API the same types are exported:
+```ts
+import { MatchHeight, type MatchHeightSettings } from 'vanilla-match-height/core';
+
+const options: MatchHeightSettings = { elements: '.item', property: 'min-height' };
+const mh = new MatchHeight(document.body, options);
 ```
 ### Usage html
 
@@ -123,6 +141,42 @@ The plugin will automatically update on window load.
 
 See the included [test.html](https://github.com/mitera/vanilla-match-height/blob/master/test/test.html) for many working examples.
 
+### Class API
+
+`element.matchHeight(options)` is a shortcut for `new MatchHeight(element, options)`: both return the same object, with the same options and [methods](#advanced-usage).
+Use the class when you prefer not to extend `HTMLElement` (e.g. in a shared codebase or a library):
+```js
+import { MatchHeight } from 'vanilla-match-height/core';
+
+const el = new MatchHeight(document.body, {elements: '.item'});
+//...
+el._apply();
+```
+With the CDN script the class is available as `window.MatchHeight`:
+```html
+<script src="https://cdn.jsdelivr.net/npm/vanilla-match-height@2/dist/vanilla-match-height.min.js"></script>
+<script>
+    const containers = document.querySelectorAll(".items-container");
+    containers.forEach((container) => {
+        new MatchHeight(container, {elements: '.item'});
+    });
+</script>
+```
+The first parameter is the container where the elements are searched; a `TypeError` is thrown if it is not an element.
+
+`window.MatchHeight` is not overwritten if it already exists on the page (e.g. when `module-match-height` is loaded too).
+
+#### Migrating from module-match-height
+
+`module-match-height` is merged into this package. Replace the import, the options and methods are the same:
+```js
+// before
+import MatchHeight from 'module-match-height';
+// after
+import { MatchHeight } from 'vanilla-match-height/core';
+```
+Prefer the named import: the default import also works, but TypeScript rejects it in ES modules with `moduleResolution: nodenext`.
+
 ### Options
 
 The `options` parameter of `document.body.matchHeight(options)` is optional.
@@ -137,6 +191,7 @@ The default values are:
     remove: null,
     attributeName: null,
     attributeValue: null,
+    dataApi: true,
     events: true,
     throttle: 80,
     beforeUpdate: null,
@@ -152,6 +207,7 @@ Where:
 - `remove` is an optional element, `NodeList` or array of elements to exclude: excluded elements keep their natural height and are not used to compute the group height
 - `attributeName` is an optional custom attribute name to group elements by its value, in addition to `data-mh` and `data-match-height` (see [Data API](#data-api))
 - `attributeValue` is an optional value for `attributeName`: when `elements` is not set, `_apply()` and `_remove()` work on the `[attributeName="attributeValue"]` elements only
+- `dataApi` is `true` or `false` to apply the `data-mh` / `data-match-height` groups (see [Data API](#data-api)); set it to `false` on all but one of the instances sharing the same container, so the same groups are not matched more than once
 - `events` is `true` or `false` to enable default events (`DOMContentLoaded`, `load`, `resize`, `orientationchange`); with `false` nothing is applied automatically, call `_applyAll()` (or `_apply()`) yourself
 - `throttle` is the minimum interval in milliseconds between two updates on `resize`/`orientationchange`, default is `80`; `0` disables throttling
 - `beforeUpdate` is a custom method that starts before the height matching process
@@ -190,6 +246,13 @@ containers.forEach((container) => {
 });
 ```
 Note that `byRow` will be enabled when using the data API, if you don't want this (or require other options) then use the alternative method above.
+
+Every instance matches the `data-mh` / `data-match-height` groups inside its container. If several instances share a container, set `dataApi: false` on all but one of them:
+```js
+document.body.matchHeight();                                          // data API groups
+document.body.matchHeight({elements: '.item', dataApi: false});       // only .item
+document.body.matchHeight({elements: '.card-title', dataApi: false}); // only .card-title
+```
 
 ### Advanced Usage
 
@@ -308,6 +371,34 @@ export default {
 }
 ```
 `this.$el` must be an element: use a single root element in the template (or a template ref).
+
+With the class API and TypeScript, without extending `HTMLElement`:
+```vue
+<script setup lang="ts">
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { MatchHeight } from 'vanilla-match-height/core';
+
+const props = defineProps<{ items: string[] }>();
+const container = ref<HTMLElement | null>(null);
+// Kept out of ref(), so Vue does not make it reactive
+let matchHeight: MatchHeight | undefined;
+
+onMounted(() => {
+    matchHeight = new MatchHeight(container.value!, {elements: '.item'});
+});
+onBeforeUnmount(() => matchHeight?._unbind());
+// flush: 'post' runs after the DOM has been updated
+watch(() => props.items, () => matchHeight?._apply(), {flush: 'post'});
+</script>
+
+<template>
+    <div ref="container">
+        <div v-for="text in items" :key="text" class="item">{{ text }}</div>
+    </div>
+</template>
+```
+`onMounted` runs only in the browser, so this also works with server-side rendering (e.g. Nuxt).
+
 ### React Example:
 ```js
 import 'vanilla-match-height';
@@ -329,6 +420,29 @@ function MyComponent({ items }) {
     );
 }
 ```
+
+With the class API and TypeScript, without extending `HTMLElement`:
+```tsx
+import { useEffect, useRef } from 'react';
+import { MatchHeight } from 'vanilla-match-height/core';
+
+function MyComponent({ items }: { items: string[] }) {
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const matchHeight = new MatchHeight(containerRef.current!, {elements: '.item'});
+        return () => matchHeight._unbind();
+    }, [items]);
+
+    return (
+        <div ref={containerRef}>
+            {items.map((text) => <div className="item" key={text}>{text}</div>)}
+        </div>
+    );
+}
+```
+With the Next.js App Router, add `'use client'` at the top of the file: effects run only in client components.
+
 ### Avoid duplicate instances
 
 Assign the instance to a variable and reuse it, so that multiple event listeners are not created

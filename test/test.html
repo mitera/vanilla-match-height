@@ -8,6 +8,7 @@
         <title>matchHeight Browser Tests</title>
         <!-- matchHeight -->
         <link rel="stylesheet" href="./test.css">
+        <script type="text/javascript" src="./test-checks.js"></script>
         <script type="text/javascript" src="../dist/vanilla-match-height.min.js"></script>
     </head>
     <body class="test-match-height test-rows test-responsive test-border-box test-margin test-padding test-border test-hidden">
@@ -18,6 +19,12 @@
 				<input class="btn-remove" type="submit" value="add matchHeight" id="add-mh">
                 <input class="btn-remove" type="submit" value="unbind matchHeight" id="unbind-mh">
                 <input class="btn-remove" type="submit" value="init matchHeight" id="init-mh">
+            </div>
+            <div class="controls checks">
+                <input class="btn-remove" type="submit" value="run all checks" id="run-checks">
+                <p id="check-summary"></p>
+                <p id="check-resize"></p>
+                <ul id="check-results"></ul>
             </div>
             <div class="items-container simple-items">
                 <div class="item item-0">
@@ -365,8 +372,45 @@
                     <p>Nunc sollicitudin felis ut pellentesque fermentum. In erat mi, pulvinar sit amet tincidunt vitae, gravida id felis.</p>
                 </div>
             </div>
+
+            <div class="class-items">
+                <div class="item item-0">
+                    <h3>new MatchHeight()</h3>
+                    <p>Phasellus ut nibh fermentum, vulputate urna vel, semper diam. Nunc sollicitudin felis ut pellentesque fermentum. In erat mi, pulvinar sit amet tincidunt vitae, gravida id felis.</p>
+                </div>
+                <div class="item item-1">
+                    <h3>new MatchHeight()</h3>
+                    <p>In erat mi, pulvinar sit amet tincidunt vitae, gravida id felis.</p>
+                </div>
+                <div class="item item-2">
+                    <h3>new MatchHeight()</h3>
+                    <p>In erat mi, pulvinar sit amet tincidunt vitae, gravida id felis.</p>
+                </div>
+                <div class="item item-3">
+                    <h3>new MatchHeight()</h3>
+                    <p>Phasellus ut nibh fermentum, vulputate urna vel, semper diam. Nunc sollicitudin felis ut pellentesque fermentum. In erat mi, pulvinar sit amet tincidunt vitae, gravida id felis.</p>
+                </div>
+            </div>
+
+            <div class="data-api-false-items">
+                <div class="item item-0" data-mh="items-a">
+                    <h3>data-mh="items-a"</h3>
+                    <p>Phasellus ut nibh fermentum, vulputate urna vel, semper diam. Nunc sollicitudin felis ut pellentesque fermentum. In erat mi, pulvinar sit amet tincidunt vitae, gravida id felis.</p>
+                </div>
+                <div class="item item-1" data-mh="items-a">
+                    <h3>data-mh="items-a"</h3>
+                    <p>In erat mi, pulvinar sit amet tincidunt vitae, gravida id felis.</p>
+                </div>
+                <div class="item item-2">
+                    <h3>dataApi: false</h3>
+                    <p>In erat mi, pulvinar sit amet tincidunt vitae, gravida id felis.</p>
+                </div>
+                <div class="item item-3">
+                    <h3>dataApi: false</h3>
+                    <p>Phasellus ut nibh fermentum, vulputate urna vel, semper diam. Nunc sollicitudin felis ut pellentesque fermentum. In erat mi, pulvinar sit amet tincidunt vitae, gravida id felis.</p>
+                </div>
+            </div>
         </div>
-        <div id='results'></div>
 		
 		<script type="text/javascript">
         var elements = [];
@@ -404,6 +448,18 @@
         containers7.forEach((container) => {
             var el = container.matchHeight({attributeName: 'data-same-height'});
             elements.push(el);
+        });
+        // Class API: same options and methods as element.matchHeight()
+        const containers8 = document.querySelectorAll(".class-items");
+        containers8.forEach((container) => {
+            var el = new MatchHeight(container, {elements: '.item'});
+            elements.push(el);
+        });
+        // Instances sharing a container: only the first one applies the data-mh groups
+        const containers9 = document.querySelectorAll(".data-api-false-items");
+        containers9.forEach((container) => {
+            elements.push(container.matchHeight());
+            elements.push(container.matchHeight({elements: '.item-2, .item-3', dataApi: false}));
         });
 		
 		document.getElementById("remove-mh").addEventListener('click', function(event) {

@@ -1,48 +1,24 @@
 /*!
- * vanilla-match-height v2.2.0 by @mitera
+ * vanilla-match-height v2.3.0 by @mitera
  * Simone Miterangelis <simone@mite.it>
  * License: MIT
  */
-interface HTMLElement {
-    matchHeight(settings?: MatchHeightSettings): MatchHeight;
+import { MatchHeight as MatchHeightClass } from './core';
+import type { MatchHeightSettings as Settings, MatchHeightItem as Item } from './core';
+export { MatchHeight } from './core';
+export type { MatchHeightSettings, MatchHeightItem } from './core';
+declare global {
+    interface HTMLElement {
+        matchHeight(settings?: Settings | null): MatchHeightClass;
+    }
+    type MatchHeightSettings = Settings;
+    type MatchHeightItem = Item;
+    type MatchHeight = MatchHeightClass;
 }
-interface MatchHeight {
-    _remains: MatchHeightItem[];
-    wrapEl: HTMLElement;
-    settings: MatchHeightSettings;
-    _handler?: () => void;
-    _deferTimer?: ReturnType<typeof setTimeout>;
-    _bind(): void;
-    _init(): void;
-    _unbind(): void;
-    _throttle(fn: Function, threshold: number): () => void;
-    _applyAll(): void;
-    _validateProperty(value?: string | null): RegExpMatchArray | null;
-    _validateAttributeName(value?: string | null): boolean;
-    _applyDataApi(property: string): void;
-    _remove(): void;
-    _apply(): void;
-    _resetStyle($that: HTMLElement, property: string): void;
-    _update(elements: HTMLElement[]): void;
-    _process(): void;
-    _isRemoved(el: HTMLElement): boolean;
-    _attributeSelector(attributeName: string, attributeValue: string): string;
-}
-interface MatchHeightSettings {
-    elements?: string | null;
-    byRow?: boolean | null;
-    target?: HTMLElement | null;
-    attributeName?: string | null;
-    attributeValue?: string | null;
-    property?: string | null;
-    remove?: HTMLElement | NodeList | HTMLElement[] | null;
-    events?: boolean | null;
-    throttle?: number | null;
-    beforeUpdate?: (() => void) | null;
-    afterUpdate?: (() => void) | null;
-}
-type MatchHeightItem = {
-    el: HTMLElement;
-    top: number;
-    height: number;
-};
+/**
+ * Adds `matchHeight()` to `HTMLElement`, so that `element.matchHeight(options)`
+ * returns `new MatchHeight(element, options)`.
+ * Called automatically by this entry point; `vanilla-match-height/core` does not call it.
+ */
+export declare function installMatchHeight(): void;
+export default MatchHeightClass;

@@ -1,3 +1,23 @@
+<a name="2.3.0"></a>
+# 2.3.0 (2026-11-03)
+
+### release summary
+
+No breaking changes: the CDN files keep the same paths and `element.matchHeight()` works as in 2.2.0
+(the computed heights were compared with 2.2.0 in Chrome on `test/test.html` and on edge cases).
+
+- New: `MatchHeight` class API. `element.matchHeight(options)` is now a shortcut for `new MatchHeight(element, options)`.
+- New: `vanilla-match-height/core` entry point, with the class only and no changes to `HTMLElement`.
+- New: the CDN script also exposes `window.MatchHeight` (an existing global is not overwritten).
+- New: `require('vanilla-match-height')` returns `{ MatchHeight, default, installMatchHeight }` instead of an empty object.
+- New: `dataApi` option (default `true`), to skip the `data-mh` / `data-match-height` groups on instances that share a container.
+- New: ES module build (`dist/vanilla-match-height.mjs`, `dist/core.mjs`), CommonJS build of the core (`dist/core.cjs`), `exports` and `sideEffects` in `package.json`.
+- Fix: `_remove()` no longer throws a `SyntaxError` when `elements` is a blank string.
+- Fix: importing the package outside the browser (server-side rendering) no longer throws `HTMLElement is not defined`.
+- Change: `HTMLElement.prototype.matchHeight` is now non-enumerable, like native methods, so it no longer shows up in `for...in` on an element. It can still be overwritten.
+- `module-match-height` is merged into this package: use `vanilla-match-height/core`.
+- Build: all the dist files are built with esbuild; tsc emits only the type declarations.
+
 <a name="2.2.0"></a>
 # 2.2.0 (2026-10-15)
 

@@ -1,12 +1,15 @@
 {
   "compilerOptions": {
-    "baseUrl": "src",
+    "rootDir": "src",
     "outDir": "./dist",
     "declaration": true,
+    "emitDeclarationOnly": true,
     "target": "es2017",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2017", "DOM", "DOM.Iterable"],
     "strict": true,
     "removeComments": false,
-    "experimentalDecorators": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
     "noImplicitReturns": true,
@@ -16,6 +19,6 @@
     "strictFunctionTypes": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/core.ts", "src/vanilla-match-height.ts"],
   "exclude": ["node_modules"]
 }
